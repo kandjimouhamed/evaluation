@@ -112,6 +112,7 @@ legend {
                 <li><a href="recrutement.php">Recrutement</a></li>
                 <li><a href="intervenant.php">Compte</a></li>
                 <li><a href="salarie.php">Salarie</a></li>
+                <li><a href="#">Entretien</a></li>
 
 
             </ul>
