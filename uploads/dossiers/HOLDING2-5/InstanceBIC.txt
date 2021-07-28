@@ -1,0 +1,10 @@
+Corriger Other dans IndustrySector(obligation de renseigner le secteur d'activité pour les clients moraux)
+Corriger Type de Credit, Verifier avec Khadim c'est gerer par quel table
+PastDueAmount
+PastDuDay
+OutstandingAmount
+Corriger les telephone mobile
+Mise a jour Fiche Adherant, NINEA non renseigné, RC non renseigner*
+Concentement client
+Client Physique
+

@@ -1,0 +1,218 @@
+<?php 
+ini_set('display_errors', '1');
+ini_set('error_reporting', E_ALL);
+include('config/connexion.php');
+include('config/functions.php');
+session_start();
+if(!isset($_SESSION['codeintervenant']))
+{
+    header('location: login.php');
+    exit;
+}
+$reponse1 = $bdd->query('SELECT * FROM filiale ORDER BY filialenom ASC');
+$reponse2 = $bdd->query('SELECT * FROM direction ORDER BY directionnom ASC');
+$reponse3 = $bdd->query('SELECT * FROM clients ORDER BY nom ASC');
+$reponse4 = $bdd->query('SELECT * FROM vehicules ORDER BY immatriculation ASC');
+$reponse5 = $bdd->query('SELECT * FROM etat');
+
+if ($_SESSION['profil'] == 1)
+{
+    $req = $bdd->prepare('SELECT * FROM `dossier` ORDER BY datedebut DESC ');
+    $req->execute();
+}
+else 
+{
+    
+    $req = $bdd->prepare('SELECT * FROM `dossier` WHERE directioncode IN (SELECT directioncode FROM direction WHERE filialecode = ?) ORDER BY datedebut DESC');
+    $req->execute(array($_SESSION['filialecode']));
+}
+
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+	
+<head>
+		<title>Maruti Admin</title><meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
+		<link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
+		<link rel="stylesheet" href="css/maruti-style.css" />
+		<link rel="stylesheet" href="css/maruti-media.css" class="skin-color" />	
+		<link rel="stylesheet" href="css/select2.css" />
+		<link href="css/ScrollTabla.css" rel="stylesheet" media="screen" />
+	</head>
+	<body>
+		
+		
+<!--Header-part-->
+<div id="header">
+  <h1><a href="#">GESTION DES ORDRES DE REPARATION</a></h1>
+</div>
+<!--close-Header-part--> 
+
+<!--top-Header-messaages-->
+<!--div class="btn-group rightzero"> <a class="top_message tip-left" title="Manage Files"><i class="icon-file"></i></a> <a class="top_message tip-bottom" title="Manage Users"><i class="icon-user"></i></a> <a class="top_message tip-bottom" title="Manage Comments"><i class="icon-comment"></i><span class="label label-important">5</span></a> <a class="top_message tip-bottom" title="Manage Orders"><i class="icon-shopping-cart"></i></a> </div>
+<!--close-top-Header-messaages--> 
+
+<!--top-Header-menu-->
+<div id="user-nav" class="navbar navbar-inverse">
+  <ul class="nav">
+    <li class="" ><a title="" href="#"><i class="glyphicon glyphicon-user"></i> <span class="text"><?php echo $_SESSION['utilisateur'].'('.$_SESSION['filialenom'].')'; ?></span></a></li>
+    
+    <li class=""><a title="" href="logout.php"><i class=" glyphicon glyphicon-log-out "></i> <span class="text">Deconnexion</span></a></li>
+  </ul>
+</div>
+<!-- >div id="search">
+  <input type="text" placeholder="Search here..."/>
+  <button type="submit" class="tip-left" title="Search"><i class="icon-search icon-white"></i></button>
+</div-->
+<!--close-top-Header-menu-->     
+<div id="sidebar"><a href="#" class="visible-phone"><i class="icon-home"></i> Menu</a><ul>
+    <li class="active"><a href="#"><i class="glyphicon glyphicon-dashboard"></i> <span>Tableau de bord</span></a> </li>
+     <li class="submenu"> <a href="#"><i class="glyphicon glyphicon-th-list"></i> <span>OR</span> </a>
+      <ul>
+        <li><a href="dossier.php">OR</a></li>
+        <li><a href="dossier.php?page=afaire">A faire</a></li>
+        <li><a href="dossier.php?page=historiques">Historiques</a></li> 
+      </ul>
+    </li>
+    
+    <!--li> <a href="intervenants.php"><i class="icon icon-inbox"></i> <span>Edition</span></a> </li>
+    <li><a href="commande_mpr.php"><i class="icon icon-th"></i> <span>Commandes MPR</span></a></li-->
+    <li class="submenu"> <a href="#"><i class="glyphicon glyphicon-wrench"></i> <span>Gestion</span> </a>
+      <ul>
+        <li><a href="client.php">Clients</a></li>
+        <li><a href="marque.php">Marques</a></li>
+        <li><a href="modele.php">Modele de vehicule</a></li>
+         <li><a href="vehicule.php">Vehicules</a></li>
+        <li><a href="circuit.php">Gestion des circuits</a></li>
+        
+      </ul>
+    </li>
+    
+    <li class="submenu"> <a href="#"><i class="glyphicon glyphicon-cog"></i> <span>Administration</span> </a>
+      <ul>
+        <li><a href="filiale.php">Filiale</a></li>
+        <li><a href="direction.php">Direction</a></li>
+        <li><a href="parc.php">Parc</a></li>
+        <li><a href="service.php">Service</a></li>
+        <li><a href="intervenant.php">Intervenants/Compte</a></li>
+        <li><a href="etat.php">Etat</a></li>
+        
+      </ul>
+    </li>
+   
+  </ul>
+</div>
+
+		<div id="content">
+			<div id="content-header">
+			<div id="breadcrumb">
+				<a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>
+				<a href="#" class="current">Widgets</a>
+			</div>
+                <!--h1>Widgets</h1-->
+                
+               
+			</div>
+		
+			<div class="container-fluid">
+            	
+				<div class="row-fluid">
+					<div class="span12">
+						<div class="widget-box">
+							<div class="widget-title">
+								<span class="icon">
+									<i class="icon-file"></i>
+								</span>
+								<h5>Filtrer</h5>
+							</div>
+							<div class="widget-content nopadding">
+								<form class="form-horizontal" method="post" action="" name="basic_validate" id="basic_validate">
+						<div class="control-group">
+						  <label class="control-label">Filiale</label>
+						  <div class="controls">
+                           <select class="span11" name="filiale">
+		                   <option></option>
+                             <?php 
+                                     while ($donnees = $reponse1->fetch())
+                                     {
+                                         if ($donnees['filialecode'] == $filiale)
+                                         {echo '<option value="'.$donnees['filialecode'].'" selected>'.$donnees['filialenom'].'</option>'; }
+                                         else
+                                         { echo '<option value="'.$donnees['filialecode'].'">'.$donnees['filialenom'].'</option>'; }
+                                     }
+                         ?>             
+                      </select>  
+                      </div>
+              </div>
+              <div class="control-group">                  
+						  <label class="control-label">Direction</label>
+			<div class="controls">			  
+           <select class="span11" name="direction">
+		 <option></option>
+  <?php 
+                                     while ($donnees = $reponse2->fetch())
+                                     {
+                                         if ($donnees['directioncode'] == $direction)
+                                         {echo '<option value="'.$donnees['directioncode'].'" selected>'.$donnees['directionnom'].'</option>'; }
+                                         else
+                                         {echo '<option value="'.$donnees['directioncode'].'">'.$donnees['directionnom'].'</option>'; }
+                                     }
+                         ?>             
+</select> 
+</div>
+              </div>
+              
+      <div class="control-group">        
+	
+						 <label class="control-label">Client</label>
+						 <div class="controls">	
+            <select class="span11" name="client">
+		 <option></option>
+  <?php 
+                                     while ($donnees = $reponse3->fetch())
+                                     {
+                                         if ($donnees['IDCLIENT'] == $client)
+                                         {echo '<option value="'.$donnees['IDCLIENT'].'" selected>'.$donnees['nom'].'</option>'; }
+                                         else
+                                         {echo '<option value="'.$donnees['IDCLIENT'].'">'.$donnees['nom'].'</option>'; }
+                                     }
+                         ?>             
+</select>  
+</div>
+</div>
+<div class="form-actions">
+ <input class="btn btn-primary" type="reset" name="effacer" value="Reinitialiser"> 
+                     <input class="btn btn-primary" type="submit" name="valider" value="Valider"> </div> 
+					</form>																
+</div>
+</div>
+						
+          <div class="row-fluid">
+
+		</div>
+		<div class="row-fluid">
+  <div id="footer" class="span12"> 2019 &copy;  <a href="#">CCBM TECHNOLOGIES ET SOLUTIONS</a> </div>
+</div>
+<script src="js/jquery.min.js"></script> 
+<script src="js/jquery.ui.custom.js"></script> 
+<script src="js/bootstrap.min.js"></script> 
+<script src="js/jquery.uniform.js"></script> 
+<script src="js/select2.min.js"></script> 
+<script src="js/jquery.dataTables.min.js"></script> 
+<script src="js/maruti.js"></script> 
+<script src="js/maruti.tables.js"></script>
+<script src="js/maruti.form_validation.js"></script>
+<script src="js/jquery-1.11.0.min.js"></script>
+	<script src="js/jquery.CongelarFilaColumna.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("#pruebatabla").CongelarFilaColumna({Columnas:2,coloreacelda:true,colorcelda:'#5882FA'});
+		});
+	</script>
+
+	</body>
+
+</html>

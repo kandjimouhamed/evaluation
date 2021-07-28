@@ -1,0 +1,76 @@
+table {
+  width:100%;
+  font-size: 13px;
+}
+table, th, td {
+  border: 1px solid grey;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 15px;
+  text-align: left;
+}
+table#t01 tr:nth-child(even) {
+  background-color: #fff	;
+}
+table#t01 tr:nth-child(odd) {
+ background-color: #fff;
+}
+table#t01 th {
+  background-color: grey;
+  color: white;
+}
+
+#contentprintOR { 
+  overflow:auto; 
+  width: 100%; 
+  background: white; 
+} 
+
+#left, #right { 
+  width: 40%; 
+  padding: 1em; 
+  background: white; 
+} 
+
+#left  { float:left;  }
+#right { float:right; }
+
+
+/** Print css **/
+
+@media print {
+    body.modalprinter * {
+        visibility: hidden;
+    }
+
+    body.modalprinter .modal-dialog.focused {
+        position: absolute;
+        padding: 0;
+        margin: 0;
+        left: 0;
+        top: 0;
+    }
+
+    body.modalprinter .modal-dialog.focused .modal-content {
+        border-width: 0;
+    }
+
+    body.modalprinter .modal-dialog.focused .modal-content .modal-header .modal-title,
+    body.modalprinter .modal-dialog.focused .modal-content .modal-body,
+    body.modalprinter .modal-dialog.focused .modal-content .modal-body * {
+        visibility: visible;
+        width: 100%;
+    }
+
+    body.modalprinter .modal-dialog.focused .modal-content .modal-header,
+    body.modalprinter .modal-dialog.focused .modal-content .modal-body {
+        padding: 0;
+        width: 100%;
+    }
+
+    body.modalprinter .modal-dialog.focused .modal-content .modal-header .modal-title {
+        margin-bottom: 20px;
+    }
+}
+

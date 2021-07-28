@@ -1,0 +1,225 @@
+<?php 
+include('header.php');
+$reponse1 = $bdd->query('SELECT * FROM filiale ORDER BY filialenom ASC');
+$reponse2 = $bdd->query('SELECT * FROM direction ORDER BY directionnom ASC');
+$reponse3 = $bdd->query('SELECT * FROM clients ORDER BY nom ASC');
+$reponse4 = $bdd->query('SELECT * FROM vehicules ORDER BY immatriculation ASC');
+$reponse5 = $bdd->query('SELECT * FROM etat');
+
+if ($_SESSION['profil'] == 1)
+{
+    $req = $bdd->prepare('SELECT * FROM `dossier` ORDER BY datedebut DESC LIMIT 15');
+    $req->execute();
+}
+else 
+{
+    
+    $req = $bdd->prepare('SELECT * FROM `dossier` WHERE directioncode IN (SELECT directioncode FROM direction WHERE filialecode = ?) ORDER BY datedebut DESC LIMIT 15');
+    $req->execute(array($_SESSION['filialecode']));
+}
+
+?>
+
+<div id="content">
+  <div id="content-header">
+    <div id="breadcrumb"> <a href="index.php" title="Retour" class="tip-bottom"><i class="glyphicon glyphicon-home"></i> Accueil</a> <a href="#" class="current"><i class="glyphicon glyphicon-dashboard"></i>Tableau de bord</a></div>
+  </div>
+  <div class="container-fluid">
+	   <div class="row-fluid">
+      <div class="span6">
+        <div class="widget-box">
+	  <fieldset class="scheduler-border">
+    <legend class="scheduler-border">Filtrer</legend>
+    <div class="control-group">
+        <label class="control-label input-label" for="startTime">Filiale</label>
+        <div class="controls bootstrap-timepicker">
+            <select class="span12" name="filiale">
+		 <option></option>
+  <?php 
+                                     while ($donnees = $reponse1->fetch())
+                                     {
+                                         if ($donnees['filialecode'] == $filiale)
+                                         {echo '<option value="'.$donnees['filialecode'].'" selected>'.$donnees['filialenom'].'</option>'; }
+                                         else
+                                         { echo '<option value="'.$donnees['filialecode'].'">'.$donnees['filialenom'].'</option>'; }
+                                     }
+                         ?>             
+</select> 
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label input-label" for="startTime">Direction</label>
+        <div class="controls bootstrap-timepicker">
+           <select class="span12" name="direction">
+		 <option></option>
+  <?php 
+                                     while ($donnees = $reponse2->fetch())
+                                     {
+                                         if ($donnees['directioncode'] == $direction)
+                                         {echo '<option value="'.$donnees['directioncode'].'" selected>'.$donnees['directionnom'].'</option>'; }
+                                         else
+                                         {echo '<option value="'.$donnees['directioncode'].'">'.$donnees['directionnom'].'</option>'; }
+                                     }
+                         ?>             
+</select> 
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label input-label" for="startTime">Client</label>
+        <div class="controls bootstrap-timepicker">
+            <select class="span12" name="client">
+		 <option></option>
+  <?php 
+                                     while ($donnees = $reponse3->fetch())
+                                     {
+                                         if ($donnees['IDCLIENT'] == $client)
+                                         {echo '<option value="'.$donnees['IDCLIENT'].'" selected>'.$donnees['nom'].'</option>'; }
+                                         else
+                                         {echo '<option value="'.$donnees['IDCLIENT'].'">'.$donnees['nom'].'</option>'; }
+                                     }
+                         ?>             
+</select> 
+</div>
+
+<div class="form-actions"><br/><br/>
+ <input class="w3-btn w3-blue" type="reset" name="effacer" value="Reinitialiser"> 
+<input class="w3-btn w3-blue" type="submit" name="valider" value="Valider"> 
+               
+</div>
+
+    </div>
+</fieldset>
+ </div>
+ </div>
+ </div>
+
+ <div class="row-fluid">
+
+<div class="span12">
+        <div class="widget-box">
+          <div class="widget-title">
+             <span class="icon"><i class="icon-th"></i></span> 
+            <h5>Liste des OR</h5>     
+          </div>
+          <div class="widget-content nopadding">
+
+<div class="ContenedorTabla">
+			<table id="pruebatabla" class="fht-table">
+				<thead>
+					<tr>
+						<th class="celda_encabezado_general" rowspan="2">OR</th>
+						<th class="celda_encabezado_general" rowspan="2">Devis</th>
+						<th class="celda_encabezado_general" rowspan="2">Kilometrage</th>
+						<th class="celda_encabezado_general" rowspan="2">Objet</th>
+						<th class="celda_encabezado_general" rowspan="2">Debut</th>
+						<th class="celda_encabezado_general" rowspan="2">Fin</th>
+						
+						<th class="celda_encabezado_general" colspan="5">Action</th>
+						<th class="celda_encabezado_general" colspan="6">Ressource</th>
+					</tr>
+					
+					<tr>
+						<th class="celda_encabezado_general">Libelle</th>
+						<th class="celda_encabezado_general">Resume</th>
+						<th class="celda_encabezado_general">Debut</th>
+						<th class="celda_encabezado_general">Fin</th>
+						<th class="celda_encabezado_general">Etat</th>
+						<th class="celda_encabezado_general">Nature</th>
+						<th class="celda_encabezado_general">Libelle</th>
+						<th class="celda_encabezado_general">Motif</th>
+						<th class="celda_encabezado_general">Debut</th>
+						<th class="celda_encabezado_general">Fin</th>
+						<th class="celda_encabezado_general">Etat</th>
+						
+					</tr>
+				</thead>
+				
+		    <?php 
+              $row =1;
+              while ($donnees = $req->fetch())
+              {
+			   $idDossier = $donnees['dossiercode'];
+			   $totalAction = TotalAction($idDossier,$bdd);
+			   $totalRessource = TotalRessource($idDossier,$bdd);
+			   
+			   $reqActions = $bdd->prepare('SELECT * FROM actions WHERE dossiercode = ?');
+               $reqActions->execute(array($idDossier));
+
+              $reqRessource = $bdd->prepare('SELECT * FROM ressource WHERE dossiercode = ?');
+              $reqRessource->execute(array($idDossier));
+			   
+			   if($totalAction > $totalRessource)
+			   {$row = $totalAction;}
+			   else if ($totalAction < $totalRessource)
+			   {$row = $totalRessource;}
+			   else {}
+			   
+			   echo '<tr>';
+			   echo '<td class="celda_normal">'.$donnees['nom'].'</td>';
+			   echo '<td class="celda_normal">'.$donnees['NUM_DEVIS'].'</td>';
+			   echo '<td class="celda_normal">'.$donnees['KILOMETRAGE'].'</td>';
+			   echo '<td class="celda_normal">'.$donnees['OBJET_OR'].'</td>';
+			   echo '<td class="celda_normal">'.$donnees['datedebut'].'</td>';
+			   echo '<td class="celda_normal">'.$donnees['datefin'].'</td>';
+			   
+			   while ($donneesAction = $reqActions->fetch())
+              {
+			   echo '<td class="celda_normal">'.$donneesAction['libelleaction'].'</td>'; 
+			   echo '<td class="celda_normal">'.$donneesAction['resumer'].'</td>'; 
+			   echo '<td class="celda_normal">'.$donneesAction['datedebut'].'</td>';
+			   echo '<td class="celda_normal">'.$donneesAction['datefin'].'</td>';
+			   echo '<td class="celda_normal">'.$donneesAction['idetat'].'</td>';
+			  }
+			  
+			   while ($donneesRessource = $reqRessource->fetch())
+              {
+			   echo '<td class="celda_normal">'.$donneesRessource['nature'].'</td>'; 
+			   echo '<td class="celda_normal">'.$donneesRessource['libelle'].'</td>'; 
+			   echo '<td class="celda_normal">'.$donneesRessource['motif'].'</td>';
+			   echo '<td class="celda_normal">'.$donneesRessource['datedebut'].'</td>';
+			   echo '<td class="celda_normal">'.$donneesRessource['datefin'].'</td>';
+			   echo '<td class="celda_normal">'.$donneesRessource['resetat'].'</td>';
+			  }
+			   
+			   echo '</tr>';
+			  }
+              
+              ?>
+				<tbody>
+					
+						
+						
+					
+				</tbody>
+			</table>
+		</div>
+       
+         </div>
+    </div>
+  </div>
+
+</div>
+   
+   
+   
+<div class="row-fluid">
+  <div id="footer" class="span12"> 2019 &copy;  <a href="#">CCBM TECHNOLOGIES ET SOLUTIONS</a> </div>
+</div>
+<script src="js/jquery.min.js"></script> 
+<script src="js/jquery.ui.custom.js"></script> 
+<script src="js/bootstrap.min.js"></script> 
+<script src="js/jquery.uniform.js"></script> 
+<script src="js/select2.min.js"></script> 
+<script src="js/jquery.dataTables.min.js"></script> 
+<script src="js/maruti.js"></script> 
+<script src="js/maruti.tables.js"></script>
+<script src="js/maruti.form_validation.js"></script>
+<script src="js/jquery-1.11.0.min.js"></script>
+	<script src="js/jquery.CongelarFilaColumna.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("#pruebatabla").CongelarFilaColumna({lboHoverTr:true});
+		});
+	</script>
+</body>
+</html>

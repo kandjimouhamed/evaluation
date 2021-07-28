@@ -1,0 +1,370 @@
+<?php
+include('config/connexion.php');
+include('config/functions.php');
+
+$idDossier = $_GET['Id'];
+$req = $bdd->prepare('SELECT *  FROM dossier WHERE dossiercode = ?');
+$req->execute(array($idDossier));
+$reqActions = $bdd->prepare('SELECT * FROM actions WHERE dossiercode = ?');
+$reqActions->execute(array($idDossier));
+
+$reqRessource = $bdd->prepare('SELECT * FROM ressource WHERE dossiercode = ?');
+$reqRessource->execute(array($idDossier));
+
+while ($donnees = $req->fetch())
+{
+    $direction = $donnees['directioncode'];
+    $client = $donnees['IDCLIENT'];
+    $vehicule = $donnees['IDVEHICULE'];
+    $circuit = $donnees['IDCIRCUIT'];
+    $nom = $donnees['nom'];
+    $devis = $donnees['NUM_DEVIS'];
+    $souche = $donnees['SOUCHE'];
+    $kilometrage = $donnees['KILOMETRAGE'];
+    $objetor = $donnees['OBJET_OR'];
+    $observations = $donnees['OBSERVATIONS'];
+    $travauxdemandes = $donnees['TRAVAUX_DEMANDE'];
+    $etatdossier = $donnees['idetat'];
+    $datedebut = $donnees['datedebut'];
+    $datefin = $donnees['datefin'];
+    $ressource = $donnees['RESSOURCE'];
+    
+}
+
+if ($etatdossier == 1) {$fin = "En cours";}
+else {$fin = strftime('%d-%m-%Y',strtotime($datefin));}
+$debut =  strftime('%d-%m-%Y',strtotime($datedebut));
+
+$nomFiliale = getFiliale($direction,$bdd);
+$nomDirection = getDirection($direction,$bdd);
+$nomCircuit = getCircuit($circuit,$bdd);
+
+$req = $bdd->prepare('SELECT *  FROM clients WHERE IDCLIENT = ?');
+$req->execute(array($client));
+
+
+while ($donnees = $req->fetch())
+{
+    $nomClient = $donnees['nom'];
+    $prenom = $donnees['prenom'];
+    $email = $donnees['email'];
+    $telephone = $donnees['telephone'];
+    $adresse = $donnees['adresse'];
+    $contact = $donnees['personneacontacter'];
+    $telcontact = $donnees['telephonepersacontacter'];
+    
+}
+
+$req = $bdd->prepare('SELECT *  FROM vehicules WHERE IDVEHICULE = ?');
+$req->execute(array($vehicule));
+
+
+while ($donnees = $req->fetch())
+{
+    $idmodele = $donnees['IDMODELE'];
+    $immat = $donnees['immatriculation'];
+    $chassis = $donnees['numchassis'];
+    $moteur = $donnees['nummoteur'];
+    $bc = $donnees['numbc'];
+    $dmc = $donnees['dmc'];
+    
+    $nomModele = getModele($idmodele,$bdd);
+    $nomMarque = getMarque($idmodele,$bdd);
+    
+}
+
+$idEtapeActuel = getIdEtapeActuel($idDossier,$bdd);
+$idIntervenantActuel = getIdIntervenantActuel($idDossier,$bdd);
+$idServiceActuel = getIdServiceFromEtape($idEtapeActuel,$bdd);
+$nomServiceActuel = getService($idServiceActuel,$bdd);
+
+$nomIntervenantActuel = getIntervenantActuel($idDossier,$bdd);
+$nomEtapeActuel = getEtapeActuel($idDossier,$bdd);
+
+$reqEtape = $bdd->prepare('SELECT * FROM etape WHERE IDCIRCUIT = ? ORDER BY position ASC');
+$reqEtape->execute(array($circuit));
+
+$reqEtape2 = $bdd->prepare('SELECT * FROM etape WHERE IDCIRCUIT = ? ORDER BY position ASC');
+$reqEtape2->execute(array($circuit));
+
+$uploads_dir = './uploads/dossiers';
+$repertoire = $uploads_dir.'/'.$nom.'/';
+
+ 
+//exit;
+?>
+<link rel="stylesheet" href="css/table.css">
+  <table id="t01" style="border: 0px">
+    <tr style="border: 0px">
+      <th colspan="5"><i class="icon icon-user"></i> <?php echo $nom;?></th>
+    </tr>
+    
+    <tr style="border: 0px">
+      <td colspan="5">
+       <b>Filiale: </b><?php echo $nomFiliale;?><br/><br/>
+       <b>Direction: </b><?php echo $nomDirection;?><br/><br/>
+       <b>Circuit: </b><?php echo $nomCircuit;?><br/><br/>
+       <b>Filiale: </b><?php echo $nomFiliale;?><br/><br/>
+       <b>Debut: </b><?php echo $debut;?><br/><br/>
+      </td>
+    </tr>
+  </table>
+  <br/>
+  <table id="t01">
+    <tr>
+      <th colspan="5">Pieces jointes</th>
+    </tr>
+    <tr>
+      <td style="border: 0px" colspan="5"><?php echo lister_fichiers($repertoire);?></td>
+    </tr>
+    <tr>
+  </table>
+  <br/>
+  <table id="t01">
+    <tr>
+      <th colspan="5">Historique du cycle</th>
+    </tr>
+    <tr style="border: 0px">
+      <td style="border: 0px"><b style="border: 0px; background-color: #eee;">Intervenant: </b></td>
+      <td style="border: 0px"><b style="border: 0px; background-color: #eee;">Recu le: </b></td>
+      <td style="border: 0px"><b style="border: 0px; background-color: #eee;">Fin: </b></td>
+      <td style="border: 0px"><b style="border: 0px; background-color: #eee;">Jours en cours: </b></td>
+      <td style="border: 0px"><b style="border: 0px; background-color: #eee;">Condition: </b></td>
+    </tr>
+   
+   <?php 
+          echo '<tr style="border: 0px"><td style="border: 0px" colspan="5"><hr/></td></tr>';
+				while ($donnees = $reqEtape->fetch())
+				{
+				    $idEtape = $donnees['ID'];
+				    $position = $donnees['position'];
+				    $etape = $donnees['libelle'];
+				    $idService = $donnees['IDSERVICE'];
+				    $idIntervenant = $donnees['IDINTERVENANT'];
+				    
+				    $nomService = getService($idService,$bdd);
+				    $nomIntervenant = getIntervenant($idIntervenant,$bdd);
+				    
+				    $reqCondtion = $bdd->prepare('SELECT * FROM conditionetape WHERE IDETAPESOURCE = ?');
+				    $reqCondtion->execute(array($idEtape));
+				    $condition = "";
+				    
+				    while ($donneesEtape = $reqCondtion->fetch())
+				    {
+				        $type =  $donneesEtape['type'];
+				        $idAct =  $donneesEtape['action'];
+				        $ressource =  $donneesEtape['ressource'];
+				        $operateur =  $donneesEtape['operateur'];
+				        $idEtapeDest =  $donneesEtape['IDETAPEDEST'];
+				        $etatAction = getEtat($idAct,$bdd);
+				        $etapeDest = getEtape($idEtapeDest,$bdd);
+				        
+				        if($type == 'Action') {$condition .="Si Etat Action ".$operateur." ".$etatAction." Envoi a  ".$etapeDest.'<br/>';}
+				        else {$condition .="Si le cout ".$operateur." ".$ressource." Envoie a ".$etapeDest.'<br/>';}
+				    }
+				    if($condition == ""){$condition = "";}
+				    
+				    $reqCondtion = $bdd->prepare('SELECT * FROM dossier_etape WHERE IDETAPE = ? AND IDDOSSIER = ?');
+				    $reqCondtion->execute(array($idEtape,$idDossier));
+                    $valdecision = -1;
+                    $debut = "";
+                    //$reqCondtion->debugDumpParams();
+				    while ($donneesEtape = $reqCondtion->fetch())
+				    {
+				        $valdecision =  $donneesEtape['DECISION'];
+				        $datedebut =  $donneesEtape['DATE_DEBUT'];
+				        $datefin =  $donneesEtape['DATE_FIN'];
+				    }
+				    
+				    if ($valdecision == 1) 
+				        {
+						$fin = strftime('%d-%m-%Y',strtotime($datefin));
+						$joursEnCours = ceil(abs($$datefin - $datedebut) / 86400);
+						$debut = strftime('%d-%m-%Y',strtotime($datedebut));
+						}
+				    else if ($valdecision == 0) 
+				        {
+						$x = strtotime(date("Y-m-d"));
+					    $joursEnCours = ceil(abs($$x - $datedebut) / 86400);
+					    $debut = strftime('%d-%m-%Y',strtotime($datedebut));
+					    $fin = "En cours";
+						}
+				    else
+				    {
+					 $fin ="";
+					 $joursEnCours = "";
+					 $debut = "";
+					}
+	   echo '<tr style="border: 0px">';
+      echo '<td style="border: 0px"><b>'.$etape.'/'.$nomService.': </b>'.$nomIntervenant.'</td>';
+      echo '<td style="border: 0px">'.$debut.'</td>';
+      echo '<td style="border: 0px">'.$fin.'</td>';
+      echo '<td style="border: 0px"> '.$joursEnCours.'</td>';
+      echo '<td style="border: 0px">'.$condition.'</td>';
+    echo '</tr>';
+    echo '<tr style="border: 0px"><td style="border: 0px" colspan="5"><hr/></td></tr>';
+					
+				}
+				
+				?>
+   
+  </table>
+  <br/>
+  
+   <table id="t01">
+    <tr>
+      <th colspan="5"><i class="icon icon-user"></i> Donnees en entrees</th>
+    </tr>
+     <tr style="border: 0px">
+      <td colspan="5"> 
+       <!--div style="height: 30px; width:90%; background-color: grey; color: white; padding-left:20px;"><b>Informations</b></div-->
+       
+  <div id="contentprintOR">
+  <div id="left">
+    <b>Devis: </b><?php echo $devis;?><br/><br/> 
+    <b>Kilometrage: </b><?php echo $kilometrage;?><br/><br/> 
+    <b>Travaux demandes: </b><?php echo $travauxdemandes;?><br/><br/> 
+    <b>Fin: </b><?php echo $fin;?><br/><br/> 
+  </div>
+
+  <div id="right">
+     <b>Souche: </b><?php echo $souche;?><br/><br/> 
+     <b>Objet OR: </b><?php echo $objetor;?><br/><br/>
+     <b>Ressources: </b><?php echo $ressource;?><br/><br/>  
+     <b>Observations: </b><?php echo $observations;?><br/><br/> 
+  </div>
+</div>
+
+
+<?php 
+				while ($donnees = $reqEtape2->fetch())
+				{
+				    $idEtape = $donnees['ID'];
+				    $position = $donnees['position'];
+				    $etape = $donnees['libelle'];
+				    $idService = $donnees['IDSERVICE'];
+				    $idIntervenant = $donnees['IDINTERVENANT'];
+				    $nomService = getService($idService,$bdd);
+				    
+				    $reqActions = $bdd->prepare('SELECT * FROM actions WHERE dossiercode = ? AND IDINTERVENANT = ?');
+                    $reqActions->execute(array($idDossier,$idIntervenant));
+
+                    $reqRessource = $bdd->prepare('SELECT * FROM ressource WHERE dossiercode = ? AND IDINTERVENANT = ?');
+                    $reqRessource->execute(array($idDossier,$idIntervenant));
+				    
+				    //echo '<div style="height: 30px; width:90%; background-color: grey; color: white; padding-left:20px;"><b>'.$etape.': '.$nomService.'</b></div>';
+				       
+				       $i = 1;
+				    while ($donnees = $reqActions->fetch())
+				{
+				    $idAct2 = $donnees['actioncode'];
+				    $libelle = $donnees['libelleaction'];
+				    $resume = $donnees['resumer'];
+				    $etat = $donnees['idetat'];
+				    $debut = $donnees['datedebut'];
+				    $datefin = $donnees['datefin'];
+				    $idIntervenantEncours = $donnees['IDINTERVENANT'];
+				    
+				    $uploads_dir = 'uploads/actions';
+				    $repertoire = $uploads_dir.'/'.$idDossier.'/'.$idEtape.'/'.$libelle.'/'; 
+				    
+				    if ($etat == 1) {$fin = "En cours";}
+				    else {$fin = strftime('%d-%m-%Y',strtotime($datefin));}
+				     echo '<br/>Action '.$i;
+				       //echo '<div style = "width: 100%; background-color: grey;">Action '.$i.'</div>';
+				      echo '<hr style="border: 1px ridge;"/>';
+				       echo '<div id="contentprintOR">';
+				      echo '<div id="left">';
+				      echo '<b>Libelle: </b>'.$libelle.'<br/><br/>'; 
+				      echo ' </div>';
+				      echo '<div id="right">';
+				      echo '<b>Resume: </b>'.$resume.'<br/><br/>'; 
+				      echo ' </div></div>';
+				     
+				     echo '<div id="contentprintOR">';
+				      echo '<div id="left">';
+				      echo '<b>Debut: </b>'.strftime('%d-%m-%Y',strtotime($datedebut)).'<br/><br/>'; 
+				      echo ' </div>';
+				      echo '<div id="right">';
+				      echo '<b>Fin: </b>'.$fin.'<br/><br/>'; 
+				      echo ' </div></div>';
+				      echo '<div style = "width: 100%; background-color: white;">'.lister_fichiers($repertoire).'</div>';	
+				      
+				      $i++;
+				  }
+				   
+
+				 
+				 $j = 1;
+				while ($donnees = $reqRessource->fetch())
+				{
+			     
+			     $idRes = $donnees['ressourcecode'];
+				    $nature = $donnees['nature'];
+				    $libelle = $donnees['libelle'];
+				    $motif = $donnees['motif'];
+				    $etat = $donnees['resetat'];
+				    $cout = $donnees['cout'];
+				    $finance = $donnees['libelle'];
+				    $debut = $donnees['datedebut'];
+				    $datefin = $donnees['datefin'];
+				    $observations = $donnees['observations'];
+				    $idIntervenantEncours = $donnees['IDINTERVENANT'];
+				    $uploads_dir = 'uploads/ressources';
+				    $repertoire = $uploads_dir.'/'.$idDossier.'/'.$idEtape.'/'.$libelle.'/'; 
+				    
+				    if ($etat == 1) {$fin = "En cours";}
+				    else {$fin = strftime('%d-%m-%Y',strtotime($datefin));} 		
+					 //echo '<div id="left"> </div><div id="right"></div>';
+					 //echo '<div style = "width: 100%; background-color: grey;">Ressource '.$j.'</div>';
+					 echo '<br/>Ressource '.$j;
+				       //echo '<div style = "width: 100%; background-color: grey;">Action '.$i.'</div>';
+				      echo '<hr style="border: 1px ridge;"/>';	
+					   echo '<div id="contentprintOR">';
+					 echo '<div id="left">';
+					 echo '<b>Nature: </b>'.$nature.'<br/><br/>'; 
+					 echo ' </div>';
+				     echo '<div id="right">';
+				     echo '<b>Libelle: </b>'.$libelle.'<br/><br/>'; 
+					 echo ' </div></div>';
+					   echo '<div id="contentprintOR">';
+					  echo '<div id="left">';
+				      echo '<b>Motif: </b>'.$motif.'<br/><br/>'; 
+				      echo ' </div>';
+				      echo '<div id="right">';
+				      echo '<b>Cout: </b>'.$cout.'<br/><br/>'; 
+				      echo ' </div></div>';
+				      
+				      echo '<div id="contentprintOR">';
+				       echo '<div id="left">';
+				      echo '<b>Finance: </b>'.$finance.'<br/><br/>'; 
+				      echo ' </div>';
+				      echo '<div id="right">';
+				      echo '<b>Debut: </b>'.strftime('%d-%m-%Y',strtotime($datedebut)).'<br/><br/>'; 
+				      echo ' </div></div>';
+				     
+				     echo '<div id="contentprintOR">';
+				      echo '<div id="left">';
+				      echo '<b>Fin: </b>'.$fin.'<br/><br/>'; 
+				      echo ' </div>';
+				      echo '<div id="right">';
+				      echo '<b>Observations: </b>'.$observations.'<br/><br/>'; 
+				      echo ' </div></div>';
+				      echo '<div style = "width: 100%; background-color:#000;">'.lister_fichiers($repertoire).'</div>';	
+				      
+				 $j++; 
+				}
+				echo '</div><br/>';    
+			  }
+				
+				
+			
+				?>
+   
+
+
+      </td>
+    </tr>
+   
+  </table>
+  <br/>
