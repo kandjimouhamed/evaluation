@@ -5,11 +5,8 @@
 }
 /* Main */
 body {
-	overflow-x: hidden;
+	/*overflow-x: hidden;*/
     margin-top: -10px;
-}
-a:hover {
-	text-decoration: none;
 }
 
 /*bootstrap-overwrite*/
@@ -49,6 +46,7 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 	top:1px;
 	float:right;
 	overflow:hidden !important;
+	height: 40px;
 
 }
 #search input[type=text] {
@@ -56,6 +54,7 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 	padding:8px 10px ;
 	border:1px; line-height:24px; 
 	width:166px;
+	height: 40px;
 }
 
 #search button {
@@ -63,9 +62,11 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 	margin-top: -11px;
 	padding:8px 10px; margin-left:-5px;
 	background-color:#2e363f; 
+	height: 40px;
 }
 #search button i {
 	opacity: 0.5;
+	height: 40px;
 }
 #search button:hover i, #search button:active i {
 	opacity: 0.9;
@@ -1107,7 +1108,7 @@ div.dataTables_wrapper .ui-widget-header {
 .dataTables_wrapper .ui-toolbar {
     padding: 5px;
 }
-.dataTables_filter {
+/*.dataTables_filter {
     color: #878787;
     color: #410505;
     font-size: 11px;
@@ -1118,9 +1119,19 @@ div.dataTables_wrapper .ui-widget-header {
 	top: 0;
 	margin-top: 500px;
 	z-index: 100px;
-}
+}*/
 .dataTables_filter input {
 	margin-top: 0;
+	height: 25px;
+	font-size: 15px;
+	border-bottom: 2px solid silver;
+	
+	transition: all 0.3s ease;
+	
+	
+}
+.dataTables_filter input ::placeholder{
+	color: #36a8c5;
 }
 
 
