@@ -155,7 +155,7 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 	margin-top:80px;
     padding-bottom: 25px;
     position: relative;
-    min-height: 500px;
+    min-height: 400px;
     width: auto;
 }
 
@@ -267,8 +267,13 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 }
 /* Footer */
 #footer {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
 	text-align: center;
 	color: #777777; padding:10px 0; background:#2e363f;
+	
 }
 /* Stat boxes and quick actions */
 .quick-actions_homepage{ width:100%; text-align:center; float:left; margin-top:10px;}
@@ -519,7 +524,7 @@ ul.stat-boxes2 li:hover{  background:#f6f6f6}
 	margin-bottom: 3px;
 	margin-top: 6px;
 }
-.stat-boxes .peity_bar_good, .stat-boxes .peity_line_good, {
+.stat-boxes .peity_bar_good, .stat-boxes .peity_line_good{
 	color: #459D1C;
 }
 .stat-boxes .peity_bar_neutral, .stat-boxes .peity_line_neutral  {
@@ -1108,7 +1113,7 @@ div.dataTables_wrapper .ui-widget-header {
 .dataTables_wrapper .ui-toolbar {
     padding: 5px;
 }
-/*.dataTables_filter {
+.dataTables_filter {
     color: #878787;
     color: #410505;
     font-size: 11px;
@@ -1119,7 +1124,7 @@ div.dataTables_wrapper .ui-widget-header {
 	top: 0;
 	margin-top: 500px;
 	z-index: 100px;
-}*/
+}
 .dataTables_filter input {
 	margin-top: 0;
 	height: 15%;

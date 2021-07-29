@@ -8,9 +8,7 @@ include('header.php');
 <div id="content">
   
   <div class="container-fluid w3-white" style="font-size:12px;">
-	<br/>  
 
-	  
     <div class="row-fluid">
       <div class="span12">
        

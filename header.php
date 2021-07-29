@@ -113,6 +113,8 @@ legend {
                 <li><a href="intervenant.php">Compte</a></li>
                 <li><a href="salarie.php">Salarie</a></li>
                 <li><a href="#">Entretien</a></li>
+                <li><a href="coefs.php">Coefs</a></li>
+                <li><a href="evaluer.php">entretient</a></li>
 
 
             </ul>
