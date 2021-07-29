@@ -1122,7 +1122,7 @@ div.dataTables_wrapper .ui-widget-header {
 }*/
 .dataTables_filter input {
 	margin-top: 0;
-	height: 25px;
+	height: 15%;
 	font-size: 15px;
 	border-bottom: 2px solid silver;
 	
