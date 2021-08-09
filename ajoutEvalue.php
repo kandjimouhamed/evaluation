@@ -17,10 +17,6 @@ if (isset($_GET['id']))
             $idSalarie = $donnees['idSalarie'];
             $idCoef = $donnees['idCoef'];
            $libelle = $donnees['libelle'];
-          
-
-           
-
         }
     }
     else
@@ -75,9 +71,7 @@ $salarie = $bdd->query('SELECT * FROM salarie ');
 
           <form class="form-horizontal" method="post" action="actionAjoutEvalue.php" name="basic_validate" id="basic_validate">
                         
-                               
                                         <br/>  <br/>
-
                                         <label>Le salarie</label>
                                         <select name="idSalarie"  style="width:100%;" id="idSalarie" size="1" class="w3-select w3-border" size="1" required>
                                             <option>  </option>
@@ -91,6 +85,7 @@ $salarie = $bdd->query('SELECT * FROM salarie ');
                                                 }
                                             }
                                             ?>
+                                             <input type="hidden" name="id" value = "<?php echo $id; ?>">
                                         </select>
                                         <br/> <br/>
                                             <table class="table table-boorded">
@@ -99,30 +94,34 @@ $salarie = $bdd->query('SELECT * FROM salarie ');
                                                 <th>Coefficients</th>
                                                 <th>Notes Obtenues (de 1 a 5)</th>
                                                 <th>Total</th>
-
-                                            
                                             </thead>
+                                           
+
                                             <tbody>
                                             <?php
                                             foreach($coef as  $vars){
+                                                ?>
+                                                <?php 
                                                 echo '<tr>
-                                                <td >'.$vars['libelle'].'</td>
-                                                <td value="' . $vars['id'] . '">'.$vars['coef'].'</td>
-                                               
-                                                <td><input class="w3-input w3-border " style="width:100px; height:20px" type="number" name="note[]" "></td>
-                                                
+                                                <input type="hidden" name="idCoef" value = "'.$vars['id'].'">
+
+                                                <td  value="'.$vars['id'].'" >'.$vars['libelle'].'</td>
+                                                <td name="idCoef" value="'.$vars['id'].'"">'.$vars['coef'].'</td>
+                                                <input type="hidden" name="id" value = "<?php echo $id; ?>">
+                                               <td> <input class="w3-input w3-border " style="width:100px; height:20px" type="number" name="libelle"></td>
+                                                <input type="hidden" name="id" value = "<?php echo $id; ?>">
                                                   </tr>';
-                                
+                                                  
+                                                  
                                             }
                                             ?>
-                                    <input type="hidden" name="id" value = "<?php echo $id; ?>">
+                                   
+                                   
                         </tbody>
                         </table>      
                         <br>
                         <br>
-                                        <label>Note Optenue</label>
-                                <input type="text" class="w3-input w3-border" name="libelle" id="libelle" value = "<?php echo $libelle; ?> " required >
-                                <input type="hidden" name="id" value = "<?php echo $id; ?>"><br>
+                                       
                                 <button name="valider" type="button"  class="w3-bar-item w3-button w3-light-grey precedent" style="width:48%;">Precedent</button>
                                 <button name="valider" type="submit"  class="w3-bar-item w3-button w3-light-grey" style="width:48%;">Valider</button><br/><br/>
                                 

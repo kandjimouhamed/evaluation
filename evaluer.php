@@ -50,20 +50,17 @@ $reponse = $bdd->query('SELECT * FROM evaluer ORDER BY id ASC');
                             $i = 1;
                             while ($donnees = $reponse->fetch())
                             {
-                                $req = $bdd->prepare('SELECT libelle  FROM coefs WHERE idCoef = ?');
+                                $req = $bdd->prepare('SELECT libelle  FROM coefs WHERE id = ?');
                                 $req->execute(array($donnees['idCoef']));
                                 $libelleCoef =  $req->fetchColumn();
-                                $req = $bdd->prepare('SELECT nom,prenom  FROM salarie WHERE idSalarie = ?');
+                                $req = $bdd->prepare('SELECT nom FROM salarie WHERE idSalarie = ?');
                                 $req->execute(array($donnees['idSalarie']));
                                 $libelleSalarie =  $req->fetchColumn();
 
                                 echo '<tr class="gradeA">';
                                 echo  '<td>'.$i.'</td>';
-
-                                echo  '<td>'.$donnees['nom'].'</td>';
-                                echo  '<td>'.$donnees['prenom'].'</td>';
-                                echo  '<td>'.$donnees['fonctionActuelle'].'</td>';
-                                echo  '<td>'.$libelleCoef.'</td>';
+                                echo  '<td>'.$libelleSalarie.'</td>';
+                               
                                 echo  '<td>'.$libelleCoef.'</td>';
                                 echo  '<td>';
                                 //echo '<a href="#"><i class="icon icon-search"></i></a>';
