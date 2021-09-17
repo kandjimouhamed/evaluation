@@ -8,6 +8,7 @@ if (isset($_POST['valider']))
     $responsablefiliale = $_POST['responsblefiliale'];
     $adressefiliale = $_POST['adressefiliale'];
     $telephonefiliale = $_POST['telephonefiliale'];
+    //shjsd
     
     if ($id == -1)
     {
