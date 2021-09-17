@@ -2,6 +2,9 @@
 <?php
 include('header.php');
 
+$idSalarie = $_SESSION['idSalarie'];
+$req = $bdd->prepare('SELECT coefs.libelle FROM evaluer INNER JOIN coefs ON evaluer.idCoef = coefs.id WHERE   idSalarie = ?');
+$req->execute(array($idSalarie));
 
 ?>
 
@@ -11,9 +14,70 @@ include('header.php');
 
     <div class="row-fluid">
       <div class="span12">
+      <div class="container ">
+        
        
-       
-       
+               
+                <div class="container-fluid" style="margin-top: 0;">
+                <div class="row-fluid">
+                    <div class="span12">
+                        <div class="widget-box">
+                            <div class="widget-title">
+                                <span class="icon"><i class="icon-th"></i><?=$_SESSION['prenom'].'  ' .$_SESSION['nom']?></span>
+
+                            </div>
+                            <div class="w3-container w3-white">
+                                <div class="w3-row-padding">
+                <br>
+                      <div>
+                      <form action="note.php" method="post">
+                      <?php if (isset($_GET['error'])){?>
+                        <div class="alert alert-danger" role="alert">
+                        <?php echo $_GET['error'];?>
+                      </div>
+                     <?php }?>  
+                     <?php if (isset($_GET['succes'])){?>
+                        <div class="alert alert-success" role="alert">
+                        <?php echo $_GET['succes'];?>
+                      </div>
+                     <?php }?> 
+                      
+      <?php
+      while ($donnees = $req->fetch())
+      {  
+           ?>
+            
+           <div class="row">
+             <div class="col-md-2"></div>
+             <div class="col-md-10">
+                <div class="row">
+                  <div class="col-md-7"> <?=$donnees['libelle']?> <br><br></div>
+                  <div class="col-md-5">
+                    <div class="row">
+                      
+                        Entre une notes (1 à 5) &nbsp;&nbsp; <input type="number" name="note[]" maxlength="5" style="width: 20%;"  class="w1-input w3-border">
+                  </div>
+                </div>
+                  </div>
+                </div>
+             </div>
+           
+           </div>
+         
+          
+       <?php }
+     ?>
+      <input type="text" name="idSalarie" value = "<?php echo $idSalarie; ?>">
+
+      <div class="row">
+           <div class="col-md-3"></div>
+           <div class="col-md-6">
+           <button name="valider" type="submit"  id="submit" value="submit " class="btn btn-success" style="width:100%;">Valider</button><br/><br/>
+
+           </div>
+           </div>
+           </form>
+                      </div></div></div></div></div></div></div></div></div></div></div></div>
      
       </div>
     </div>
@@ -42,7 +106,15 @@ include('header.php');
 
 
 
+<script>
+  var controls = document.querySelectorAll('.form-control');
 
+for (var i = 0; i < controls.length; i++) {
+	controls[i].onchange = function() {
+		document.querySelector('[type="submit"]').disabled = false;
+	};
+}
+</script>
 
 
 

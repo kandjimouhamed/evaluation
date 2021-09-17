@@ -17,6 +17,11 @@ $reponse = $bdd->query('SELECT * FROM salarie ORDER BY idSalarie ASC');
         <div class="alert alert-error alert-block"> <a class="close" data-dismiss="alert" href="#">x</a>
             <h4 class="alert-heading">Error!</h4>
             <?php echo $_GET['message']; ?></div> <?php } ?>
+            <div class="w3-bar w3-light-grey">
+    <button class="w3-bar-item w3-button tablink" onclick="openCity(event,'London')">OR</button>
+    <button class="w3-bar-item w3-button tablink" onclick="openCity(event,'Paris')">Actions</button>
+    <button class="w3-bar-item w3-button tablink" onclick="openCity(event,'Tokyo')">Ressource</button>
+  </div>
     <div class="container-fluid w3-white" style="font-size:12px;">
 
         <div class="row-fluid">
@@ -50,9 +55,7 @@ $reponse = $bdd->query('SELECT * FROM salarie ORDER BY idSalarie ASC');
                             $i = 1;
                             while ($donnees = $reponse->fetch())
                             {
-                                $req = $bdd->prepare('SELECT libelle  FROM langue WHERE idLangue = ?');
-                                $req->execute(array($donnees['idlangue']));
-                                $libelleLangue =  $req->fetchColumn();
+                               
 
                                 echo '<tr class="gradeA">';
                                 echo  '<td>'.$i.'</td>';
@@ -60,11 +63,11 @@ $reponse = $bdd->query('SELECT * FROM salarie ORDER BY idSalarie ASC');
                                 echo  '<td>'.$donnees['nom'].'</td>';
                                 echo  '<td>'.$donnees['prenom'].'</td>';
                                 echo  '<td>'.$donnees['fonctionActuelle'].'</td>';
-                                echo  '<td>'.$libelleLangue.'</td>';
+                             
                                 echo  '<td>';
                                 //echo '<a href="#"><i class="icon icon-search"></i></a>';
                                 echo '<a href="ajoutSalarie.php?action=edit&idSalarie='.$donnees['idSalarie'].'"<i class="glyphicon glyphicon-edit"></i></a> &nbsp; '; 
-                                echo '<a href="supprFiliale.php?action=suppr&idSalarie='.$donnees['idSalarie'].'" onclick="return(confirm(\'Etes-vous sur de vouloir supprimer cette entree?\'));"><i class="glyphicon glyphicon-trash"></i></a> &nbsp;';
+                                echo '<a href="supprimerSalarie.php?action=suppr&idSalarie='.$donnees['idSalarie'].'" onclick="return(confirm(\'Etes-vous sur de vouloir supprimer cette entree?\'));"><i class="glyphicon glyphicon-trash"></i></a> &nbsp;';
                                 echo '<a href="detaileSalarie.php?action=detail&idSalarie='.$donnees['idSalarie'].'"<i class="glyphicon glyphicon-eye-open"></i></a>';
                                 echo '</td>';
                                 echo '</tr>';

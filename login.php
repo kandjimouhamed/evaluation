@@ -5,29 +5,43 @@ include('config/connexion.php');
 include('config/functions.php');
 if (isset($_POST['connexion']))
 {
-$utilisateur = trim($_POST['utilisateur']); 
-$pwd = trim($_POST['pwd']);
-$req = $bdd->prepare('SELECT count(*)  FROM intervenant WHERE utilisateur = ? AND pwd = ?');
-$req->execute(array($utilisateur, md5($pwd)));
+$prenom = trim($_POST['prenom']); 
+$password = trim($_POST['password']);
+$req = $bdd->prepare('SELECT count(*)  FROM salarie WHERE prenom = ? AND password = ?');
+$req->execute(array($prenom, md5($password)));
 $count = $req->fetchColumn();
 
 if ($count > 0)
 {
  session_start();
- $req = $bdd->prepare('SELECT *  FROM intervenant WHERE utilisateur = ? AND pwd = ?');
- $req->execute(array($utilisateur, md5($pwd)));
- while ($donnees = $req->fetch())
+ $reqs = $bdd->prepare('SELECT *  FROM salarie WHERE prenom = ? AND password = ?');
+ $reqs->execute(array($prenom, md5($password)));
+ 
+ while ($donnees = $reqs->fetch())
  {
-  $_SESSION['codeintervenant'] = $donnees['codeintervenant'];
+  $_SESSION['codeintervenant'] = $donnees['idSalarie'];
   $_SESSION['nom'] = $donnees['nom'];
   $_SESSION['profil'] = $donnees['profil'];
   $_SESSION['prenom'] = $donnees['prenom'];
-  $_SESSION['utilisateur'] = $donnees['utilisateur'];
-  $_SESSION['filialecode'] = $donnees['filialecode'];
-  $_SESSION['filialenom'] = getFiliale2($donnees['filialecode'],$bdd);
- }
+ 
+  $req = $bdd->prepare('SELECT filialenom FROM service INNER JOIN filiale  
+  ON service.idFiliale = filiale.filialecode WHERE  idFiliale = ?');
+  $req->execute(array($donnees['idservice']));
+  $nomFiliale =  $req->fetchColumn();
+  $_SESSION['filialenom'] = $nomFiliale;
 
- header('location: index.php'); echo $count;
+ }
+   if($_SESSION['profil'] == 3){
+    header('location: index.php'); 
+   }if($_SESSION['profil'] == 2)
+   {
+    header('location: admin.php');
+    exit;
+   }if($_SESSION['profil'] == 1){
+    header('location: user.php');
+    exit;
+   }
+ 
 }
 else
 {
@@ -58,14 +72,14 @@ else
                 <div class="control-group">
                     <div class="controls">
                         <div class="main_input_box">
-                            <span class="add-on"><i class="icon-user"></i></span><input type="text" name="utilisateur" placeholder="Username" required="required"/>
+                            <span class="add-on"><i class="icon-user"></i></span><input type="text" name="prenom" placeholder="Username" required="required"/>
                         </div>
                     </div>
                 </div>
                 <div class="control-group">
                     <div class="controls">
                         <div class="main_input_box">
-                            <span class="add-on"><i class="icon-lock"></i></span><input type="password" name="pwd" placeholder="Password" required="required"/>
+                            <span class="add-on"><i class="icon-lock"></i></span><input type="password" name="password" placeholder="Password" required="required"/>
                         </div>
                     </div>
                 </div>

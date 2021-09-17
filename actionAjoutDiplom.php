@@ -2,6 +2,7 @@
 include('config/connexion.php');
 if (isset($_POST['valider']))
 {
+   
     $idDiplom = $_POST['idDiplom'];
     $libelle = $_POST['libelle'];
    

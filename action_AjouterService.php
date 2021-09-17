@@ -3,14 +3,13 @@ include('config/connexion.php');
 if (isset($_POST['valider']))
 {
     $id = $_POST['id'];
-    $direction = $_POST['direction'];
     $nom = $_POST['nomservice'];
-    $filiale = $_POST['filialeservice'];
+    $idFiliale = $_POST['idFiliale'];
     
     if ($id == -1)
     {
-        $req = $bdd->prepare('SELECT count(ID)  FROM service WHERE NOM_SERVICE = ? AND directioncode = ?');
-        $req->execute(array($nom, $direction));
+        $req = $bdd->prepare('SELECT count(ID)  FROM service WHERE NOM_SERVICE = ? AND idFiliale = ?');
+        $req->execute(array($nom, $idFiliale));
         $count = $req->fetchColumn();
         
         if ($count > 0)
@@ -19,10 +18,10 @@ if (isset($_POST['valider']))
             exit;
         }
         
-        $req = $bdd->prepare('INSERT INTO service(NOM_SERVICE, directioncode) VALUES(:nom, :direction)');
+        $req = $bdd->prepare('INSERT INTO service(NOM_SERVICE, idFiliale) VALUES(:nom, :idFiliale)');
         $req->execute(array(
             'nom' => $nom,
-            'direction' => $direction
+            'idFiliale' => $idFiliale
         ));
         
         $message =  'ok';
@@ -34,8 +33,8 @@ if (isset($_POST['valider']))
     
     else 
     {
-        $req = $bdd->prepare('SELECT count(ID)  FROM service WHERE NOM_SERVICE = ? AND directioncode = ? AND ID != ?');
-        $req->execute(array($nom,$direction,$id));
+        $req = $bdd->prepare('SELECT count(ID)  FROM service WHERE NOM_SERVICE = ? AND idFiliale = ? AND ID != ?');
+        $req->execute(array($nom,$idFiliale,$id));
         $count = $req->fetchColumn();
         
         if ($count > 0)
@@ -46,10 +45,10 @@ if (isset($_POST['valider']))
         
        
         
-        $req = $bdd->prepare('UPDATE service SET NOM_SERVICE = :nom, directioncode = :direction WHERE ID = :id');
+        $req = $bdd->prepare('UPDATE service SET NOM_SERVICE = :nom, idFiliale = :idFiliale WHERE ID = :id');
         $req->execute(array(
             'nom' => $nom,
-            'direction' => $direction,
+            'idFiliale' => $idFiliale,
             'id' => $id
         ));
         

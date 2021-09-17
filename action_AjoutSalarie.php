@@ -2,6 +2,7 @@
 include('config/connexion.php');
 if (isset($_POST['valider']))
 {
+    echo ('oki');
     $idSalarie = $_POST['idSalarie'];
     $prenom = $_POST['prenom'];
     $nom = $_POST['nom'];
@@ -20,9 +21,9 @@ if (isset($_POST['valider']))
     $idRecrutement= $_POST['idRecrutement'];
     $idlangue= $_POST['idlangue'];
     $contrat= $_POST['contrat'];
-
-
-
+    $password= $_POST['password'];
+    $profil= $_POST['profil'];
+    
     if ($idSalarie == -1)
     {
         $req = $bdd->prepare('SELECT count(idSalarie)  FROM salarie WHERE prenom = ?');
@@ -31,9 +32,9 @@ if (isset($_POST['valider']))
 
 
 
-        $req = $bdd->prepare('INSERT INTO salarie (prenom,nom,fonctionActuelle,situationFam,ancieneteFonc,dateNaiss,telephone,carburant,commussion,autres,idDiplom,
-                idservice,idParentel, idPO, idRecrutement, idlangue,contrat ) VALUES(:prenom,:nom,:fonctionActuelle ,:situationFam,:ancieneteFonc,  :dateNaiss,:telephone, :carburant,
-                        :commussion, :autres, :idDiplom, :idservice, :idParentel, :idPO, :idRecrutement, :idlangue, :contrat )');
+        $req = $bdd->prepare('INSERT INTO salarie (prenom,nom,fonctionActuelle,situationFam,ancieneteFonc,dateNaiss,telephone,carburant,commussion,autres,
+                idservice,idParentel, idRecrutement,contrat,password,profil ) VALUES(:prenom,:nom,:fonctionActuelle ,:situationFam,:ancieneteFonc,  :dateNaiss,:telephone, :carburant,
+                        :commussion, :autres, :idservice, :idParentel, :idRecrutement, :contrat, :password, :profil )');
         $req->execute(array(
 
             'prenom' => $prenom,
@@ -46,13 +47,15 @@ if (isset($_POST['valider']))
             'carburant' => $carburant,
             'commussion' => $commussion,
             'autres' => $autres,
-            'idDiplom' => $idDiplom,
+           // 'idDiplom' => $idDiplom,
             'idservice' => $idservice,
             'idParentel' => $idParentel,
-            'idPO' => $idPO,
+           // 'idPO' => $idPO,
             'idRecrutement' => $idRecrutement,
-            'idlangue' => $idlangue,
-            'contrat' => $contrat
+           // 'idlangue' => $idlangue,
+            'contrat' => $contrat,
+            'password' => md5($password),
+            'profil' => $profil
         ));
         $message =  'ok';
         header('location: salarie.php?message='.$message.'&message1=Enregistrement effectuee avec succes');
@@ -76,7 +79,7 @@ if (isset($_POST['valider']))
         $req = $bdd->prepare('UPDATE salarie SET prenom =:prenom, nom= :nom, fonctionActuelle = :fonctionActuelle 
                    ,situationFam = :situationFam,ancieneteFonc = :ancieneteFonc, dateNaiss = :dateNaiss,telephone= :telephone,  
                    carburant = :carburant, commussion = :commussion,autres = :autres, idDiplom =:idDiplom, idservice = :idservice, 
-                   idParentel = :idParentel, idPO = :idPO,idRecrutement = :idRecrutement, idlangue = :idlangue, contrat = :contrat WHERE idSalarie = :idSalarie');
+                   idParentel = :idParentel, idPO = :idPO,idRecrutement = :idRecrutement, idlangue = :idlangue, contrat = :contrat, password = :password, profil = :profil WHERE idSalarie = :idSalarie');
         $req->execute(array(
             'prenom' => $prenom,
             'nom' => $nom,
@@ -95,7 +98,9 @@ if (isset($_POST['valider']))
             'idRecrutement' => $idRecrutement,
             'idlangue' => $idlangue,
             'idSalarie' => $idSalarie,
-            'contrat' => $contrat
+            'contrat' => $contrat,
+            'password' => $password,
+            'profil' => $profil
         ));
 
 

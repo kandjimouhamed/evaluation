@@ -31,6 +31,8 @@ if (isset($_GET['idSalarie']))
            $idRecrutement = $donnees['idRecrutement'];
            $idLangue = $donnees['idlangue'];
            $contrat = $donnees['contrat'];
+           $password = $donnees['password'];
+           $profil = $donnees['profil'];
 
            
 
@@ -56,6 +58,8 @@ if (isset($_GET['idSalarie']))
         $vehicule  = "";
         $autres = "";
         $contrat = "";
+        $password = "";
+        $profil = "";
     }
 }
 else
@@ -78,6 +82,8 @@ else
     $vehicule  = "";
     $autres = "";
     $contrat = "";
+    $password = "";
+     $profil = "";
 }
 
 $parentel = $bdd->query('SELECT * FROM parentel ');
@@ -86,17 +92,31 @@ $service = $bdd->query('SELECT * FROM service ');
 $diplom = $bdd->query('SELECT * FROM diplom ');
 $recrutement = $bdd->query('SELECT * FROM recrutement ');
 $langue = $bdd->query('SELECT * FROM langue ');
+$salarie = $bdd->query('SELECT * FROM salarie ');
+$critere = $bdd->query('SELECT * FROM coefs ');
+$description = $bdd->query('SELECT * FROM descriptionlangue ORDER BY libelle ASC');
+
+$reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LIMIT 1');
+            
+        $donnees = $reponse->fetch();
+
+        // $ids= ( $donnees['idSalarie'])+1;
+        if ($donnees['idSalarie'] = 0) {
+            $ids = 0;
+        }else{
+            $ids= ( $donnees['idSalarie']);
+        }
+        
 
 ?>
-<header>
-</header>
+   
 <br>
-<div class="container">
-    <br><br>
-    <div id="content-header">
-        <div id="breadcrumb"> <a href="index.php" title="Retour" class="tip-bottom"><i class="icon-home"></i> Accueil</a> <a href="salarie.php" class="current">Salaries</a> <a href="#"><i class="icon-edit"></i>Saisie Salarie</a> </div>
-        <!--h1>Gestion des services</h1-->
-    </div>
+<div class="container ">
+        <br><br>
+        <div id="content-header">
+            <div id="breadcrumb"> <a href="index.php" title="Retour" class="tip-bottom"><i class="icon-home"></i> Accueil</a> <a href="salarie.php" class="current">Salaries</a> <a href="#"><i class="icon-edit"></i>Saisie Salarie</a> </div>
+            <!--h1>Gestion des services</h1-->
+        </div>
     <?php if ((isset($_GET['message'])) && (trim($_GET['message'])=='ok')){?>
         <div class="alert alert-success alert-block"> <a class="close" data-dismiss="alert" href="#">X</a>
             <h4 class="alert-heading">Succes!</h4>
@@ -106,7 +126,7 @@ $langue = $bdd->query('SELECT * FROM langue ');
         <div class="alert alert-error alert-block"> <a class="close" data-dismiss="alert" href="#">x</a>
             <h4 class="alert-heading">Error!</h4>
             <?php echo $_GET['message']; ?></div> <?php } ?>
-    <div class="container-fluid">
+<div class="container-fluid" style="margin-top: 0;">
     <div class="row-fluid">
         <div class="span12">
             <div class="widget-box">
@@ -116,72 +136,109 @@ $langue = $bdd->query('SELECT * FROM langue ');
                 </div>
                 <div class="w3-container w3-white">
                     <div class="w3-row-padding">
+<br>
+          <div>
+            
+            <ul class="tabs">
+                <li class="active"><a href="#homme">Salarie</a></li>
+                <li><a href="#mentions">Langues</a></li>
+                <li><a href="#about">Diploms</a></li>
+                <li><a href="ajoutObjectif.php">Objectif</a></li>
+                <li><a href="#critere">Critere d'evaluation</a></li>
+            </ul>
+            <form action="action_AjoutSalarie.php"  method="post">
+                <!-- le corp -->
 
-                        <form class="form-horizontal" method="post" action="action_AjoutSalarie.php" name="basic_validate" id="basic_validate">
-                            <div class="page">
+             <div class="tabs-containt">
+                    <!-- div1 -->
+                  <br>
+                <div id="homme" class="tab-containt active"> 
+                  <!-- page 1 -->
+                  <div class="page city" id="London">
                             <div class="row">
                                 <div class="col-md-6">
-                                <label>Prenom</label>
-                                <input type="text" class="w3-input w3-border" name="prenom" id="prenom" value = "<?php echo $prenom; ?> " required >
-                                <input type="hidden" name="idSalarie" value = "<?php echo $idSalarie; ?>">
-                              
-                                <label>Nom</label>
-                                <input type="text" class="w3-input w3-border" name="nom" id="nom" value = "<?php echo $nom; ?>" required>
-                                <input type="hidden" name="idSalarie" value = "<?php echo $idSalarie; ?>">
-                               
-                                <label>Fonction Actuelle</label>
-                                <input type="text" class="w3-input w3-border" name="fonctionActuelle" id="fonctionActuelle" value = "<?php echo $fonctionActuelle; ?>" required>
-                                <input type="hidden" name="idSalarie" value = "<?php echo $idSalarie; ?>">
-
-                          
-                                <label>Ancienete dans la Fonction</label>
-                                <input type="text" class="w3-input w3-border" name="ancieneteFonc" id="ancieneteFonc" value = "<?php echo $ancieneteFonc; ?>" required>
-                                <input type="hidden" name="idSalarie" value = "<?php echo $idSalarie; ?>">
-                               
-                            <br>
-                                <div >
-                                <label>Situation Fammilialle</label>      
-                                 <select name="situationFam" id="situationFam"  style="width:100%;" size="1" value = "<?php echo $situationFam; ?>"  class="mt-3 w3-input w3-border form-group" size="1" required>
-                                           
-                                            <option value="marie"> Marie(e) </option>
-                                            <option value="calibataire"> Celibataire</option>
-                                           
-                                        </select>
+                                    <div class="row">
+                                       
+                                             <div class="col-md-4">
+                                       Prenom
+                                        </div>
+                                        <div class="col-md-8">
+                                        <input type="text" class="w3-input w3-border" name="prenom" id="prenom" value = "<?php echo $prenom; ?> " required >
                                         <input type="hidden" name="idSalarie" value = "<?php echo $idSalarie; ?>">
-                               
-
-
-                                </div>
-                                </div>
+                                        </div>
+                                    </div>
+                               <br>
+                                    <div class="row">
+                                   <div class="col-md-4">Nom</div>
+                                   <div class="col-md-8">
+                                   <input type="text" class="w3-input w3-border" name="nom" id="nom" value = "<?php echo $nom; ?>" required>
+                                <input type="hidden" name="idSalarie" value = "<?php echo $idSalarie; ?>">
+                                   </div>
+                               </div> 
+                               <br> 
+                               <div class="row">
+                                   <div class="col-md-4" style="margin-top: 10px;">Fonction Actuelle</div>
+                                   <div class="col-md-8">
+                                   <input type="text" class="w3-input w3-border" name="fonctionActuelle" id="fonctionActuelle" value = "<?php echo $fonctionActuelle; ?>" required>
+                                         <input type="hidden" name="idSalarie" value = "<?php echo $idSalarie; ?>">
+                                   </div>
+                               </div> 
+                               <br>
+                               <div class="row">
+                                   <div class="col-md-4">Ancienete dans la Fonction</div>
+                                   <div class="col-md-8">
+                                   <input type="text" class="w3-input w3-border" name="ancieneteFonc" id="ancieneteFonc" value = "<?php echo $ancieneteFonc; ?>" required>
+                                <input type="hidden" name="idSalarie" value = "<?php echo $idSalarie; ?>">
+                                   </div>
+                               </div> 
+                               <br>
+                               <div class="row">
+                                   <div class="col-md-4" style="margin-top: 10px;">Situation Fammilialle</div>
+                                   <div class="col-md-8">
+                                   <select name="situationFam" id="situationFam"  style="width:100%;" size="1" value = "<?php echo $situationFam; ?>"  class="mt-3 w3-input w3-border form-group" size="1" required>
+                                           
+                                           <option value="marie"> Marie(e) </option>
+                                           <option value="calibataire"> Celibataire</option>
+                                          
+                                       </select>
+                                       <input type="hidden" name="idSalarie" value = "<?php echo $idSalarie; ?>">
+                                   </div>
+                               </div> 
+                             </div>
+                       
                                 
                                 <div class="col-md-6">
-                              <div>
-                                <label>Telephone</label>
-                                <br>      
-                                 <select name="telephone" id="telephone"  style="width:100%;" size="1" value = "<?php echo $telephone; ?>"  class="w3-select w3-border" size="1" required>
+                                <div class="row">
+                                   <div class="col-md-4">Telephone</div>
+                                   <div class="col-md-8">
+                                   <select name="telephone" id="telephone"  style="width:100%;" size="1" value = "<?php echo $telephone; ?>"  class="w3-select w3-border" size="1" required>
                                           
-                                            <option value="1"> OUI </option>
-                                            <option value="0"> NON </option>
-                                           
-                                        </select>
-                                        <input type="hidden" name="idSalarie" value = "<?php echo $idSalarie; ?>">
-                                        </div>
-                                        <br>
-                         <div>
-                                <label>carburant</label>      
-                                 <select name="carburant" id="carburant"  style="width:100%; height:100px;" size="1" value = "<?php echo $carburant; ?>"  class="mt-3 w3-select w3-border" size="1" required>
-                                          
-                                            <option value="1"> OUI </option>
-                                            <option value="0"> NON </option>
-                                           
-                                        </select>
-                                        <input type="hidden" name="idSalarie" value = "<?php echo $idSalarie; ?>">
-                                        </div>
+                                          <option value="1"> OUI </option>
+                                          <option value="0"> NON </option>
+                                         
+                                      </select>
+                                      <input type="hidden" name="idSalarie" value = "<?php echo $idSalarie; ?>">
+                                   </div>
+                                  
+                               </div>
                                <br>
-                            
-                                        
-                                        <div>
-                                <label>commussion</label>      
+                                <div class="row">
+                                    <br>
+                                   <div class="col-md-4" style="margin-top: 10px;">Carburant</div>
+                                   <div class="col-md-8">
+                                   <select name="carburant" id="carburant"  style="width:100%;" size="1" value = "<?php echo $carburant; ?>"  class="mt-3 w3-select w3-border" size="1" required>
+                                          <option value="1"> OUI </option>
+                                          <option value="0"> NON </option>                                       
+                                      </select>                                    
+                                      <input type="hidden" name="idSalarie" value = "<?php echo $idSalarie; ?>">                                    
+                                   </div>
+                               </div>
+                       
+                               <br>         
+                                 <div class="row">
+                                 <div class="col-md-4">Commussion</div>
+                                 <div class="col-md-8">
+                                  
                                  <select name="commussion" id="commussion"  style="width:100%;" size="1" value = "<?php echo $commussion; ?>"  class="w3-select w3-border" size="1" required>
                                            
                                                <option value="1"> OUI </option>
@@ -190,9 +247,12 @@ $langue = $bdd->query('SELECT * FROM langue ');
                                         </select>
                                         <input type="hidden" name="idSalarie" value = "<?php echo $idSalarie; ?>">
                                      </div>
-                                <br/>
-                                
-                                <label>vehicule</label>      
+                                 </div>
+                                <br>
+                                <div class="row">
+                                 <div class="col-md-4">Vehicule</div>
+                                 <div class="col-md-8">
+                            
                                  <select name="vehicule" id="vehicule"  style="width:100%;" size="1" value = "<?php echo $vehicule; ?>"  class="w3-select w3-border" size="1" required>
                                        
                                             <option value="1"> OUI </option>
@@ -200,90 +260,62 @@ $langue = $bdd->query('SELECT * FROM langue ');
                                            
                                         </select>
                                         <input type="hidden" name="idSalarie" value = "<?php echo $idSalarie; ?>">
+                                 </div>
+                                </div>
+                                
                                 <br/>
-                                <label>Autres</label>
+                                <div class="row">
+                                 <div class="col-md-4">Autres</div>
+                                 <div class="col-md-8">
+                               
                                 <input type="text" class="w3-input w3-border" name="autres" id="autres" value = "<?php echo $autres; ?>" required>
                                 <input type="hidden" name="idSalarie" value = "<?php echo $idSalarie; ?>">
                                 <br/>
+                                 </div>
+                                </div>
                                 </div>
                             </div>
-
-                            <div class="row">
                         
-                                <div class="col-md-6">
-                                    <label>Date de Naissance</label>
-                                    <input type="date" class="w3-input w3-border" name="dateNaiss" id="dateNaiss" value = "<?php echo $dateNaiss; ?>" required>
-                                    <input type="hidden" name="idSalarie" value = "<?php echo $idSalarie; ?>">
-                                    <br/>
-
-                                </div>
-                                <div class="col-md-6">
-                                        <label>type de Contrat</label>
-                                        <select name="contrat" id="contrat"  style="width:100%;" size="1"  class="w3-select w3-border" size="1"  value = "<?php echo $contrat; ?>" required>
-                                         
-                                            <option value="cdd"> C D D </option>
-                                            <option value="cdi"> C D I </option>
-                                           
-                                        </select>
-                                         
-                                </div>
-                            </div>
                                 <button class="w12-bar-item w3-button w3-light-grey suivant" style="width:100%;" type="button">Suivant</button>
                             </div>
 
+                            <!-- fin de la page 1 --> 
+                            <!-- debut page 2 -->
                             <div class="page">
                                 <div class="row">
-                                    <div class="col-md-2"></div>
-                                    <div class="col-md-8">
-                                        <label>Nom du diplom</label>
-                                        <select name="idDiplom" id="idDiplom" style="width:100%;" size="1"  class="w3-select w3-border" size="1" required>
-                                            <option>  </option>
-                                            <?php
-                                            while ($donnees = $diplom->fetch()) {
-                                                {
-                                                    echo '<option value="' . $donnees['idDiplom'] . '" selected>' . $donnees['libelle'] . '</option>';
-                                                }
-                                            }
-                                            ?>
-                                        </select>
-                                        <br/>  <br/>
-
-                                        <label>Nom du Service</label>
-                                        <select name="idservice"  style="width:100%;" id="idservice" size="1" class="w3-select w3-border" size="1" required>
-                                            <option>  </option>
-                                            <?php
-                                            while ($donnees = $service->fetch()) {
-                                              if($donnees ['ID'] == $idservice) 
-                                               {
-                                                    echo '<option value="' . $donnees['ID'] . '" selected>' . $donnees['NOM_SERVICE'] . '</option>';
-                                                }else{
-                                                    echo '<option value="' . $donnees['ID'] . '">' . $donnees['NOM_SERVICE'] . '</option>';
-                                                }
-                                            }
-                                            ?>
-                                        </select>
-                                        <br/> <br/>
-                                        <label>le Parentelle</label>
-
-                                        <select name="idParentel"  style="width:100%;" id="idParentel" size="1"  class="w3-select w3-border" size="1" required>
-                                            <option>  </option>
-                                            <?php
-                                            while ($donnees = $parentel->fetch()) {
-                                                if($donnees ['idParentel'] == $idParentel) 
-                                                
-                                                {
-                                                    echo '<option value="' . $donnees['idParentel'] . '" selected>' . $donnees['libelle'] . '</option>';
-                                                }
-                                                else
-                                                {
-                                                    echo '<option value="' . $donnees['idParentel'] . '">' . $donnees['libelle'] . '</option>';
-                                                }
-                                            }
-                                            ?>
-                                        </select>
-
-                                        <br/> <br/>
-                                        <label>Poste Ocupee</label>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                            type de Contrat  
+                                            </div>
+                                            <div class="col-md-8">
+                                            <select name="contrat" id="contrat"  style="width:100%;" size="1"  class="w3-select w3-border" size="1"  value = "<?php echo $contrat; ?>" required>
+                                         
+                                         <option value="cdd"> C D D </option>
+                                         <option value="cdi"> C D I </option>
+                                        
+                                     </select>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                            Date de Naissance
+                                            </div>
+                                            <div class="col-md-8">
+                                           
+                                                <input type="date" class="w3-input w3-border" name="dateNaiss" id="dateNaiss" value = "<?php echo $dateNaiss; ?>" required>
+                                                <input type="hidden" name="idSalarie" value = "<?php echo $idSalarie; ?>">
+                                               
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                            Poste Ocupee
+                                            </div>
+                                            <div class="col-md-8">
+                                       
                                         <select name="idPO" id="idPO"  style="width:100%;" size="1" class="w3-select w3-border" size="1" required>
                                             <option>  </option>
                                             <?php
@@ -299,9 +331,72 @@ $langue = $bdd->query('SELECT * FROM langue ');
                                             }
                                             ?>
                                         </select>
-                                        <br/> <br/>
-
-                                        <label>Type de recrutment</label>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-md-4">Password</div>
+                                            <div class="col-md-8">
+                                            <input type="password" class="w3-input w3-border" name="password" id="password" style="width:100%;height:28px;"/>
+                                            </div>
+                                        </div> <br>
+                                        <div class="row">
+                                            <div class="col-md-4">Confirmer password</div>
+                                            <div class="col-md-8">
+                                            <input type="password" class="w3-input w3-border" name="pwd2" id="pwd2" style="width:100%;height:28px;"/>
+                                            </div>
+                                        </div> 
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-4">Le Parente</div>
+                                            <div class="col-md-8">
+                                            <select name="idParentel"  style="width:100%;" id="idParentel" size="1"  class="w3-select w3-border" size="1" required>
+                                                <option>  </option>
+                                                <?php
+                                                while ($donnees = $parentel->fetch()) {
+                                                    if($donnees ['idParentel'] == $idParentel) 
+                                                    
+                                                    {
+                                                        echo '<option value="' . $donnees['idParentel'] . '" selected>' . $donnees['libelle'] . '</option>';
+                                                    }
+                                                    else
+                                                    {
+                                                        echo '<option value="' . $donnees['idParentel'] . '">' . $donnees['libelle'] . '</option>';
+                                                    }
+                                                }
+                                                ?>
+                                            </select>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-md-4">Service</div>
+                                            <div class="col-md-8">
+                                          
+                                                 <select name="idservice"  style="width:100%;" id="idservice" size="1" class="w3-select w3-border" size="1" required>
+                                            <option>  </option>
+                                             <?php
+                                              while ($donnees = $service->fetch()) {
+                                                $req = $bdd->prepare('SELECT filialenom FROM filiale WHERE   filialecode = ?');
+                                                $req->execute(array($donnees['idFiliale']));
+                                                $nomFiliale =  $req->fetchColumn();
+                                              if($donnees ['ID'] == $idservice) 
+                                               {
+                                                    echo '<option value="' . $donnees['ID'] . '" selected>' . $donnees['NOM_SERVICE'] . ' / ' . $nomFiliale . '</option>';
+                                                }else{
+                                                    echo '<option value="' . $donnees['ID'] . '">' . $donnees['NOM_SERVICE'] . '  / ' . $nomFiliale . '</option>';
+                                                }
+                                            }
+                                            ?>
+                                            </select>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-md-4">Type de recrutment</div>
+                                            <div class="col-md-8">
+                                           
                                         <select name="idRecrutement"  style="width:100%;" id="idRecrutement" size="1"  class="w3-select w3-border" size="1" required>
                                             <option>  </option>
                                             <?php
@@ -317,49 +412,202 @@ $langue = $bdd->query('SELECT * FROM langue ');
                                             }
                                             ?>
                                         </select>
-                                        <br/>  <br/>
-
-
-                                        <div class="form-group">
-                                        <label>Langue</label>
-                                        <select name="idlangue" id="idlangue"  style="width:100%;" size="1"  class="w3-select w3-border" size="1" required>
-                                            <option>  </option>
-                                            <?php
-                                            while ($donnees = $langue->fetch()) {
-                                                if($donnees ['idLangue'] == $idLangue) 
-                                                {
-                                                    echo '<option value="' . $donnees['idLangue'] . '" selected>' . $donnees['libelle'] . '</option>';
-                                                }
-                                                else
-                                                {
-                                                    echo '<option value="' . $donnees['idLangue'] . '">' . $donnees['libelle'] . '</option>';
-                                                }
-                                            }
-                                            ?>
-                                        </select>
-                                         </div>
+                                            </div>
+                                        </div> 
+                                       <br><br>
+                                        <div class="row">
+                                            <div class="col-md-4">Profil</div>
+                                            <div class="col-md-8">
+                                            <select name="profil" id="profil" style="width:100%;" id="idRecrutement" size="1"  class="w3-select w3-border" size="1" required>
+										 <option value="2">Utilisateur</option>
+										 <option value="1">Administrateur</option>
+										 <option value="3">Mamageur</option>
+                                   </select>                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-md-2"></div>
-
                                 </div>
-                                <button name="valider" type="button"  class="w3-bar-item w3-button w3-light-grey precedent" style="width:48%;">Precedent</button>
+                                <button  type="button"  class="w3-bar-item w3-button w3-light-grey precedent" style="width:48%;">Precedent</button>
                                 <button name="valider" type="submit"  class="w3-bar-item w3-button w3-light-grey" style="width:48%;">Valider</button><br/><br/>
                                 
                             </div>
-                    </div>
+                       </div>
+               
+        </form> 
+                 <!-- fin div1 -->
+                  <!-- div2 -->
+                <form method="post" id="repeater_form" action="actionAjoutLangue.php" class="form-horizontal" name="basic_validate" id="basic_validate">
+                         <div id="mentions"  class="tab-containt"> 
+                           <div class="item-content">
+                                    <div class="form-group">
+                                        <div class="row">
+                                        <div class="col-md-9">
+                                           <label>Select un langage</label>
+                                                <select class="form-control"  name="libelle"style="width:100%;" id="libelle" size="1" class="w3-select w3-border" size="1" required>
+                                            <option value="francais">  RFANCAIS</option>
+                                            <option value="anglais">  ANGLAIS</option>
+                                            <option value="arabe">  ARABE</option>
+                                            
+                                           </select>
+                                               
+                                                </div> </div> </div> </div>
 
+                                                <div id="repeater">
+                           
+                          
+                           <div class="clearfix"></div>
+                           <div class="items" data-group="programming_languages">
+                               <div class="item-content">
+                                   <div class="form-group">
+                                       <div class="row">
+                                       <div class="col-md-9 form-check" >
+                                       <input type="hidden" name="idSalarie" value = "<?php echo $ids; ?>">
 
+                                          <label>Selectionner la description</label>
+                                        
+                                          <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="description[]" value="lire" id="flexCheckDefault">
+                                                    <label class="form-check-label" for="flexCheckDefault">
+                                                       LIRE
+                                                    </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="description[]" value="parler" id="flexCheckChecked" checked>
+                                                    <label class="form-check-label" for="flexCheckChecked">
+                                                      PARLER
+                                                    </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="description[]" value="ecrire" id="flexCheckChecked" checked>
+                                                    <label class="form-check-label" for="flexCheckChecked">
+                                                       ECRIRE
+                                                    </label>
+                                                    </div>
+                                                                                                    
+                                        </div>
+                                          
+                                         </div>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+     
+                           <div class="clearfix"></div>
+                       <div class="form-group" align="center">
+                      <br /><br />
+                           <input type="submit" name="valider" class="btn btn-success" value="insert" />
+                       </div>
 
-                            <!--button name="" type="submit"  class="w3-bar-item w3-button w3-light-grey" style="width:49%;" name="retour" value="Retour" onclick="location.href='commandempr.php'" >Annuler</button-->
-
-                        </form>
-                    </div>
+                                    
+                         
                 </div>
-            </div>
-        </div>
-        </div>
+               
+                </form> 
+               
+                   <!-- fin div2 -->
+                  <!-- div3 -->
+                <div id="about" class="tab-containt"> 
+                    <form method="post" id="repeater_form" action="actionDiplomSalarie.php" class="form-horizontal" name="basic_validate" id="basic_validate">
+
+                  
+                    <div class="item-content">
+                       
+                        <div class="row " >
+                        <div class="col-md-2"></div>
+                        <div class="col-md-2"> <label>Select un langage</label></div> 
+                        <div class="col-md-6">
+                        <div class="form-group">
+                                <select class="form-control"  name="idDiplom"style="width:100%; font-size: 13px; " id="idDiplom" size="1" class="w3-select w3-border" size="1" required>
+                                <option>  </option>
+                                            <?php
+                                            while ($donnees = $diplom->fetch()) {
+                                              if($donnees ['idDiplom'] == $idSalarie) 
+                                               {
+                                                    echo '<option value="' . $donnees['idDiplom'] . '" selected>' . $donnees['libelle'] . '</option>';
+                                                }else{
+                                                    echo '<option value="' . $donnees['idDiplom'] . '">' . $donnees['libelle'] . '</option>';
+                                                }
+                                            }
+                                            ?>
+                            
+                            </select>
+                                
+                           </div> </div> </div> 
+                           <input type="hidden" name="idSalarie" value = "<?php echo $ids; ?>">
+                           <div class="row">
+                             <div class="col-md-2"></div>
+                                <div class="col-md-2"> <label>Type diplom</label></div> 
+                                <div class="col-md-6">
+                                <input type="text" class="w3-input w3-border" name="libelle" id="libelle" value = ""  required >
+                                
+                                 </div>
+                           </div> 
+                           <br>
+                           <div class="row">
+                             <div class="col-md-2"></div>
+                                <div class="col-md-2"> <label>L'ecole</label></div> 
+                                <div class="col-md-6">
+                                <input type="text" class="w3-input w3-border" name="ecole" id="ecole" value = " " required >
+                                
+                                 </div>
+                           </div>
+                        </div>
+                        <div class="clearfix"></div>
+                       <div class="form-group" align="center">
+                      <br /><br />
+                           <input type="submit" name="valider" class="btn btn-success redrecrtion" value="insert" />
+                       </div>
+                    </form>
+                 </div>   <!-- fin div3 -->
+                  <!-- div4 -->
+                   <!-- fin div4 -->
+                
+          
+                <!-- fin de corp -->
+                <div id="critere" class="tab-containt"> 
+                    <form action="actionAjoutCritere.php" method="post">
+                        
+                                        <input type="hidden" name="idSalarie" value = "<?php echo $ids; ?>">
+                                         
+                       
+                                           <div class="row">
+                                                <div class="col-md-4"> </div>
+                                                    <div class="col-md-8">Selectionner les Criteres d'Evaluation</div>
+                                           </div>
+                                           <br>
+                                           
+                                            <?php
+                                            while ($libelles = $critere->fetch()) {
+                                                ?>
+                                               
+                                                <div class="form-check">
+                                                <div class="row">
+                                                <div class="col-md-2"> </div>
+                                                    <div class="col-md-2">  <input  class="form-check-input" type="checkbox" name="idCoef[]" value="<?=$libelles['id']?>" id="flexCheckDefault"></div>
+                                                    
+                                                  <div class="col-md-8"> <label for="" class="fomr-check-label" ><?=$libelles['libelle']?></label></div>
+                                                 
+                                                </div> 
+                                                </div>
+                                                 
+                                              
+                                                <?php }
+                                            ?>
+                       <input type="submit" name="valider" class="btn btn-success" value="insert" />
+                   
+        
+                    </form>
+                    
+                </div>
+           
+        </div> </div> </div> </div> </div> </div>
     </div>
-</div>
+    
+<?php
+if(isset($_GET['actionsalarie'])){
+    echo '<script type="text/javascript">openCity(event,\'Paris\');</script>';
+}
+
+?>
 <div class="row-fluid">
     <div id="footer" class="span12"> 2019 &copy;  <a href="#">CCBM TECHNOLOGIES ET SOLUTIONS</a> </div>
 </div>
@@ -374,6 +622,55 @@ $langue = $bdd->query('SELECT * FROM langue ');
 <script src="js/maruti.tables.js"></script>
 <script src="js/maruti.form_validation.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<script src="js/onglet.js"></script>
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+
+<script>
+	
+        const onglets = document.querySelectorAll('.onglets');
+const contenu = document.querySelectorAll('.contenu')
+let index = 0;
+
+onglets.forEach(onglet => {
+
+    onglet.addEventListener('click', () => {
+
+        if(onglet.classList.contains('active')){
+            return;
+        } else {
+            onglet.classList.add('active');
+        }
+
+        index = onglet.getAttribute('data-anim');
+        console.log(index);
+        
+        for(i = 0; i < onglets.length; i++) {
+
+            if(onglets[i].getAttribute('data-anim') != index) {
+                onglets[i].classList.remove('active');
+            }
+
+        }
+
+        for(j = 0; j < contenu.length; j++){
+
+            if(contenu[j].getAttribute('data-anim') == index) {
+                contenu[j].classList.add('activeContenu');
+            } else {
+                contenu[j].classList.remove('activeContenu');
+            }
+            
+
+        }
+
+
+    })
+
+})
+   
+		</script>
+
 
 </body>
 </html>

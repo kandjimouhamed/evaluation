@@ -1,21 +1,21 @@
 <?php
 include('header.php');
 
-if (isset($_GET['idLangue']))
+if (isset($_GET['id']))
 {
-    $idLangue = trim($_GET['idLangue']);
+    $id = trim($_GET['id']);
 
     if (trim($_GET['action']) == 'edit')
     {
 
-        $req = $bdd->prepare('SELECT *  FROM langue WHERE idLangue = ?');
-        $req->execute(array($idLangue));
+        $req = $bdd->prepare('SELECT *  FROM coefs WHERE id = ?');
+        $req->execute(array($id));
 
 
         while ($donnees = $req->fetch())
         {
             $libelle = $donnees['libelle'];
-            $description = $donnees['description'];
+          
 
 
 
@@ -23,25 +23,25 @@ if (isset($_GET['idLangue']))
     }
     else
     {
-        $idLangue = -1;
+        $id= -1;
         $libelle = "";
-        $description = "";
+        
     }
 }
 else
 {
-    $idLangue = -1;
+    $id= -1;
     $libelle = "";
-    $description = "";
 }
 
-$langue = $bdd->query('SELECT * FROM langue ORDER BY libelle ASC');
-$description = $bdd->query('SELECT * FROM descriptionlangue ORDER BY libelle ASC');
+$salarie = $bdd->query('SELECT * FROM salarie ORDER BY nom ASC');
+$libelle = $bdd->query('SELECT * FROM coefs ');
+
 ?>
 
 <div id="content">
     <div id="content-header">
-        <div id="breadcrumb"> <a href="index.php" title="Retour" class="tip-bottom"><i class="icon-home"></i> Accueil</a> <a href="langue.php">langue</a> <a href="#" class="current"><i class="icon-edit"></i>Saisie Langue</a> </div>
+        <div id="breadcrumb"> <a href="index.php" title="Retour" class="tip-bottom"><i class="icon-home"></i> Accueil</a> <a href="critere.php">Critere d'Evaluation</a> <a href="#" class="current"><i class="icon-edit"></i>Saisie Critere d'Evaluation </a> </div>
         <!--h1>Gestion des langues</h1-->
     </div>
     <?php if ((isset($_GET['message'])) && (trim($_GET['message'])=='ok')){?>
@@ -60,7 +60,7 @@ $description = $bdd->query('SELECT * FROM descriptionlangue ORDER BY libelle ASC
             <div class="span12">
                 <div class="widget-box">
                     <div class="widget-title">
-                        <span class="icon"><i class="icon-th"></i>Ajouter langue</span>
+                        <span class="icon"><i class="icon-th"></i>Ajouter Critere d'Evaluation</span>
 
                     </div>
                     <div class="w3-container w3-white"style="width:100%; max-width: 600px; margin:0 auto;" >
@@ -72,16 +72,16 @@ $description = $bdd->query('SELECT * FROM descriptionlangue ORDER BY libelle ASC
                                     <div class="form-group">
                                         <div class="row">
                                         <div class="col-md-9">
-                                           <label>Select un langage</label>
-                                                <select class="form-control" data-skip-name="true" data-name="description[]"style="width:100%;" id="idSalarie" size="1" class="w3-select w3-border" size="1" required>
+                                           <label>Selectionner une Critere d'Evaluation</label>
+                                                <select class="form-control" data-skip-name="true" name="idSalarie"style="width:100%;" id="idSalarie" size="1" class="w3-select w3-border" size="1" required>
                                             <option>  </option>
                                             <?php
-                                            while ($langues = $langue->fetch()) {
-                                              if($langues ['id'] == $id) 
+                                            while ($salaries = $salarie->fetch()) {
+                                              if($salaries ['idSalarie'] == $idSalarie) 
                                                { 
-                                                    echo '<option value="' . $langues['id'] . '" selected>' . $langues['libelle'] . '</option>';
+                                                    echo '<option value="' . $salaries['idSalarie'] . '" selected>' . $salaries['prenom'] . '' . $salaries['nom'] . '</option>';
                                                 }else{
-                                                    echo '<option value="' . $langues['id'] . '">' . $langues['libelle'] . ' </option>';
+                                                    echo '<option value="' . $salaries['idSalarie'] . '">' . $salaries['prenom'] . ' ' . $salaries['nom'] . '</option>';
                                                 }
                                             }
                                             ?>
@@ -105,16 +105,16 @@ $description = $bdd->query('SELECT * FROM descriptionlangue ORDER BY libelle ASC
                                     <div class="form-group">
                                         <div class="row">
                                         <div class="col-md-9">
-                                           <label>Select les description des langage</label>
-                                                <select class="form-control" data-skip-name="true" data-name="description[]"style="width:100%;" id="idSalarie" size="1" class="w3-select w3-border" size="1" required>
+                                           <label>Selectionner une Critere d'Evaluation</label>
+                                                <select class="form-control" data-skip-name="true" data-name="libelle[]"style="width:100%;" id="idSalarie" size="1" class="w3-select w3-border" size="1" required>
                                             <option>  </option>
                                             <?php
-                                            while ($descriptions = $description->fetch()) {
-                                              if($descriptions ['id'] == $id) 
+                                            while ($libelles = $libelle->fetch()) {
+                                              if($libelles ['id'] == $id) 
                                                { 
-                                                    echo '<option value="' . $descriptions['id'] . '" selected>' . $descriptions['libelle'] . '</option>';
+                                                    echo '<option value="' . $libelles['id'] . '" selected>' . $libelles['libelle'] . '</option>';
                                                 }else{
-                                                    echo '<option value="' . $descriptions['id'] . '">' . $descriptions['libelle'] . ' </option>';
+                                                    echo '<option value="' . $libelles['id'] . '">' . $libelles['libelle'] . ' </option>';
                                                 }
                                             }
                                             ?>

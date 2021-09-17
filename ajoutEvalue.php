@@ -10,8 +10,6 @@ if (isset($_GET['id']))
 
         $req = $bdd->prepare('SELECT *  FROM salarie WHERE id = ?');
         $req->execute(array($id));
-
-
         while ($donnees = $req->fetch())
         {
             $idSalarie = $donnees['idSalarie'];
@@ -73,19 +71,19 @@ $salarie = $bdd->query('SELECT * FROM salarie ');
                         
                                         <br/>  <br/>
                                         <label>Le salarie</label>
-                                        <select name="idSalarie"  style="width:100%;" id="idSalarie" size="1" class="w3-select w3-border" size="1" required>
+                                        <select name="idSalarie[]"  style="width:100%;" id="idSalarie" size="1" class="w3-select w3-border" size="1" required>
                                             <option>  </option>
                                             <?php
                                             while ($donnees = $salarie->fetch()) {
                                               if($donnees ['idSalarie'] == $idSalarie) 
-                                               {
-                                                    echo '<option value="' . $donnees['idSalarie'] . '" selected>' . $donnees['nom'] . '</option>';
+                                               { 
+                                                    echo '<option value="' . $donnees['idSalarie'] . '" selected>' . $donnees['nom'] . ' ' . $donnees['prenom'] . '</option>';
                                                 }else{
-                                                    echo '<option value="' . $donnees['idSalarie'] . '">' . $donnees['nom'] . '</option>';
+                                                    echo '<option value="' . $donnees['idSalarie'] . '">' . $donnees['nom'] . ' ' . $donnees['prenom'] . '</option>';
                                                 }
                                             }
                                             ?>
-                                             <input type="hidden" name="id" value = "<?php echo $id; ?>">
+                                           
                                         </select>
                                         <br/> <br/>
                                             <table class="table table-boorded">
@@ -95,35 +93,26 @@ $salarie = $bdd->query('SELECT * FROM salarie ');
                                                 <th>Notes Obtenues (de 1 a 5)</th>
                                                 <th>Total</th>
                                             </thead>
-                                           
-
-                                            <tbody>
+                                           <tbody>
                                             <?php
                                             foreach($coef as  $vars){
-                                                ?>
-                                                <?php 
+                                               
                                                 echo '<tr>
-                                                <input type="hidden" name="idCoef" value = "'.$vars['id'].'">
-
-                                                <td  value="'.$vars['id'].'" >'.$vars['libelle'].'</td>
-                                                <td name="idCoef" value="'.$vars['id'].'"">'.$vars['coef'].'</td>
-                                                <input type="hidden" name="id" value = "<?php echo $id; ?>">
-                                               <td> <input class="w3-input w3-border " style="width:100px; height:20px" type="number" name="libelle"></td>
-                                                <input type="hidden" name="id" value = "<?php echo $id; ?>">
+                                                <td > <input type="hidden"  value="'.$vars['id'].'"">'.$vars['libelle'].' </td>
+                                                <td > <input type="hidden" name="idCoef[]" value="'.$vars['id'].'"">'.$vars['coef'].' </td>
+                                               
+                                                <td> <input type="number" name="libele[]" class="w3-input w3-border " style="width:100px; height:20px" ></td>
+                                               
                                                   </tr>';
-                                                  
-                                                  
+                                                 ' <input type="hidden" name="id" value = "<?php echo $id; ?>">';
                                             }
                                             ?>
-                                   
-                                   
-                        </tbody>
+                      </tbody>&nbsp;
                         </table>      
                         <br>
-                        <br>
-                                       
+                        <br>          
                                 <button name="valider" type="button"  class="w3-bar-item w3-button w3-light-grey precedent" style="width:48%;">Precedent</button>
-                                <button name="valider" type="submit"  class="w3-bar-item w3-button w3-light-grey" style="width:48%;">Valider</button><br/><br/>
+                                <button name="valider" type="submit"  id="submit" value="submit " class="w3-bar-item w3-button w3-light-grey" style="width:48%;">Valider</button><br/><br/>
                                 
           </form>                  
             </div>
@@ -147,6 +136,23 @@ $salarie = $bdd->query('SELECT * FROM salarie ');
 <script src="js/maruti.tables.js"></script>
 <script src="js/maruti.form_validation.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-
+<script>
+    $("#submit").click(function(){
+        console.log("ok");
+    var navid = [];
+    $('input[name="navid[]"]').each( function() {
+        navid.push(this.value);
+    });
+    var menuin = [];
+    $('input[name="menuin[]"]').each( function() {
+        menuin.push(this.value);
+    });
+    var menueng = [];
+    $('input[name="menueng[]"]').each( function() {
+        menueng.push(this.value);
+    });
+       
+});
+</script>
 </body>
 </html>

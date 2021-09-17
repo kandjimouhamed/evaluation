@@ -1,10 +1,11 @@
 <?php 
+session_start();
 ini_set('display_errors', '1');
 ini_set('error_reporting', E_ALL);
 include('config/connexion.php');
 include('config/functions.php');
 
-session_start();
+
 if(!isset($_SESSION['codeintervenant']))
 {
     header('location: login.php');
@@ -22,7 +23,7 @@ if(!isset($_SESSION['codeintervenant']))
 <link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
 <link rel="stylesheet" href="css/uniform.css" />
 <link rel="stylesheet" href="css/script.css" />
-
+<link rel="stylesheet" href="css/onglet.css">
     <!--link rel="stylesheet" href="css/select2.css" /-->
 <link rel="stylesheet" href="css/maruti-style.css" />
 <link rel="stylesheet" href="css/maruti-media.css" class="skin-color" />
@@ -76,7 +77,7 @@ legend {
 <!--top-Header-menu-->
 <div id="user-nav" class="navbar navbar-inverse">
   <ul class="nav">
-    <li class="" ><a title="" href="#"><i class="glyphicon glyphicon-user"></i> <span class="text"><?php echo $_SESSION['utilisateur'].'('.$_SESSION['filialenom'].')'; ?></span></a></li>
+    <li class="" ><a title="" href="#"><i class="glyphicon glyphicon-user"></i> <span class="text"><?php echo $_SESSION['prenom'].'  '.$_SESSION['nom'].'('.$_SESSION['filialenom'].')'; ?></span></a></li>
     
     <li class=""><a title="" href="logout.php"><i class=" glyphicon glyphicon-log-out "></i> <span class="text">Deconnexion</span></a></li>
   </ul>
@@ -87,6 +88,7 @@ legend {
 
 
      <?php  if ((isset($_SESSION['profil'])) && ($_SESSION['profil'] == 1)) {?>
+      <li class="active"><a href="tableaudebord.php"><i class="glyphicon glyphicon-dashboard"></i> <span>Tableau de bord</span></a> </li>
 
     <li class="submenu"> <a href="#"><i class="glyphicon glyphicon-cog"></i> <span>Administration</span> </a>
       <ul>
@@ -94,31 +96,35 @@ legend {
         <li><a href="direction.php">Direction</a></li>
         <li><a href="service.php">Service</a></li>
         <li><a href="intervenant.php">Compte</a></li>
-       
-        
       </ul>
+     
     </li>
-   <?php } ?>
+    <li class="submenu"> <a href="#"><i class="glyphicon glyphicon-wrench"></i> <span>Gestion</span> </a>
 
-
-
-        <?php  if ((isset($_SESSION['profil'])) && ($_SESSION['profil'] == 2)) {?>
-
-        <li class="submenu"> <a href="#"><i class="glyphicon glyphicon-cog"></i> <span>Administration</span> </a>
-            <ul>
+    <ul>
                 <li><a href="langue.php">langue</a></li>
                 <li><a href="Diploms.php">Diploms</a></li>
                 <li><a href="PosteOcupee.php">Postes Ocupees</a></li>
                 <li><a href="recrutement.php">Recrutement</a></li>
                 <li><a href="intervenant.php">Compte</a></li>
                 <li><a href="salarie.php">Salarie</a></li>
-                <li><a href="#">Entretien</a></li>
+                <li><a href="edit_dossier.php">teste</a></li>
                 <li><a href="coefs.php">Coefs</a></li>
                 <li><a href="evaluer.php">entretient</a></li>
+                <li><a href="objectif.php">Objectif</a></li>
 
 
             </ul>
-        </li>
+    </li>
+    
+    <? echo  $_SESSION['filialenom'];?>
+   <?php } ?>
+
+
+        <?php  if ((isset($_SESSION['profil'])) && ($_SESSION['profil'] == 2)) {?>
+
+        <li class="submenu"> <a href="#"><i class="glyphicon glyphicon-cog"></i> <span>Administration</span> </a>
+       
         <?php } ?>
   </ul>
 </div>

@@ -72,7 +72,7 @@ $reponse2 = $bdd->query('SELECT * FROM direction ORDER BY directionnom ASC');
 				<div class="w3-row-padding">
 				<form class="form-horizontal" method="post" action="action_AjouterService.php" name="basic_validate" id="basic_validate">
                                     <label>Filiale</label>
-                                     <select name="filialeservice" id="filialeservice" size="1" class="w3-select w3-border" required onchange="getDirections(this.value);">
+                                     <select name="idFiliale" id="idFiliale" size="1" class="w3-select w3-border" required onchange="getDirections(this.value);">
 										 <option>  </option>
                                     <?php 
                                      while ($donnees = $reponse1->fetch())
@@ -85,21 +85,8 @@ $reponse2 = $bdd->query('SELECT * FROM direction ORDER BY directionnom ASC');
                                      ?>
                                    </select>
 
-                           
-                                    <label>Direction</label>
 									 <div id="blocDirections">
-                                     <select name="direction" class="w3-select w3-border" size="1" required>
-										 <option>  </option>
-                                    <?php 
-                                     while ($donnees = $reponse2->fetch())
-                                     {
-                                         if ($donnees['directioncode'] == $direction)
-                                         {echo '<option value="'.$donnees['directioncode'].'" selected>'.$donnees['directionnom'].'</option>'; }
-                                         else
-                                         {echo '<option value="'.$donnees['directioncode'].'">'.$donnees['directionnom'].'</option>'; }
-                                     }
-                                     ?>
-                                   </select>
+                                    
                             </div>
                                         <label>Nom</label>
                                             <input type="text" class="w3-input w3-border" name="nomservice" id="nomservice" value = "<?php echo $nom; ?>" required>

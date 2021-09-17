@@ -2,8 +2,10 @@
 include('config/connexion.php');
 if (isset($_POST['valider']))
 {
+   
     $idPO = $_POST['idPO'];
     $libelle = $_POST['libelle'];
+  
 
 
     if ($idPO == -1)

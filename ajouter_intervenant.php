@@ -131,7 +131,7 @@ $reponse1 = $bdd->query('SELECT * FROM filiale ORDER BY filialesigle ASC');
                                         <label>Utilisateur</label>																																		
                                             <input type="text" class="w3-input w3-border" name="utilisateur" id="utilisateur" value = "<?php echo $utilisateur; ?>" style="width:100%;height:28px;">
 											<label>Password</label>
-												<input type="password" class="w3-input w3-border" name="pwd" id="pwd" style="width:100%;height:28px;"/ >
+												<input type="password" class="w3-input w3-border" name="pwd" id="pwd" style="width:100%;height:28px;"/>
 											<label>Confirmer password</label>
 												<input type="password" class="w3-input w3-border" name="pwd2" id="pwd2" style="width:100%;height:28px;"/>
 									</div>
@@ -140,6 +140,7 @@ $reponse1 = $bdd->query('SELECT * FROM filiale ORDER BY filialesigle ASC');
                                      <select name="profil" id="profil" class="w3-select w3-border" required style="width:100%;height:28px;">
 										 <option value="2">Utilisateur</option>
 										 <option value="1">Administrateur</option>
+										 <option value="3">Mamageur</option>
                                    </select>
 											<br/><br/> 
 											
