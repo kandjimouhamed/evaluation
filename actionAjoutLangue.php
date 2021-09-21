@@ -20,7 +20,7 @@ if (isset($_POST['valider']) && isset($_POST['description']))
         ));
 
         $message =  'ok';
-        header('location:ajoutSalarie.php#mentions?message=ok&message1=Enregistrement effectuee avec succes');
+        header('location:ajoutSalarie.php#mentions');
        
        
 }

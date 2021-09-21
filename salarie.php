@@ -3,50 +3,46 @@ include('header.php');
 $reponse = $bdd->query('SELECT * FROM salarie ORDER BY idSalarie ASC');
 ?>
 
+
 <div id="content">
-    <div id="content-header">
-        <div id="breadcrumb"> <a href="index.php" title="Retour" class="tip-bottom"><i class="icon-home"></i> Accueil</a> <a href="#" class="current">Salarie</a> <a href="ajoutSalarie.php"><i class="icon-edit"></i>Nouveau</a> </div>
-        <!--h1>Gestion des filiales</h1-->
-    </div>
-    <?php if ((isset($_GET['message'])) && (trim($_GET['message'])=='ok')){?>
-        <div class="alert alert-success alert-block"> <a class="close" data-dismiss="alert" href="#">X</a>
-            <h4 class="alert-heading">Succes!</h4>
-            <?php echo $_GET['message1']; ?> !</div>
-    <?php } ?>
-    <?php if ((isset($_GET['message'])) && (trim($_GET['message'])!='ok')){?>
-        <div class="alert alert-error alert-block"> <a class="close" data-dismiss="alert" href="#">x</a>
-            <h4 class="alert-heading">Error!</h4>
-            <?php echo $_GET['message']; ?></div> <?php } ?>
-            <div class="w3-bar w3-light-grey">
-    <button class="w3-bar-item w3-button tablink" onclick="openCity(event,'London')">OR</button>
-    <button class="w3-bar-item w3-button tablink" onclick="openCity(event,'Paris')">Actions</button>
-    <button class="w3-bar-item w3-button tablink" onclick="openCity(event,'Tokyo')">Ressource</button>
+  <div id="content-header">
+    <div id="breadcrumb"> <a href="index.php" title="Retour" class="tip-bottom"><i class="icon-home"></i> Accueil</a> <a href="#" class="current">Salaries</a> <a href="ajoutSalarie.php"><i class="icon-edit"></i>Nouveau</a> </div>
+    <!--h1>Gestion des filiales</h1-->
   </div>
-    <div class="container-fluid w3-white" style="font-size:12px;">
+  <?php if ((isset($_GET['message'])) && (trim($_GET['message'])=='ok')){?>
+							<div class="alert alert-success alert-block"> <a class="close" data-dismiss="alert" href="#">X</a>
+              <h4 class="alert-heading">Succes!</h4>
+             <?php echo $_GET['message1']; ?> !</div>
+              <?php } ?>
+              <?php if ((isset($_GET['message'])) && (trim($_GET['message'])!='ok')){?>
+				 <div class="alert alert-error alert-block"> <a class="close" data-dismiss="alert" href="#">x</a>
+              <h4 class="alert-heading">Error!</h4>
+              <?php echo $_GET['message']; ?></div> <?php } ?>
+  <div class="container-fluid w3-white" style="font-size:12px;">
+  
+  
 
-        <div class="row-fluid">
-            <div class="span12">
-                <div class="widget-box">
-               
-                    <div class="widget-title">
-                        
-                        <span class="icon"><i class="icon-th"></i></span>
-                        <h5>Liste des Salaries</h5>
-                    </div>
-                    
-                    <div class="widget-content nopadding">
-                        </a>
-
-                        <table id="example" class="table display" style="width:100%;">
-                   
-                            <thead >
+  
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="widget-box">
+          <div class="widget-title">
+             <span class="icon"><i class="icon-th"></i></span> 
+            <h5>Liste des Diploms</h5>  
+          </div>
+          <div class="widget-content nopadding"> 
+          </a>
+           
+            <table id="example" class="table display" style="width:100%;">
+             
+            <thead >
                             <tr>
                                 <th style="width:10%;">#</th>
                                 <th>Nom</th>
                                 <th>prenom</th>
                                 <th>fonctionActuelle</th>
                                 <th>Langue</th>
-
+     
                                 <th style="width:7%;">Actions</th>
                             </tr>
                             </thead>
@@ -55,6 +51,10 @@ $reponse = $bdd->query('SELECT * FROM salarie ORDER BY idSalarie ASC');
                             $i = 1;
                             while ($donnees = $reponse->fetch())
                             {
+                                $req = $bdd->prepare('SELECT libelle,description  FROM langue WHERE idSalarie = ?');
+                                    $req->execute(array($donnees['idSalarie']));
+                                    $libelle =  $req->fetchColumn();
+                                    $description =  $req->fetchColumn();
                                
 
                                 echo '<tr class="gradeA">';
@@ -63,6 +63,7 @@ $reponse = $bdd->query('SELECT * FROM salarie ORDER BY idSalarie ASC');
                                 echo  '<td>'.$donnees['nom'].'</td>';
                                 echo  '<td>'.$donnees['prenom'].'</td>';
                                 echo  '<td>'.$donnees['fonctionActuelle'].'</td>';
+                                echo  '<td>'.$libelle.'</td>';
                              
                                 echo  '<td>';
                                 //echo '<a href="#"><i class="icon icon-search"></i></a>';
@@ -77,25 +78,25 @@ $reponse = $bdd->query('SELECT * FROM salarie ORDER BY idSalarie ASC');
                             ?>
 
                             </tbody>
-                        </table>
-                    </div>
-                </div>
-
-
-            </div>
+            </table>
+          </div>
         </div>
+
+
+      </div>
     </div>
+  </div>
 </div>
 <div class="row-fluid">
-    <div id="footer" class="span12"> 2019 &copy;  <a href="#">CCBM TECHNOLOGIES ET SOLUTIONS</a> </div>
+  <div id="footer" class="span12"> 2019 &copy;  <a href="#">CCBM TECHNOLOGIES ET SOLUTIONS</a> </div>
 </div>
-<script src="js/jquery.min.js"></script>
-<script src="js/jquery.ui.custom.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/jquery.uniform.js"></script>
+	<script src="js/jquery.min.js"></script> 
+<script src="js/jquery.ui.custom.js"></script> 
+<script src="js/bootstrap.min.js"></script> 
+<script src="js/jquery.uniform.js"></script> 
 
-<script src="js/jquery.dataTables.min.js"></script>
-<script src="js/maruti.js"></script>
+<script src="js/jquery.dataTables.min.js"></script> 
+<script src="js/maruti.js"></script> 
 <script src="js/maruti.tables.js"></script>
 <script src="js/jquery.validate.js"></script>
 <script src="js/maruti.form_validation.js"></script>
@@ -105,16 +106,13 @@ $reponse = $bdd->query('SELECT * FROM salarie ORDER BY idSalarie ASC');
 <script type="text/javascript" src="https://cdn.datatables.net/autofill/2.3.5/js/dataTables.autoFill.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/fixedcolumns/3.3.1/js/dataTables.fixedColumns.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/fixedheader/3.1.7/js/dataTables.fixedHeader.js"></script>
-
 <!--script type="text/javascript" src="jquery.dataTables.js"></script-->
-
-
 
 <script>
 
 $(document).ready(function() {
     var table = $('#example').DataTable( {
-        scrollY:        "500px",
+        scrollY:        "300px",
         scrollX:        true,
         scrollCollapse: true,
         paging:         true,
@@ -148,3 +146,14 @@ $(document).ready(function() {
 </script>
 </body>
 </html>
+
+
+
+<div>
+                        </a>
+
+                      
+                   
+                        </table>
+                    </div>
+              

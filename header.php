@@ -36,6 +36,11 @@ if(!isset($_SESSION['codeintervenant']))
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/autofill/2.3.5/css/autoFill.dataTables.min.css"/>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedcolumns/3.3.1/css/fixedColumns.dataTables.css"/>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.7/css/fixedHeader.dataTables.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css
+">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.2/css/dataTables.bootstrap4.min.css
+">
+
 <style>
 fieldset {
   background-color: #eeeeee;
@@ -88,7 +93,7 @@ legend {
 
 
      <?php  if ((isset($_SESSION['profil'])) && ($_SESSION['profil'] == 1)) {?>
-      <li class="active"><a href="tableaudebord.php"><i class="glyphicon glyphicon-dashboard"></i> <span>Tableau de bord</span></a> </li>
+      <li class="active"><a href="synthese.php"><i class="glyphicon glyphicon-dashboard"></i> <span>Tableau de bord</span></a> </li>
 
     <li class="submenu"> <a href="#"><i class="glyphicon glyphicon-cog"></i> <span>Administration</span> </a>
       <ul>

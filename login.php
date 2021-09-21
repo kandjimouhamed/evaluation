@@ -7,14 +7,15 @@ if (isset($_POST['connexion']))
 {
 $prenom = trim($_POST['prenom']); 
 $password = trim($_POST['password']);
-$req = $bdd->prepare('SELECT count(*)  FROM salarie WHERE prenom = ? AND password = ?');
+
+$req = $bdd->prepare('SELECT nom, pwd FROM salarie WHERE nom = ? AND Pwd = ?');
 $req->execute(array($prenom, md5($password)));
 $count = $req->fetchColumn();
 
 if ($count > 0)
 {
  session_start();
- $reqs = $bdd->prepare('SELECT *  FROM salarie WHERE prenom = ? AND password = ?');
+ $reqs = $bdd->prepare('SELECT *  FROM salarie WHERE nom = ? AND pwd = ?');
  $reqs->execute(array($prenom, md5($password)));
  
  while ($donnees = $reqs->fetch())

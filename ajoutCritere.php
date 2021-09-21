@@ -66,7 +66,7 @@ $libelle = $bdd->query('SELECT * FROM coefs ');
                     <div class="w3-container w3-white"style="width:100%; max-width: 600px; margin:0 auto;" >
                         <div class="w3-row-padding" >   
                         <form method="post" id="repeater_form" class="form-horizontal" name="basic_validate" id="basic_validate">
-                       //
+
                         <div class="items" data-group="programming_languages">
                                 <div class="item-content">
                                     <div class="form-group">
@@ -87,7 +87,7 @@ $libelle = $bdd->query('SELECT * FROM coefs ');
                                             ?>
                                            
                                            </select>
-                                                </select>
+                                              
                                             </div>
                                             
                                           </div>

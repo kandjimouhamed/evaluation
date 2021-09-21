@@ -29,9 +29,13 @@ if (isset($_GET['idSalarie']))
            $idParentel = $donnees['idParentel'];
            $idPO = $donnees['idPO'];
            $idRecrutement = $donnees['idRecrutement'];
-           $idLangue = $donnees['idlangue'];
+           $req = $bdd->prepare('SELECT libelle,description  FROM langue WHERE idSalarie = ?');
+           $req->execute(array($idSalarie));
+           $libelle =  $req->fetchColumn();
+   
+           $idLangue = $libelle ;
            $contrat = $donnees['contrat'];
-           $password = $donnees['password'];
+           $password = $donnees['pwd'];
            $profil = $donnees['profil'];
 
            
@@ -101,8 +105,8 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
         $donnees = $reponse->fetch();
 
         // $ids= ( $donnees['idSalarie'])+1;
-        if ($donnees['idSalarie'] = 0) {
-            $ids = 0;
+        if ($donnees['idSalarie'] == 0) {
+            $ids = 1;
         }else{
             $ids= ( $donnees['idSalarie']);
         }
@@ -112,7 +116,7 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
    
 <br>
 <div class="container ">
-        <br><br>
+        <br><br><br>
         <div id="content-header">
             <div id="breadcrumb"> <a href="index.php" title="Retour" class="tip-bottom"><i class="icon-home"></i> Accueil</a> <a href="salarie.php" class="current">Salaries</a> <a href="#"><i class="icon-edit"></i>Saisie Salarie</a> </div>
             <!--h1>Gestion des services</h1-->
@@ -143,7 +147,7 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
                 <li class="active"><a href="#homme">Salarie</a></li>
                 <li><a href="#mentions">Langues</a></li>
                 <li><a href="#about">Diploms</a></li>
-                <li><a href="ajoutObjectif.php">Objectif</a></li>
+                <li><a href="#objective">Objectif</a></li>
                 <li><a href="#critere">Critere d'evaluation</a></li>
             </ul>
             <form action="action_AjoutSalarie.php"  method="post">
@@ -597,6 +601,32 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
         
                     </form>
                     
+                </div>
+                <div id="objective" class="tab-containt">
+                <form class="form-horizontal" method="post" action="actionAjoutObjectif.php" name="basic_validate" id="basic_validate">
+        <div class="row">
+          <div class="col-md-3"></div>
+          <div class="col-md-6">
+               <input type="hidden" name="idSalarie" value = "<?php echo $ids; ?>">
+
+                        
+
+                                    <label>Lebelle</label>
+                                            <input type="text" class="w3-input w3-border" name="libelle" id="libelle"  required>
+                                              <input type="hidden" name="id" value = "<?php echo $id; ?>">
+                                        <br/><br/>
+                                        <label>date</label>
+                                            <input type="date" class="w3-input w3-border" name="date" id="date" value = "<?php echo $date; ?>" required>
+                                              <input type="hidden" name="id" value = "<?php echo $id; ?>">
+                                        <br/><br/>
+										<a href="#" class="w3-bar-item w3-button w3-light-grey" style="width:49%;" onclick="location.href='filiale.php'" >Retour</a>
+    <!--button name="" type="submit"  class="w3-bar-item w3-button w3-light-grey" style="width:49%;" name="retour" value="Retour" onclick="location.href='commandempr.php'" >Annuler</button-->
+  <button name="valider" type="submit"  class="w3-bar-item w3-button w3-light-grey" style="width:50%;">Valider</button><br/><br/>
+          </div>
+        </div>                
+       
+										
+             </form>
                 </div>
            
         </div> </div> </div> </div> </div> </div>

@@ -1048,6 +1048,7 @@ span.icon .checker {
     position: absolute;
     right: 2px;
     top: -2px;
+	height: 20px;
 }
 .dataTables_length div {
 	vertical-align: middle;

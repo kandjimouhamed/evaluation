@@ -2,7 +2,7 @@
 include('config/connexion.php');
 if (isset($_POST['valider']))
 {
-    echo ('oki');
+   
     $idSalarie = $_POST['idSalarie'];
     $prenom = $_POST['prenom'];
     $nom = $_POST['nom'];
@@ -14,12 +14,12 @@ if (isset($_POST['valider']))
     $carburant= $_POST['carburant'];
     $commussion= $_POST['commussion'];
     $autres= $_POST['autres'];
-    $idDiplom= $_POST['idDiplom'];
+    //$idDiplom= $_POST['idDiplom'];
     $idservice= $_POST['idservice'];
     $idParentel= $_POST['idParentel'];
     $idPO= $_POST['idPO'];
     $idRecrutement= $_POST['idRecrutement'];
-    $idlangue= $_POST['idlangue'];
+    //$idlangue= $_POST['idlangue'];
     $contrat= $_POST['contrat'];
     $password= $_POST['password'];
     $profil= $_POST['profil'];
@@ -33,7 +33,7 @@ if (isset($_POST['valider']))
 
 
         $req = $bdd->prepare('INSERT INTO salarie (prenom,nom,fonctionActuelle,situationFam,ancieneteFonc,dateNaiss,telephone,carburant,commussion,autres,
-                idservice,idParentel, idRecrutement,contrat,password,profil ) VALUES(:prenom,:nom,:fonctionActuelle ,:situationFam,:ancieneteFonc,  :dateNaiss,:telephone, :carburant,
+                idservice,idParentel, idRecrutement,contrat,pwd,profil ) VALUES(:prenom,:nom,:fonctionActuelle ,:situationFam,:ancieneteFonc,  :dateNaiss,:telephone, :carburant,
                         :commussion, :autres, :idservice, :idParentel, :idRecrutement, :contrat, :password, :profil )');
         $req->execute(array(
 
@@ -104,7 +104,7 @@ if (isset($_POST['valider']))
         ));
 
 
-        header('location: salarie.php?message=ok&message1=Mise a jour effectuee avec succes');
+        header('location: ajoutSalarie.php?message=ok&message1=Mise a jour effectuee avec succes');
         exit;
     }
 

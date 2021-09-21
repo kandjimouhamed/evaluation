@@ -2,11 +2,12 @@
 include('header.php');
 
 $reponse = $bdd->query('SELECT * FROM salarie ORDER BY nom ASC');
-$codeintervenant =  $_SESSION['codeintervenant'];
-$req = $bdd->prepare('SELECT * FROM intervenant INNER JOIN salarie  ON intervenant.idSalarie = salarie.idSalarie 
- WHERE   codeintervenant = ?');
+$codeintervenant = $_SESSION['codeintervenant'];
+
+$req = $bdd->prepare('SELECT * FROM salarie WHERE   idSalarie = ?');
 $req->execute(array($codeintervenant));
-      
+//$nomServices =  $req->fetchColumn();
+     
 ?>
 
 <div id="content">
@@ -73,8 +74,7 @@ $req->execute(array($codeintervenant));
                                 
                                     echo  '<td>';
                                     //echo '<a href="#"><i class="icon icon-search"></i></a>';
-                                    echo '<a href="ajoutDiplom.php?action=edit&idDiplom='.$donnees['idDiplom'].'"<i class="glyphicon glyphicon-edit"></i></a>';
-                                    echo '<a href="supprDiplom.php?action=suppr&idDplom='.$donnees['idDiplom'].'" onclick="return(confirm(\'Etes-vous sur de vouloir supprimer cette entree?\'));"><i class="glyphicon glyphicon-trash"></i></a>';
+                                    echo '<a href="notes.php?idSalarie='.$donnees['idSalarie'].'"<i class="glyphicon glyphicon-edit"></i></a>';
                                     echo '</td>'; 
                                     echo '</tr>';
                                     $i++;
@@ -97,8 +97,7 @@ $req->execute(array($codeintervenant));
                                         
                                             echo  '<td>';
                                             //echo '<a href="#"><i class="icon icon-search"></i></a>';
-                                            echo '<a href="ajoutDiplom.php?action=edit&idDiplom='.$donnees['idDiplom'].'"<i class="glyphicon glyphicon-edit"></i></a>';
-                                            echo '<a href="supprDiplom.php?action=suppr&idDplom='.$donnees['idDiplom'].'" onclick="return(confirm(\'Etes-vous sur de vouloir supprimer cette entree?\'));"><i class="glyphicon glyphicon-trash"></i></a>';
+                                            echo '<a href="notes.php.php?idSalarie='.$donnees['idSalarie'].'"<i class="glyphicon glyphicon-edit"></i></a>';
                                             echo '</td>'; 
                                             echo '</tr>';
                                             $i++;
@@ -121,8 +120,8 @@ $req->execute(array($codeintervenant));
                                                 
                                                     echo  '<td>';
                                                     //echo '<a href="#"><i class="icon icon-search"></i></a>';
-                                                    echo '<a href="ajoutDiplom.php?action=edit&idDiplom='.$donnees['idDiplom'].'"<i class="glyphicon glyphicon-edit"></i></a>';
-                                                    echo '<a href="supprDiplom.php?action=suppr&idDplom='.$donnees['idDiplom'].'" onclick="return(confirm(\'Etes-vous sur de vouloir supprimer cette entree?\'));"><i class="glyphicon glyphicon-trash"></i></a>';
+                                                    echo '<a href="ajoutDiplom.php?action=edit&idSalarie='.$donnees['idSalarie'].'"<i class="glyphicon glyphicon-edit"></i></a>';
+                                                    echo '<a href="supprDiplom.php?action=suppr&idSalarie='.$donnees['idSalarie'].'" onclick="return(confirm(\'Etes-vous sur de vouloir supprimer cette entree?\'));"><i class="glyphicon glyphicon-trash"></i></a>';
                                                     echo '</td>'; 
                                                     echo '</tr>';
                                                     $i++;
@@ -145,8 +144,8 @@ $req->execute(array($codeintervenant));
                                                         
                                                             echo  '<td>';
                                                             //echo '<a href="#"><i class="icon icon-search"></i></a>';
-                                                            echo '<a href="ajoutDiplom.php?action=edit&idDiplom='.$donnees['idDiplom'].'"<i class="glyphicon glyphicon-edit"></i></a>';
-                                                            echo '<a href="supprDiplom.php?action=suppr&idDplom='.$donnees['idDiplom'].'" onclick="return(confirm(\'Etes-vous sur de vouloir supprimer cette entree?\'));"><i class="glyphicon glyphicon-trash"></i></a>';
+                                                            echo '<a href="ajoutDiplom.php?action=edit&idSalarie='.$donnees['idSalarie'].'"<i class="glyphicon glyphicon-edit"></i></a>';
+                                                            echo '<a href="supprDiplom.php?action=suppr&idSalarie='.$donnees['idSalarie'].'" onclick="return(confirm(\'Etes-vous sur de vouloir supprimer cette entree?\'));"><i class="glyphicon glyphicon-trash"></i></a>';
                                                             echo '</td>'; 
                                                             echo '</tr>';
                                                             $i++;

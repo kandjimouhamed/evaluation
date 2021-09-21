@@ -2,9 +2,12 @@
 <?php
 include('header.php');
 
-$idSalarie = $_SESSION['codeintervenant'];
-$req = $bdd->prepare('SELECT coefs.libelle FROM evaluer INNER JOIN coefs ON evaluer.idCoef = coefs.id WHERE   idSalarie = ?');
-$req->execute(array($idSalarie));
+    $idSalarie = trim($_GET['idSalarie']);  
+      $req = $bdd->prepare('SELECT * FROM evaluer INNER JOIN coefs ON evaluer.idCoef = coefs.id WHERE   idSalarie = ?');
+        $req->execute(array($idSalarie));
+
+
+
 
 ?>
 
@@ -45,6 +48,7 @@ $req->execute(array($idSalarie));
       <?php
       while ($donnees = $req->fetch())
       {  
+        
            ?>
             
            <div class="row">
@@ -55,7 +59,7 @@ $req->execute(array($idSalarie));
                   <div class="col-md-5">
                     <div class="row">
                       
-                        Entre une notes (1 à 5) &nbsp;&nbsp; <input type="number" name="note[]" maxlength="5" style="width: 20%;"  class="w1-input w3-border">
+                        Entre une notes (1 à 5) &nbsp;&nbsp; <input type="number" name="note[]" maxlength="5" style="width: 20%;"  value = "<?php echo $donnees['note']; ?>"   class="w1-input w3-border">
                   </div>
                 </div>
                   </div>
