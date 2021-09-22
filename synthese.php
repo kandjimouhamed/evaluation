@@ -1,6 +1,6 @@
 <?php 
 include('header.php');
-$repons= $bdd->query('SELECT * FROM evaluer ORDER BY id ASC');
+$evaluer= $bdd->query('SELECT * FROM evaluer ORDER BY id ASC');
 
 $reponse = $bdd->query('SELECT * FROM salarie ORDER BY idSalarie ASC');
 $coef = $bdd->query('SELECT * FROM coefs ORDER BY id ASC');
@@ -143,11 +143,12 @@ else
 			 <table id="" class="table table-bordered">
 			
              <caption style="caption-side:top;text-align:center;">LOCALISATION DES VEHICULES</caption>
-   <thead>
+  
              <tr>
 	    <th>Prenom et nom</th>
 	    
 		<?php 
+
 		  while ($donnees = $coef->fetch())
         { 
 	     echo '<th>'.$donnees['libelle'].'</th>';
@@ -156,27 +157,25 @@ else
 		echo '<th>Total</th>';
         ?>
         </tr>
-        </thead>
-        <tbody>
+      
        
         <?php
                          
                          
                                    // $description =  $req->fetchColumn();
                                
-                                   while ($d = $reponse->fetch())
+                                   while ($d = $evaluer->fetch())
                                    {
-                                       echo 'oki';
-                                       $req = $bdd->prepare('SELECT libelle,description  FROM langue WHERE idSalarie = ?');
-                                           $req->execute(array($d['idSalarie']));
-                                           $libelle =  $req->fetchColumn();
-                                           $description =  $req->fetchColumn();
-                                      
-       
+                                    $req = $bdd->prepare('SELECT nom  FROM  evaluer INNER JOIN salarie ON evaluer.idSalarie = salarie.idSalarie  WHERE idSalarie = ?');
+                                       $req->execute(array($d['idSalarie']));
+                                       $nomSalarie =  $req->fetchColumn();
+
                                        echo '<tr class="gradeA">';
-                                       echo  '<td>>'.$d['nom'].'</td>';
+                                       echo  '<td>'.$d['note'].'</td>';
+                                       echo  '<td>'.$d['idSalarie'].'</td>';
+                                       echo  '<td>'.$nomSalarie.'</td>';
                                       // echo  '<td</td>';
-                                     
+                                      
                                     
                                 
                                        echo '</tr>';
@@ -184,7 +183,7 @@ else
                                    }
                             
                             ?>
-          </tbody>         
+       
     </table>
 	 
 			 </div>

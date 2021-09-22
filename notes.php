@@ -5,10 +5,8 @@ include('header.php');
     $idSalarie = trim($_GET['idSalarie']);  
       $req = $bdd->prepare('SELECT * FROM evaluer INNER JOIN coefs ON evaluer.idCoef = coefs.id WHERE   idSalarie = ?');
         $req->execute(array($idSalarie));
-
-
-
-
+        $salarie = $bdd->prepare('SELECT * FROM salarie WHERE idSalarie = ?');
+        $salarie->execute(array($idSalarie));
 ?>
 
 <div id="content">
@@ -26,7 +24,12 @@ include('header.php');
                     <div class="span12">
                         <div class="widget-box">
                             <div class="widget-title">
-                                <span class="icon"><i class="icon-th"></i><?=$_SESSION['prenom'].'  ' .$_SESSION['nom']?></span>
+                              <?php
+                              while ($reqs = $salarie->fetch()){ ?>
+                             <span class="icon"><i class="icon-th"></i><?=$reqs['prenom'].'  ' .$reqs['nom']?></span>
+                             <?php
+                              }
+                              ?>
 
                             </div>
                             <div class="w3-container w3-white">
