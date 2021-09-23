@@ -15,28 +15,23 @@ if (isset($_GET['idLangue']))
         while ($donnees = $req->fetch())
         {
             $libelle = $donnees['libelle'];
-            $description = $donnees['description'];
-
-
-
+           
         }
     }
     else
     {
         $idLangue = -1;
         $libelle = "";
-        $description = "";
+      
     }
 }
 else
 {
     $idLangue = -1;
     $libelle = "";
-    $description = "";
 }
 
 $langue = $bdd->query('SELECT * FROM langue ORDER BY libelle ASC');
-$description = $bdd->query('SELECT * FROM descriptionlangue ORDER BY libelle ASC');
 ?>
 
 <div id="content">
@@ -73,7 +68,7 @@ $description = $bdd->query('SELECT * FROM descriptionlangue ORDER BY libelle ASC
                                         <div class="col-md-9">
                                            <label>Ajouter une langage</label>
                                         <input type="text" name="libelle" class="form-control" value="<?php echo $libelle; ?>">    
-                                        <input type="hidden" name="idLanague" value = "<?php echo $idLanague; ?>">
+                                        <input type="hidden" name="idLangue" value = "<?php echo $idLangue; ?>">
                                         
                                             </div>
                                             

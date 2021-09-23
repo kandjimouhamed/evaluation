@@ -155,7 +155,7 @@ else
         { 
          
           
-	     echo '<th>'. $donnees['libelle'].'</th>';
+	     echo '<th style >'. $donnees['libelle'].'</th>';
 	//	$tabcoef[] = $donnees['coef'];
             
 	    }
@@ -164,34 +164,35 @@ else
         ?>
       
     </thead>
-    <tbody>
+    <tbody >
         <?php
            
-           echo '<tr class="gradeA">';
+                      $evaluer = $bdd->prepare('SELECT * FROM evaluer  INNER JOIN salarie ON evaluer.idSalarie = salarie.idSalarie   GROUP BY evaluer.idSalarie');
+                      $evaluer->execute();
                                    while ($d = $reponse2->fetch())
                                    {
-                                   
-                                       echo  '<td>'.$d['nom'].' '.$d['prenom'].'</td>';
-                                      echo  '<td>'.$d['note'].' </td>';
-
-                                       $salarie = $bdd->prepare('SELECT * FROM evaluer WHERE idSalarie = ?');
-                                       $salarie->execute(array($d['idSalarie']));
-                                     
-                                      // $i = 1;
-                                   while ($donnees = $salarie->fetch()){
-                                   
-                                 
-                                    echo '<th>'. $donnees['note'].'</th>';
-                                  
-                                    //echo  '<td>'.$d['idCoef'].' </td>';
+                                    echo '<tr class="gradeA">';
+                                    echo  '<td>'.$d['nom'].' '.$d['prenom'].'</td>';
                                     
-                                  //	$tabcoef[] = $donnees['coef'];
-                               
-                                }
-  
+                                    $salarie = $bdd->prepare('SELECT * FROM evaluer  WHERE idSalarie = ?');
+                                    $salarie->execute(array($d['idSalarie']));
+
+                                       while ($dd = $salarie->fetch())
+                                       {
+                                       
+                                     // echo  '<td>'.$dd['nom'].' '.$dd['prenom'].'</td>';
+                                      
+                                         if ($dd['id'] = $dd['idCoef'] ) {
+                                          echo  '<td>'.$dd['note'].' </td>';
+                                         }  if ($dd['id'] == $dd['idCoef'] ) {
+                                          echo  '<td></td>';
+                                         }
+                                        
+                                   
+                                      
+                                       }
                                    }
-                                   $salarie = $bdd->prepare('SELECT * FROM evaluer WHERE idSalarie = ?');
-                                   $salarie->execute(array($d['idSalarie']));
+                                
 
                 echo '</tr>';
                             ?>
