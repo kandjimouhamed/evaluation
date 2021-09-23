@@ -36,7 +36,7 @@ include('header.php');
                                 <div class="w3-row-padding">
                 <br>
                       <div>
-                      <form action="note.php" method="post">
+                      <form action="noteE.php" method="post">
                       <?php if (isset($_GET['error'])){?>
                         <div class="alert alert-danger" role="alert">
                         <?php echo $_GET['error'];?>
@@ -55,14 +55,15 @@ include('header.php');
            ?>
             
            <div class="row">
-             <div class="col-md-2"></div>
-             <div class="col-md-10">
+            
+             <div class="col-md-11">
                 <div class="row">
                   <div class="col-md-7"> <?=$donnees['libelle']?> <br><br></div>
                   <div class="col-md-5">
                     <div class="row">
                       
-                        Entre une notes (1 à 5) &nbsp;&nbsp; <input type="number" name="note[]" maxlength="5" style="width: 20%;"  value = "<?php echo $donnees['note']; ?>"   class="w1-input w3-border">
+                       Note d'Evalué&nbsp;&nbsp; <input type="number" disabled name="note[]" maxlength="5" style="width: 15%;"  value = "<?php echo $donnees['note']; ?>"   class="w1-input w3-border">
+                       &nbsp;&nbsp; &nbsp;  Note Evaluateur&nbsp;&nbsp; <input type="number" name="noteE[]" maxlength="5" style="width: 15%;"  value = "<?php echo $donnees['noteE']; ?>"   class="w1-input w3-border">
                   </div>
                 </div>
                   </div>

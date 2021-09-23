@@ -37,6 +37,10 @@ if (isset($_GET['idSalarie']))
            $contrat = $donnees['contrat'];
            $password = $donnees['pwd'];
            $profil = $donnees['profil'];
+           $idCoef = $donnees['idCoef'];
+           $note = $donnees['note'];
+           $montant = $donnees['montant'];
+
 
            
 
@@ -64,6 +68,10 @@ if (isset($_GET['idSalarie']))
         $contrat = "";
         $password = "";
         $profil = "";
+        $idCoef = -1;
+        $note = "";
+        $montant = "";
+        
     }
 }
 else
@@ -88,6 +96,9 @@ else
     $contrat = "";
     $password = "";
      $profil = "";
+     $idCoef = -1;
+     $note = "";
+     $montant = "";
 }
 
 $parentel = $bdd->query('SELECT * FROM parentel ');
@@ -111,9 +122,9 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
             $ids= ( $donnees['idSalarie']);
         }
         
-
+        $langue = $bdd->query('SELECT * FROM langue ORDER BY idLangue DESC ');
 ?>
-   
+  
 <br>
 <div class="container ">
         <br><br><br>
@@ -215,13 +226,8 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
                                 <div class="row">
                                    <div class="col-md-4">Telephone</div>
                                    <div class="col-md-8">
-                                   <select name="telephone" id="telephone"  style="width:100%;" size="1" value = "<?php echo $telephone; ?>"  class="w3-select w3-border" size="1" required>
-                                          
-                                          <option value="1"> OUI </option>
-                                          <option value="0"> NON </option>
-                                         
-                                      </select>
-                                      <input type="hidden" name="idSalarie" value = "<?php echo $idSalarie; ?>">
+                                   <input type="text" class="w3-input w3-border" name="telephone" id="telephone" value = "<?php echo $telephone; ?>" required>
+                                <input type="hidden" name="idSalarie" value = "<?php echo $idSalarie; ?>">
                                    </div>
                                   
                                </div>
@@ -230,11 +236,8 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
                                     <br>
                                    <div class="col-md-4" style="margin-top: 10px;">Carburant</div>
                                    <div class="col-md-8">
-                                   <select name="carburant" id="carburant"  style="width:100%;" size="1" value = "<?php echo $carburant; ?>"  class="mt-3 w3-select w3-border" size="1" required>
-                                          <option value="1"> OUI </option>
-                                          <option value="0"> NON </option>                                       
-                                      </select>                                    
-                                      <input type="hidden" name="idSalarie" value = "<?php echo $idSalarie; ?>">                                    
+                                   <input type="text" class="w3-input w3-border" name="carburant" id="carburant" value = "<?php echo $carburant; ?>" required>
+                                <input type="hidden" name="idSalarie" value = "<?php echo $idSalarie; ?>">
                                    </div>
                                </div>
                        
@@ -243,27 +246,18 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
                                  <div class="col-md-4">Commussion</div>
                                  <div class="col-md-8">
                                   
-                                 <select name="commussion" id="commussion"  style="width:100%;" size="1" value = "<?php echo $commussion; ?>"  class="w3-select w3-border" size="1" required>
                                            
-                                               <option value="1"> OUI </option>
-                                            <option value="0"> NON </option>
-                                           
-                                        </select>
-                                        <input type="hidden" name="idSalarie" value = "<?php echo $idSalarie; ?>">
-                                     </div>
+                                 <input type="text" class="w3-input w3-border" name="commussion" id="commussion" value = "<?php echo $commussion; ?>" required>
+                                <input type="hidden" name="idSalarie" value = "<?php echo $idSalarie; ?>">
+                                   </div>
                                  </div>
                                 <br>
                                 <div class="row">
                                  <div class="col-md-4">Vehicule</div>
                                  <div class="col-md-8">
                             
-                                 <select name="vehicule" id="vehicule"  style="width:100%;" size="1" value = "<?php echo $vehicule; ?>"  class="w3-select w3-border" size="1" required>
-                                       
-                                            <option value="1"> OUI </option>
-                                            <option value="0"> NON </option>
-                                           
-                                        </select>
-                                        <input type="hidden" name="idSalarie" value = "<?php echo $idSalarie; ?>">
+                                 <input type="text" class="w3-input w3-border" name="vehicule" id="vehicule" value = "<?php echo $vehicule; ?>" required>
+                                <input type="hidden" name="idSalarie" value = "<?php echo $idSalarie; ?>">
                                  </div>
                                 </div>
                                 
@@ -272,9 +266,9 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
                                  <div class="col-md-4">Autres</div>
                                  <div class="col-md-8">
                                
-                                <input type="text" class="w3-input w3-border" name="autres" id="autres" value = "<?php echo $autres; ?>" required>
+                                <input type="text" class="w3-input w3-border" name="autres" id="autres" value = "<?php echo $autres; ?>">
                                 <input type="hidden" name="idSalarie" value = "<?php echo $idSalarie; ?>">
-                                <br/>
+                               
                                  </div>
                                 </div>
                                 </div>
@@ -418,7 +412,7 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
                                         </select>
                                             </div>
                                         </div> 
-                                       <br><br>
+                                       <br>
                                         <div class="row">
                                             <div class="col-md-4">Profil</div>
                                             <div class="col-md-8">
@@ -426,10 +420,22 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
 										 <option value="2">Utilisateur</option>
 										 <option value="1">Administrateur</option>
 										 <option value="3">Mamageur</option>
-                                   </select>                                            </div>
+                                   </select> 
+                                  </div>
                                         </div>
+                                        <br/>
+                                <div class="row">
+                                 <div class="col-md-4">Montant Salaire</div>
+                                 <div class="col-md-8">
+                               
+                                <input type="number" class="w3-input w3-border" name="montant" id="montant" value = "<?php echo $montant; ?>">
+                                <input type="hidden" name="idSalarie" value = "<?php echo $idSalarie; ?>">
+                               
+                                 </div>
+                                </div>
                                     </div>
                                 </div>
+                                <br>
                                 <button  type="button"  class="w3-bar-item w3-button w3-light-grey precedent" style="width:48%;">Precedent</button>
                                 <button name="valider" type="submit"  class="w3-bar-item w3-button w3-light-grey" style="width:48%;">Valider</button><br/><br/>
                                 
@@ -439,21 +445,61 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
         </form> 
                  <!-- fin div1 -->
                   <!-- div2 -->
-                <form method="post" id="repeater_form" action="actionAjoutLangue.php" class="form-horizontal" name="basic_validate" id="basic_validate">
+                <form method="post" id="repeater_form" action="actionLigneLangueSalarie.php" class="form-horizontal" name="basic_validate" id="basic_validate">
                          <div id="mentions"  class="tab-containt"> 
                            <div class="item-content">
                                     <div class="form-group">
                                         <div class="row">
-                                        <div class="col-md-9">
+                                        <div class="col-md-6">
                                            <label>Select un langage</label>
-                                                <select class="form-control"  name="libelle"style="width:100%;" id="libelle" size="1" class="w3-select w3-border" size="1" required>
-                                            <option value="francais">  RFANCAIS</option>
-                                            <option value="anglais">  ANGLAIS</option>
-                                            <option value="arabe">  ARABE</option>
-                                            
+                                           <select class="form-control"  name="idLangue"style="width:100%; font-size: 13px; " id="idLangue" size="1" class="w3-select w3-border" size="1" required>
+                                            <option>  </option>
+                                            <?php
+                                            while ($donnees = $langue->fetch()) {
+                                              if($donnees ['idLangue'] == $idLangue) 
+                                               {
+                                                    echo '<option value="' . $donnees['idLangue'] . '" selected>' . $donnees['libelle'] . '</option>';
+                                                }else{
+                                                    echo '<option value="' . $donnees['idLangue'] . '">' . $donnees['libelle'] . '</option>';
+                                                }
+                                            }
+                                            ?>
+                            
                                            </select>
                                                
-                                                </div> </div> </div> </div>
+                                                </div> 
+                                                <div class="col-md-6">
+                             <table class="table">
+                                            <thead>
+                                                <tr>
+                                                <th scope="col">LANGUE</th>
+                                                <th scope="col">DESCRIPTIONS</th>
+                                                
+                                                </tr>
+                                            </thead>
+                              <?php
+            
+                                    $reqs = $bdd->prepare('SELECT * FROM languesalarie 
+                                     INNER JOIN langue ON languesalarie.idLangue = langue.idLangue WHERE idSalarie =?');
+                                    $reqs->execute(array($ids));
+                                  
+                                    while ($a = $reqs->fetch()) {
+                                    ?>
+                                    <tbody>
+                                    <tr>
+                                    <td><?=$a['libelle']?></td>
+                                    <td> <?=$a['description']?></td>
+                                 
+                                   
+                                    </tr>
+                                    </tbody>
+                                  
+                             <?php   }
+                                                      
+                                                ?>
+                         </table>
+                                                </div>
+                                            </div> </div> </div>
 
                                                 <div id="repeater">
                            
@@ -494,17 +540,12 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
                                </div>
                            </div>
                        </div>
-     
-                           <div class="clearfix"></div>
                        <div class="form-group" align="center">
                       <br /><br />
                            <input type="submit" name="valider" class="btn btn-success" value="insert" />
                        </div>
-
-                                    
-                         
+                           <div class="clearfix"></div>          
                 </div>
-               
                 </form> 
                
                    <!-- fin div2 -->
@@ -514,10 +555,13 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
 
                   
                     <div class="item-content">
-                       
+                       <div class="row"> 
+                            <div class="col-md-6">
+
+                           
                         <div class="row " >
-                        <div class="col-md-2"></div>
-                        <div class="col-md-2"> <label>Select un langage</label></div> 
+                        <div class="col-md-1"></div>
+                        <div class="col-md-3"> <label>Selectionner  un Diplom</label></div> 
                         <div class="col-md-6">
                         <div class="form-group">
                                 <select class="form-control"  name="idDiplom"style="width:100%; font-size: 13px; " id="idDiplom" size="1" class="w3-select w3-border" size="1" required>
@@ -538,8 +582,8 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
                            </div> </div> </div> 
                            <input type="hidden" name="idSalarie" value = "<?php echo $ids; ?>">
                            <div class="row">
-                             <div class="col-md-2"></div>
-                                <div class="col-md-2"> <label>Type diplom</label></div> 
+                             <div class="col-md-1"></div>
+                                <div class="col-md-3"> <label>Detail </label></div> 
                                 <div class="col-md-6">
                                 <input type="text" class="w3-input w3-border" name="libelle" id="libelle" value = ""  required >
                                 
@@ -547,18 +591,53 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
                            </div> 
                            <br>
                            <div class="row">
-                             <div class="col-md-2"></div>
-                                <div class="col-md-2"> <label>L'ecole</label></div> 
+                             <div class="col-md-1"></div>
+                                <div class="col-md-3"> <label>L'ecole</label></div> 
                                 <div class="col-md-6">
                                 <input type="text" class="w3-input w3-border" name="ecole" id="ecole" value = " " required >
                                 
                                  </div>
                            </div>
-                        </div>
+                       
                         <div class="clearfix"></div>
                        <div class="form-group" align="center">
                       <br /><br />
                            <input type="submit" name="valider" class="btn btn-success redrecrtion" value="insert" />
+                       </div>
+                       </div>
+                            <div class="col-md-6">
+                            <table class="table">
+                                            <thead>
+                                                <tr>
+                                                <th scope="col">DIPLOM</th>
+                                                <th scope="col">DETAILE DIPLOM</th>
+                                                <th scope="col">L'ECOLE</th>
+                                                
+                                                </tr>
+                                            </thead> 
+                              <?php
+            
+                                    $reqs = $bdd->prepare('SELECT * FROM diplomsalarie 
+                                     INNER JOIN diplom ON diplomsalarie.idDiplom = diplom.idDiplom WHERE idSalarie =?');
+                                    $reqs->execute(array($ids));
+
+                                    while ($a = $reqs->fetch()) {
+                                    ?>
+                                    <tbody>
+                                    <tr>
+                                    <td><?=$a['libelle']?></td>
+                                    <td><?=$a['libelleLigne']?></td>
+                                    <td> <?=$a['ecole']?></td>
+                                    </tr>
+                                    </tbody>
+                                  
+                             <?php   }
+                                                      
+                                                ?>
+                         </table>
+                            </div>
+                            
+                     </div>
                        </div>
                     </form>
                  </div>   <!-- fin div3 -->
@@ -571,32 +650,65 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
                     <form action="actionAjoutCritere.php" method="post">
                         
                                         <input type="hidden" name="idSalarie" value = "<?php echo $ids; ?>">
-                                         
-                       
-                                           <div class="row">
-                                                <div class="col-md-4"> </div>
-                                                    <div class="col-md-8">Selectionner les Criteres d'Evaluation</div>
-                                           </div>
-                                           <br>
-                                           
-                                            <?php
-                                            while ($libelles = $critere->fetch()) {
+                
+                                 <div class="row">
+                                    <div class="col-md-6"> 
+                                    <div class="form-check">                                        
+                                       
+                                         <input   type="hidden" name="note" value="0">
+                                      <div class="form-group">
+                                        <label for="">Selectionner les Criteres d'Evaluation</label>
+                                        <select class="form-control"  name="idCoef"style="width:100%; font-size: 13px; " id="idCoef" size="1" class="w3-select w3-border" size="1" required>
+                                        <option>  </option>
+                                                    <?php
+                                                    while ($donnees = $critere->fetch()) {
+                                                    if($donnees ['id'] == $idCoef) 
+                                                    {
+                                                            echo '<option value="' . $donnees['id'] . '" selected>' . $donnees['libelle'] . '</option>';
+                                                        }else{
+                                                            echo '<option value="' . $donnees['id'] . '">' . $donnees['libelle'] . '</option>';
+                                                        }
+                                                    }
+                                                    ?>
+                                    
+                                       </select>
+                                
+                                  </div>
+                                </div>
+                                <input type="submit" name="valider" class="btn btn-success" value="insert" />
+                              </div>
+                              <div class="col-md-6"> 
+                              <table class="table">
+                                            <thead>
+                                                <tr>
+                                                <th scope="col"></th>
+                                                <th scope="col">List des critére d'evaluation </th>
+                                                
+                                                
+                                                </tr>
+                                            </thead> 
+                              <?php
+            
+                                    $reqs = $bdd->prepare('SELECT * FROM evaluer INNER JOIN coefs ON evaluer.idCoef=coefs.id WHERE  idSalarie =?');
+                                    $reqs->execute(array($ids));
+                                    $i =1;
+                                    while ($a = $reqs->fetch()) {
+                                    ?>
+                                    <tbody>
+                                    <tr>
+                                    <td><?=$i?></td>
+                                    <td><?=$a['libelle']?></td>
+                                   
+                                    </tr>
+                                    </tbody>
+                                  
+                             <?php $i ++;  }
+                                                      
                                                 ?>
-                                               
-                                                <div class="form-check">
-                                                <div class="row">
-                                                <div class="col-md-2"> </div>
-                                                    <div class="col-md-2">  <input  class="form-check-input" type="checkbox" name="idCoef[]" value="<?=$libelles['id']?>" id="flexCheckDefault"></div>
-                                                    
-                                                  <div class="col-md-8"> <label for="" class="fomr-check-label" ><?=$libelles['libelle']?></label></div>
-                                                 
-                                                </div> 
-                                                </div>
-                                                 
-                                              
-                                                <?php }
-                                            ?>
-                       <input type="submit" name="valider" class="btn btn-success" value="insert" />
+                         </table>
+                              </div>
+                         </div>
+                      
                    
         
                     </form>
@@ -605,23 +717,57 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
                 <div id="objective" class="tab-containt">
                 <form class="form-horizontal" method="post" action="actionAjoutObjectif.php" name="basic_validate" id="basic_validate">
         <div class="row">
-          <div class="col-md-3"></div>
+         
           <div class="col-md-6">
                <input type="hidden" name="idSalarie" value = "<?php echo $ids; ?>">
 
+                        <?php
+                        $annee_selectionne = date('Y');
                         
+                        ?>
 
-                                    <label>Lebelle</label>
+
+                                    <label>Saisir un Objectif</label>
                                             <input type="text" class="w3-input w3-border" name="libelle" id="libelle"  required>
                                               <input type="hidden" name="id" value = "<?php echo $id; ?>">
                                         <br/><br/>
-                                        <label>date</label>
-                                            <input type="date" class="w3-input w3-border" name="date" id="date" value = "<?php echo $date; ?>" required>
+                                       
+                                            <input type="hidden" class="w3-input w3-border" name="date" id="date" value = "<?php echo $annee_selectionne; ?>" required>
                                               <input type="hidden" name="id" value = "<?php echo $id; ?>">
                                         <br/><br/>
 										<a href="#" class="w3-bar-item w3-button w3-light-grey" style="width:49%;" onclick="location.href='filiale.php'" >Retour</a>
     <!--button name="" type="submit"  class="w3-bar-item w3-button w3-light-grey" style="width:49%;" name="retour" value="Retour" onclick="location.href='commandempr.php'" >Annuler</button-->
-  <button name="valider" type="submit"  class="w3-bar-item w3-button w3-light-grey" style="width:50%;">Valider</button><br/><br/>
+                       <button name="valider" type="submit"  class="w3-bar-item w3-button w3-light-grey" style="width:50%;">Valider</button><br/><br/>
+          </div>
+          <div class="col-md-6">
+          <table class="table">
+                                            <thead>
+                                                <tr>
+                                                <th scope="col"></th>
+                                                <th scope="col">DIPLOM</th>
+                                                
+                                                
+                                                </tr>
+                                            </thead> 
+                              <?php
+            
+                                    $reqs = $bdd->prepare('SELECT * FROM objectifs WHERE idSalarie =?');
+                                    $reqs->execute(array($ids));
+                                    $i =1;
+                                    while ($a = $reqs->fetch()) {
+                                    ?>
+                                    <tbody>
+                                    <tr>
+                                    <td><?=$i?></td>
+                                    <td><?=$a['libelle']?></td>
+                                   
+                                    </tr>
+                                    </tbody>
+                                  
+                             <?php $i ++;  }
+                                                      
+                                                ?>
+                         </table>
           </div>
         </div>                
        

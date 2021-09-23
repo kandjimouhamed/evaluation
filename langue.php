@@ -38,7 +38,7 @@ $reponse = $bdd->query('SELECT * FROM langue ORDER BY libelle ASC');
                 <tr>
                    <th style="width:10%;">#</th>
                   <th>Libelle</th>
-                  <th>Description</th>
+                 
                   <th style="width:7%;">Actions</th>
                 </tr>
               </thead>
@@ -50,7 +50,7 @@ $reponse = $bdd->query('SELECT * FROM langue ORDER BY libelle ASC');
                  echo '<tr class="gradeA">';
 	             echo  '<td>'.$i.'</td>';
                  echo  '<td>'.$donnees['libelle'].'</td>';
-                 echo  '<td>'.$donnees['description'].'</td>';
+               
                  echo  '<td>';
                  //echo '<a href="#"><i class="icon icon-search"></i></a>';
                  echo '<a href="AjoutLangue.php?action=edit&idLangue='.$donnees['idLangue'].'"<i class="glyphicon glyphicon-edit"></i></a>';

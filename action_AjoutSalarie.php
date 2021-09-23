@@ -23,6 +23,7 @@ if (isset($_POST['valider']))
     $contrat= $_POST['contrat'];
     $password= $_POST['password'];
     $profil= $_POST['profil'];
+    $montant= $_POST['montant'];
     
     if ($idSalarie == -1)
     {
@@ -33,8 +34,8 @@ if (isset($_POST['valider']))
 
 
         $req = $bdd->prepare('INSERT INTO salarie (prenom,nom,fonctionActuelle,situationFam,ancieneteFonc,dateNaiss,telephone,carburant,commussion,autres,
-                idservice,idParentel, idRecrutement,contrat,pwd,profil ) VALUES(:prenom,:nom,:fonctionActuelle ,:situationFam,:ancieneteFonc,  :dateNaiss,:telephone, :carburant,
-                        :commussion, :autres, :idservice, :idParentel, :idRecrutement, :contrat, :password, :profil )');
+                idservice,idParentel, idRecrutement,contrat,pwd,profil,montant ) VALUES(:prenom,:nom,:fonctionActuelle ,:situationFam,:ancieneteFonc,  :dateNaiss,:telephone, :carburant,
+                        :commussion, :autres, :idservice, :idParentel, :idRecrutement, :contrat, :password, :profil, :montant )');
         $req->execute(array(
 
             'prenom' => $prenom,
@@ -55,10 +56,11 @@ if (isset($_POST['valider']))
            // 'idlangue' => $idlangue,
             'contrat' => $contrat,
             'password' => md5($password),
-            'profil' => $profil
+            'profil' => $profil,
+            'montant' => $promontantfil
         ));
         $message =  'ok';
-        header('location: salarie.php?message='.$message.'&message1=Enregistrement effectuee avec succes');
+        header('location: ajoutSalarie.php?message='.$message.'&message1=Enregistrement effectuee avec succes');
         exit;
     }
 
@@ -79,7 +81,7 @@ if (isset($_POST['valider']))
         $req = $bdd->prepare('UPDATE salarie SET prenom =:prenom, nom= :nom, fonctionActuelle = :fonctionActuelle 
                    ,situationFam = :situationFam,ancieneteFonc = :ancieneteFonc, dateNaiss = :dateNaiss,telephone= :telephone,  
                    carburant = :carburant, commussion = :commussion,autres = :autres, idDiplom =:idDiplom, idservice = :idservice, 
-                   idParentel = :idParentel, idPO = :idPO,idRecrutement = :idRecrutement, idlangue = :idlangue, contrat = :contrat, password = :password, profil = :profil WHERE idSalarie = :idSalarie');
+                   idParentel = :idParentel, idPO = :idPO,idRecrutement = :idRecrutement, idlangue = :idlangue, contrat = :contrat, password = :password, profil = :profil, montant = :montant WHERE idSalarie = :idSalarie');
         $req->execute(array(
             'prenom' => $prenom,
             'nom' => $nom,
@@ -100,7 +102,8 @@ if (isset($_POST['valider']))
             'idSalarie' => $idSalarie,
             'contrat' => $contrat,
             'password' => $password,
-            'profil' => $profil
+            'profil' => $profil,
+            'montant' => $promontantfil
         ));
 
 

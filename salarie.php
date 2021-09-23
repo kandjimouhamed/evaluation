@@ -51,19 +51,13 @@ $reponse = $bdd->query('SELECT * FROM salarie ORDER BY idSalarie ASC');
                             $i = 1;
                             while ($donnees = $reponse->fetch())
                             {
-                                $req = $bdd->prepare('SELECT libelle,description  FROM langue WHERE idSalarie = ?');
-                                    $req->execute(array($donnees['idSalarie']));
-                                    $libelle =  $req->fetchColumn();
-                                    $description =  $req->fetchColumn();
-                               
-
                                 echo '<tr class="gradeA">';
                                 echo  '<td>'.$i.'</td>';
 
                                 echo  '<td>'.$donnees['nom'].'</td>';
                                 echo  '<td>'.$donnees['prenom'].'</td>';
                                 echo  '<td>'.$donnees['fonctionActuelle'].'</td>';
-                                echo  '<td>'.$libelle.'</td>';
+                               // echo  '<td>'.$libelle.'</td>';
                              
                                 echo  '<td>';
                                 //echo '<a href="#"><i class="icon icon-search"></i></a>';

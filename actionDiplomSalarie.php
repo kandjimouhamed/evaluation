@@ -10,7 +10,7 @@ if (isset($_POST['valider']) )
   
   
 
-        $req = $bdd->prepare('INSERT INTO diplomsalarie( idSalarie, idDiplom, libelle, ecole) VALUES( :idSalarie, :idDiplom, :libelle, :ecole)');
+        $req = $bdd->prepare('INSERT INTO diplomsalarie( idSalarie, idDiplom, libelleLigne, ecole) VALUES( :idSalarie, :idDiplom, :libelle, :ecole)');
         $req->execute(array(
             'idSalarie' => $idSalarie,
             'idDiplom' => $idDiplom,

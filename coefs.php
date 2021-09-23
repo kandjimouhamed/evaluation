@@ -6,7 +6,7 @@ $reponse = $bdd->query('SELECT * FROM coefs ');
 
 <div id="content">
   <div id="content-header">
-    <div id="breadcrumb"> <a href="index.php" title="Retour" class="tip-bottom"><i class="icon-home"></i> Accueil</a> <a href="#" class="current">Langue</a> <a href="ajoutCoef.php"><i class="icon-edit"></i>Nouveau</a> </div>
+    <div id="breadcrumb"> <a href="index.php" title="Retour" class="tip-bottom"><i class="icon-home"></i> Accueil</a> <a href="#" class="current"> critére d'evaluation</a> <a href="ajoutCoef.php"><i class="icon-edit"></i>Nouveau</a> </div>
     <!--h1>Gestion des lANGUE</h1-->
   </div>
   <?php if ((isset($_GET['message'])) && (trim($_GET['message'])=='ok')){?>
@@ -28,7 +28,7 @@ $reponse = $bdd->query('SELECT * FROM coefs ');
         <div class="widget-box">
           <div class="widget-title">
              <span class="icon"><i class="icon-th"></i></span>
-            <h5>Liste des coefs</h5>
+            <h5>Liste critéres d'evaluation</h5>
           </div>
           <div class="widget-content nopadding">
           </a>

@@ -1,29 +1,67 @@
-<?php
+<?php 
 include('config/connexion.php');
-if (isset($_POST['valider']) && isset($_POST['description']))
+if (isset($_POST['valider']))
 {
-    
-  
-    $idSalarie = $_POST['idSalarie'];
+    $idLanague = $_POST['idLanague'];
     $libelle = $_POST['libelle'];
-    $description = $_POST['description'];
-  $pieces = implode(",", $description);
   
-  
-
-        $req = $bdd->prepare('INSERT INTO langue(libelle, description, idSalarie) VALUES(:libelle, :description, :idSalarie)');
+    if ($idLangue == -1)
+    {
+        $req = $bdd->prepare('SELECT count(idLangue)  FROM langue WHERE libelle = ?');
+        $req->execute(array($libelle));
+        $count = $req->fetchColumn();
+        
+       
+        
+        $req = $bdd->prepare('INSERT INTO langue(libelle) VALUES(:libelle)');
         $req->execute(array(
             'libelle' => $libelle,
-            'description' => $pieces,
-            'idSalarie' => $idSalarie
-
-        ));
-
+                   ));
+        
         $message =  'ok';
-        header('location:ajoutSalarie.php#mentions');
-       
-       
-}
-
+        
+        
+         header('location: ajoutLangue.php?message='.$message.'&message1=Enregistrement effectuee avec succes');
+        exit;
+    }
     
+    else 
+    {
+        $req = $bdd->prepare('SELECT count(idLangue)  FROM langue WHERE libelle = ? AND idLangue!= ?');
+        $req->execute(array($libelle,$idLangue));
+        $count = $req->fetchColumn();
+        
+        if ($count > 0)
+        {
+            header('location: ajoutLangue.php?message='.$libelle.' existe dans la base, veuillez choisiir un autre sigle&action=edit&id='.$idDiplom);
+            exit;
+        }
+        
+        $req = $bdd->prepare('SELECT count(idLangue)  FROM langue WHERE libelle = ? AND idLangue!= ?');
+        $req->execute(array($libelle,$idDiplom));
+        $count = $req->fetchColumn();
+        
+        if ($count > 0)
+        {
+            header('location: ajoutLangue.php?message='.$libelle.' existe dans la base, veuillez choisiir un autre nom&action=edit&id='.$idDiplom);
+            exit;
+        }
+        
+        $req = $bdd->prepare('UPDATE langue SET libelle = :libelle WHERE idLangue = :idLangue');
+        $req->execute(array(
+            'libelle' => $libelle,
+           
+            'idLangue' => $idLangue
+        ));
+        
+        header('location: langue.php?message=ok&message1=Mise a jour effectuee avec succes');
+        exit;
+    }
+    
+}
+else
+{
+	header('location: langue.php');
+    exit;
+}
 ?>

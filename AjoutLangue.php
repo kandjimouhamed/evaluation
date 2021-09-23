@@ -53,7 +53,6 @@ $description = $bdd->query('SELECT * FROM descriptionlangue ORDER BY libelle ASC
         <div class="alert alert-error alert-block"> <a class="close" data-dismiss="alert" href="#">x</a>
             <h4 class="alert-heading">Error!</h4>
             <?php echo $_GET['message']; ?></div> <?php } ?>
-            //
     <div class="container-fluid">
 
         <div class="row-fluid">
@@ -65,76 +64,28 @@ $description = $bdd->query('SELECT * FROM descriptionlangue ORDER BY libelle ASC
                     </div>
                     <div class="w3-container w3-white"style="width:100%; max-width: 600px; margin:0 auto;" >
                         <div class="w3-row-padding" >   
-                        <form method="post" id="repeater_form" class="form-horizontal" name="basic_validate" id="basic_validate">
-                       //
+                <form method="post" action="actionAjoutLangue.php" class="form-horizontal">
+                    
                         <div class="items" data-group="programming_languages">
                                 <div class="item-content">
                                     <div class="form-group">
                                         <div class="row">
                                         <div class="col-md-9">
-                                           <label>Select un langage</label>
-                                                <select class="form-control" data-skip-name="true" data-name="description[]"style="width:100%;" id="idSalarie" size="1" class="w3-select w3-border" size="1" required>
-                                            <option>  </option>
-                                            <?php
-                                            while ($langues = $langue->fetch()) {
-                                              if($langues ['id'] == $id) 
-                                               { 
-                                                    echo '<option value="' . $langues['id'] . '" selected>' . $langues['libelle'] . '</option>';
-                                                }else{
-                                                    echo '<option value="' . $langues['id'] . '">' . $langues['libelle'] . ' </option>';
-                                                }
-                                            }
-                                            ?>
-                                           
-                                           </select>
-                                                </select>
+                                           <label>Ajouter une langage</label>
+                                        <input type="text" name="libelle" class="form-control" value="<?php echo $libelle; ?>">    
+                                        <input type="hidden" name="idLanague" value = "<?php echo $idLanague; ?>">
+                                        
                                             </div>
                                             
                                           </div>
                                     </div>
                                 </div>
                             </div>
-                        <div id="repeater">
-                           
-                            <div class="repeater-heading" align="right" style="margin-top: -39px;">
-                                <button type="button" class="btn btn-primary repeater-add-btn">Add</button>
-                            </div>
-                            <div class="clearfix"></div>
-                            <div class="items" data-group="programming_languages">
-                                <div class="item-content">
-                                    <div class="form-group">
-                                        <div class="row">
-                                        <div class="col-md-9">
-                                           <label>Select les description des langage</label>
-                                                <select class="form-control" data-skip-name="true" data-name="description[]"style="width:100%;" id="idSalarie" size="1" class="w3-select w3-border" size="1" required>
-                                            <option>  </option>
-                                            <?php
-                                            while ($descriptions = $description->fetch()) {
-                                              if($descriptions ['id'] == $id) 
-                                               { 
-                                                    echo '<option value="' . $descriptions['id'] . '" selected>' . $descriptions['libelle'] . '</option>';
-                                                }else{
-                                                    echo '<option value="' . $descriptions['id'] . '">' . $descriptions['libelle'] . ' </option>';
-                                                }
-                                            }
-                                            ?>
-                                           
-                                           </select>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-3" style="margin-top:24px;" align="center">
-                                                <button id="remove-btn" class="btn btn-danger" onclick="$(this).parents('.items').remove()">Remove</button>
-                                            </div>
-                                          </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-      
+
                             <div class="clearfix"></div>
                         <div class="form-group" align="center">
                        <br /><br />
-                            <input type="submit" name="insert" class="btn btn-success" value="insert" />
+                            <input type="submit" name="valider" class="btn btn-success" value="valider" />
                         </div>
                 </form>
                         </div>

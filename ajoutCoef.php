@@ -40,7 +40,7 @@ $reponse = $bdd->query('SELECT * FROM coefs ORDER BY libelle ASC');
 
 <div id="content">
     <div id="content-header">
-        <div id="breadcrumb"> <a href="index.php" title="Retour" class="tip-bottom"><i class="icon-home"></i> Accueil</a> <a href="coefs.php">Coefs</a> <a href="#" class="current"><i class="icon-edit"></i>Saisie coef</a> </div>
+        <div id="breadcrumb"> <a href="index.php" title="Retour" class="tip-bottom"><i class="icon-home"></i> Accueil</a> <a href="coefs.php"> critére d'evaluation</a> <a href="#" class="current"><i class="icon-edit"></i>Saisie  critére d'evaluation</a> </div>
         <!--h1>Gestion des langues</h1-->
     </div>
     <?php if ((isset($_GET['message'])) && (trim($_GET['message'])=='ok')){?>
@@ -58,7 +58,7 @@ $reponse = $bdd->query('SELECT * FROM coefs ORDER BY libelle ASC');
             <div class="span12">
                 <div class="widget-box">
                     <div class="widget-title">
-                        <span class="icon"><i class="icon-th"></i>Ajouter Coef</span>
+                        <span class="icon"><i class="icon-th"></i>Ajouter  critére d'evaluation</span>
 
                     </div>
                     <div class="w3-container w3-white">
