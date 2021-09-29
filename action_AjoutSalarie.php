@@ -57,7 +57,7 @@ if (isset($_POST['valider']))
             'contrat' => $contrat,
             'password' => md5($password),
             'profil' => $profil,
-            'montant' => $promontantfil
+            'montant' => $montant
         ));
         $message =  'ok';
         header('location: ajoutSalarie.php?message='.$message.'&message1=Enregistrement effectuee avec succes');

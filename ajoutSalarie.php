@@ -417,9 +417,11 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
                                             <div class="col-md-4">Profil</div>
                                             <div class="col-md-8">
                                             <select name="profil" id="profil" style="width:100%;" id="idRecrutement" size="1"  class="w3-select w3-border" size="1" required>
-										 <option value="2">Utilisateur</option>
+										 
 										 <option value="1">Administrateur</option>
-										 <option value="3">Mamageur</option>
+                                         <option value="2">Chef de Service</option>
+										 <option value="3">Employe</option>
+										 <option value="4">Chef de Filiale</option>
                                    </select> 
                                   </div>
                                         </div>
