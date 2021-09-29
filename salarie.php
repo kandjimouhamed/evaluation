@@ -41,7 +41,7 @@ $reponse = $bdd->query('SELECT * FROM salarie ORDER BY idSalarie ASC');
                                 <th>Nom</th>
                                 <th>prenom</th>
                                 <th>fonctionActuelle</th>
-                                <th>Langue</th>
+                               
      
                                 <th style="width:7%;">Actions</th>
                             </tr>

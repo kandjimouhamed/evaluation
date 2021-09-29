@@ -5,14 +5,14 @@ if (isset($_POST['valider']))
     $idLangue = $_POST['idLanague'];
     $libelle = $_POST['libelle'];
   
-    if ($idLangue == 1)
+    if ($idLangue == -1)
     {
         $req = $bdd->prepare('SELECT count(idLangue)  FROM langue WHERE libelle = ?');
         $req->execute(array($libelle));
         $count = $req->fetchColumn();
         
      
-        var_dump( $libelle);
+        //var_dump( $libelle);
         $req = $bdd->prepare('INSERT INTO langue(libelle) VALUES(:libelle)');
         $req->execute(array(
             'libelle' => $libelle,

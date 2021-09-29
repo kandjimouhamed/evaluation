@@ -80,8 +80,8 @@ if (isset($_POST['valider']))
 
         $req = $bdd->prepare('UPDATE salarie SET prenom =:prenom, nom= :nom, fonctionActuelle = :fonctionActuelle 
                    ,situationFam = :situationFam,ancieneteFonc = :ancieneteFonc, dateNaiss = :dateNaiss,telephone= :telephone,  
-                   carburant = :carburant, commussion = :commussion,autres = :autres, idDiplom =:idDiplom, idservice = :idservice, 
-                   idParentel = :idParentel, idPO = :idPO,idRecrutement = :idRecrutement, idlangue = :idlangue, contrat = :contrat, password = :password, profil = :profil, montant = :montant WHERE idSalarie = :idSalarie');
+                   carburant = :carburant, commussion = :commussion,autres = :autres, idservice = :idservice, 
+                   idParentel = :idParentel, idPO = :idPO,idRecrutement = :idRecrutement, contrat = :contrat, profil = :profil, montant = :montant WHERE idSalarie = :idSalarie');
         $req->execute(array(
             'prenom' => $prenom,
             'nom' => $nom,
@@ -93,17 +93,17 @@ if (isset($_POST['valider']))
             'carburant' => $carburant,
             'commussion' => $commussion,
             'autres' => $autres,
-            'idDiplom' => $idDiplom,
+            //'idDiplom' => $idDiplom,
             'idservice' => $idservice,
             'idParentel' => $idParentel,
             'idPO' => $idPO,
             'idRecrutement' => $idRecrutement,
-            'idlangue' => $idlangue,
+          //  'idlangue' => $idlangue,
             'idSalarie' => $idSalarie,
             'contrat' => $contrat,
-            'password' => $password,
+           // 'password' => $password,
             'profil' => $profil,
-            'montant' => $promontantfil
+            'montant' => $montant
         ));
 
 

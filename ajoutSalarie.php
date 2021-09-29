@@ -29,16 +29,19 @@ if (isset($_GET['idSalarie']))
            $idParentel = $donnees['idParentel'];
            $idPO = $donnees['idPO'];
            $idRecrutement = $donnees['idRecrutement'];
-           $req = $bdd->prepare('SELECT libelle,description  FROM langue WHERE idSalarie = ?');
-           $req->execute(array($idSalarie));
-           $libelle =  $req->fetchColumn();
-   
+           $req = $bdd->prepare('SELECT libelle FROM langue WHERE idLangue = ?');
+          // $req->execute(array($donnees,['idLangue']));
+          // $libelle =  $req->fetchColumn();
+           $evaluer = $bdd->prepare('SELECT langue.libelle FROM languesalarie  INNER JOIN salarie ON languesalarie.idSalarie = salarie.idSalarie 
+           INNER JOIN langue ON languesalarie.idLangue = langue.idLangue ');
+            $evaluer->execute(array());
+             $libelle =  $evaluer->fetchColumn();
            $idLangue = $libelle ;
            $contrat = $donnees['contrat'];
            $password = $donnees['pwd'];
            $profil = $donnees['profil'];
-           $idCoef = $donnees['idCoef'];
-           $note = $donnees['note'];
+         
+          // $note = $donnees['note'];
            $montant = $donnees['montant'];
 
 
@@ -69,7 +72,7 @@ if (isset($_GET['idSalarie']))
         $password = "";
         $profil = "";
         $idCoef = -1;
-        $note = "";
+       // $note = "";
         $montant = "";
         
     }
@@ -97,7 +100,7 @@ else
     $password = "";
      $profil = "";
      $idCoef = -1;
-     $note = "";
+     //$note = "";
      $montant = "";
 }
 
