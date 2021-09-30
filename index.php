@@ -12,12 +12,7 @@ $req->execute(array($idSalarie));
   
   <div class="container-fluid w3-white" style="font-size:12px;">
 
-    <div class="row-fluid">
-      <div class="span12">
-      <div class="container ">
-        
-       
-               
+   
                 <div class="container-fluid" style="margin-top: 0;">
                 <div class="row-fluid">
                     <div class="span12">
@@ -46,17 +41,18 @@ $req->execute(array($idSalarie));
       while ($donnees = $req->fetch())
       {  
            ?>
-            
+           <tr>
            <div class="row">
-             <div class="col-md-2"></div>
+             <div class="col-md-1"></div>
              <div class="col-md-10">
                 <div class="row">
-                  <div class="col-md-7"> <?=$donnees['libelle']?> <br><br></div>
+                  <div class="col-md-6"> <?=$donnees['libelle']?> <br><br></div>
+                  <div class="col-md-1"> <?=$donnees['coef']?> <br><br></div>
                   <div class="col-md-5">
-                    <div class="row">
+                   
                       
                         Entre une notes (1 à 5) &nbsp;&nbsp; <input type="number" name="note[]" maxlength="5" style="width: 20%;"  value = "<?= $donnees['note'];?>"  class="w1-input w3-border">
-                  </div>
+                  
                 </div>
                   </div>
                 </div>
