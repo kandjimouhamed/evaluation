@@ -6,8 +6,8 @@ $reponse = $bdd->query('SELECT * FROM salarie ORDER BY idSalarie ASC');
 $coef = $bdd->query('SELECT * FROM coefs ORDER BY id ASC');
 
 	$req1 = $bdd->prepare('SELECT * FROM service ORDER BY ID ASC');
-   $reponse2 = $bdd->prepare('SELECT * FROM evaluer  RIGHT JOIN salarie ON evaluer.idSalarie = salarie.idSalarie 
-     RIGHT JOIN coefs ON evaluer.idCoef = coefs.id  GROUP BY evaluer.idSalarie');
+   $reponse2 = $bdd->prepare('SELECT * FROM evaluer  INNER JOIN salarie ON evaluer.idSalarie = salarie.idSalarie 
+     INNER JOIN coefs ON evaluer.idCoef = coefs.id  GROUP BY evaluer.idSalarie');
     $reponse2->execute();
     
 
@@ -138,70 +138,58 @@ else
 
 </fieldset>
  </form>		       
-			 <div class="w3-row w3-border">
+ <div class="w3-row w3-border">
              <div class="w3-col s12" style='overflow-x:scroll;'>
 			
 			 <table id="" class="table table-bordered">
-			
-             <caption style="caption-side:top;text-align:center;">LOCALISATION DES VEHICULES</caption>
-  <thead>
-         <tr>
-	    <th>Prenom et nom  
-      </th>
+			  <caption style="caption-side:top;text-align:center;">LOCALISATION DES VEHICULES</caption>
+    <tr>
+	    <th>Prenom et Nom</th>
 	    
 		<?php 
-
 		  while ($donnees = $coef->fetch())
         { 
-         
-          
-	     echo '<th style >'. $donnees['libelle'].'</th>';
-	//	$tabcoef[] = $donnees['coef'];
-            
+	     echo '<th>'.$donnees['libelle'].'</th>';
+		// $tabEtat[] = $donnees['ID'];
+    $coefs[] = $donnees['id'];
 	    }
 		echo '<th>Total</th>';
+		$total2 = 0;
     echo '</tr>';
-        ?>
-      
-    </thead>
-    <tbody >
-        <?php
-           
-                      $evaluer = $bdd->prepare('SELECT * FROM evaluer  INNER JOIN salarie ON evaluer.idSalarie = salarie.idSalarie   GROUP BY evaluer.idSalarie');
-                      $evaluer->execute();
-                                   while ($d = $reponse2->fetch())
-                                   {
-                                    echo '<tr class="gradeA">';
-                                    echo  '<td>'.$d['nom'].' '.$d['prenom'].'</td>';
-                                    
-                                    $salarie = $bdd->prepare('SELECT * FROM evaluer  WHERE idSalarie = ?');
-                                    $salarie->execute(array($d['idSalarie']));
-
-                                       while ($dd = $salarie->fetch())
-                                       {
-                                       
-                                     // echo  '<td>'.$dd['nom'].' '.$dd['prenom'].'</td>';
-                                      
-                                      
-                                         // echo  '<td>note'.$dd['note'].' </td>';
-                                         echo  '<td>id  '.$dd['id'].' </td>';
-                                         echo  '<td>idc  '.$dd['idCoef'].' </td>';
-                                      
-                                       }
-                                       
-                                   }
-                                
-
-                echo '</tr>';
-                            ?>
-                   </tbody>
-       
+		while ($donnees = $reponse2->fetch())
+        {
+        
+        // echo($coefs);
+         echo '<tr>';
+         echo '<td>'.$donnees['prenom'].'</td>';
+		// $idParc = $donnees['IDPARCS'];
+    $salarie = $bdd->prepare('SELECT * FROM evaluer Where idSalarie = ?');
+    $salarie->execute(array($donnees['idSalarie']));
+   // $i = 1;
+    while ($donne = $salarie->fetch()){
+      for ($i=1; $i <9 ; $i++) { 
+        if ($i == $donne['idCoef'] ) {
+          echo '<td>'.$donne['idCoef'].'</td>';
+          exit;
+      }else{
+        echo '<td>0</td>';
+        exit;
+      }
+      }
+   // $i = 1;
+     
+    //$i ++;
+  }
+		 
+        }
+	//echo '<td colspan="'.$col.'" style="text-align:right;font-weight: bold;"><a href = "tableaudebord.php?filtre=ok&etat1=-1&localisation1=-1&filiale1='.$initfiliale.'&direction1='.$initdirection.'&client1='.$initclient.'&vehicule1='.$initvehicule.'">'.$total2.'</a></td></tr>';
+  echo '</tr>';      
+  ?>
+            
     </table>
 	 
 			 </div>
              </div> 
-            
-		 
 			<div class="row-fluid">
 				<div class="widget-box">
 							<!--div class="widget-title">

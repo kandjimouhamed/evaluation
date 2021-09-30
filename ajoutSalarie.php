@@ -479,6 +479,7 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
                                                 <tr>
                                                 <th scope="col">LANGUE</th>
                                                 <th scope="col">DESCRIPTIONS</th>
+                                                <th scope="col">ACTION</th>
                                                 
                                                 </tr>
                                             </thead>
@@ -494,7 +495,8 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
                                     <tr>
                                     <td><?=$a['libelle']?></td>
                                     <td> <?=$a['description']?></td>
-                                 
+                                    <td>  <a href="supprimer.php?action=suppridLS&idLS=<?=$a['idLS']?>" onclick="return(confirm('Etes-vous sur de vouloir supprimer cette entree?'));"><i class="glyphicon glyphicon-trash"></i></a>
+                                    </td>
                                    
                                     </tr>
                                     </tbody>
@@ -617,7 +619,8 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
                                                 <th scope="col">DIPLOM</th>
                                                 <th scope="col">DETAILE DIPLOM</th>
                                                 <th scope="col">L'ECOLE</th>
-                                                
+                                                <th scope="col">ACTION</th>
+
                                                 </tr>
                                             </thead> 
                               <?php
@@ -633,6 +636,8 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
                                     <td><?=$a['libelle']?></td>
                                     <td><?=$a['libelleLigne']?></td>
                                     <td> <?=$a['ecole']?></td>
+                                    <td>  <a href="supprimer.php?action=suppr&idDipSala=<?=$a['id']?>" onclick="return(confirm('Etes-vous sur de vouloir supprimer cette entree?'));"><i class="glyphicon glyphicon-trash"></i></a>
+                                    </td>
                                     </tr>
                                     </tbody>
                                   
@@ -688,6 +693,7 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
                                                 <tr>
                                                 <th scope="col"></th>
                                                 <th scope="col">List des critére d'evaluation </th>
+                                                <th scope="col">ACTION</th>
                                                 
                                                 
                                                 </tr>
@@ -703,7 +709,8 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
                                     <tr>
                                     <td><?=$i?></td>
                                     <td><?=$a['libelle']?></td>
-                                   
+                                    <td>  <a href="supprimer.php?action=supprC&idC=<?=$a['idEvaluer']?>" onclick="return(confirm('Etes-vous sur de vouloir supprimer cette entree?'));"><i class="glyphicon glyphicon-trash"></i></a>
+                                    </td>
                                     </tr>
                                     </tbody>
                                   
@@ -737,7 +744,7 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
                                               <input type="hidden" name="id" value = "<?php echo $id; ?>">
                                         <br/><br/>
                                        
-                                            <input type="hidden" class="w3-input w3-border" name="date" id="date" value = "<?php echo $annee_selectionne; ?>" required>
+                                            <input type="text" class="w3-input w3-border" name="date" id="date" value = "<?php echo $annee_selectionne = date('Y/m/d'); ?>" required>
                                               <input type="hidden" name="id" value = "<?php echo $id; ?>">
                                         <br/><br/>
 										<a href="#" class="w3-bar-item w3-button w3-light-grey" style="width:49%;" onclick="location.href='filiale.php'" >Retour</a>
@@ -750,6 +757,7 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
                                                 <tr>
                                                 <th scope="col"></th>
                                                 <th scope="col">DIPLOM</th>
+                                                <th scope="col">ACTION</th>
                                                 
                                                 
                                                 </tr>
@@ -765,7 +773,8 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
                                     <tr>
                                     <td><?=$i?></td>
                                     <td><?=$a['libelle']?></td>
-                                   
+                                    <td>  <a href="supprimer.php?action=supprO&idO=<?=$a['id']?>" onclick="return(confirm('Etes-vous sur de vouloir supprimer cette entree?'));"><i class="glyphicon glyphicon-trash"></i></a>
+                                    </td>
                                     </tr>
                                     </tbody>
                                   

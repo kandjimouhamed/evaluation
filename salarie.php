@@ -63,7 +63,7 @@ $reponse = $bdd->query('SELECT * FROM salarie ORDER BY idSalarie ASC');
                                 //echo '<a href="#"><i class="icon icon-search"></i></a>';
                                 echo '<a href="ajoutSalarie.php?action=edit&idSalarie='.$donnees['idSalarie'].'"<i class="glyphicon glyphicon-edit"></i></a> &nbsp; '; 
                                 echo '<a href="supprimerSalarie.php?action=suppr&idSalarie='.$donnees['idSalarie'].'" onclick="return(confirm(\'Etes-vous sur de vouloir supprimer cette entree?\'));"><i class="glyphicon glyphicon-trash"></i></a> &nbsp;';
-                                echo '<a href="detaileSalarie.php?action=detail&idSalarie='.$donnees['idSalarie'].'"<i class="glyphicon glyphicon-eye-open"></i></a>';
+                                echo '<a href="detailSalarie.php?action=detail&idSalarie='.$donnees['idSalarie'].'"<i class="glyphicon glyphicon-eye-open"></i></a>';
                                 echo '</td>';
                                 echo '</tr>';
                                 $i++;
