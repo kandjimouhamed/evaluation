@@ -25,7 +25,13 @@ if (isset($_GET['idSalarie']))
            $vehicule = $donnees['vehicule'];
             $autres = $donnees['autres'];
            $ancieneteFonc = $donnees['ancieneteFonc'];
-           $idservice = $donnees['idservice'];
+           $idser = $bdd->prepare('SELECT service.NOM_SERVICE ,filiale.filialenom FROM salarie INNER JOIN service ON salarie.idService 
+           INNER JOIN filiale ON service.idFiliale = filiale.filialecode 
+           Where idSalarie = ?');
+           $idser->execute(array($donnees['idSalarie']));
+        $idservice=$idser->fetchColumn();
+           
+          
            $idParentel = $donnees['idParentel'];
            $idPO = $donnees['idPO'];
            $idRecrutement = $donnees['idRecrutement'];
@@ -38,6 +44,12 @@ if (isset($_GET['idSalarie']))
            $idDiplomSalarie->execute(array($donnees['idSalarie'])); 
            $idObjective = $bdd->prepare('SELECT * FROM objectifs Where idSalarie = ? ');
            $idObjective->execute(array($donnees['idSalarie']));
+
+           $idcritere = $bdd->prepare('SELECT * FROM evaluer INNER JOIN coefs ON evaluer.idCoef = coefs.id 
+           Where idSalarie = ?');
+           $idcritere->execute(array($donnees['idSalarie'])); 
+
+          
      
          //$idLangue = $langueSalarie->fetchColumn();
            $contrat = $donnees['contrat'];
@@ -112,18 +124,27 @@ $langue = $bdd->query('SELECT * FROM langue ');
 </header>
 <br>
 <div class="container">
-    <br><br>
+<br><br>
+<div class="widget-title">
+<div class="row">
+              <div class="col-md-5">
+              <p  style="font-size: 17px;padding-left: 20px; ">
+                        <?= $prenom.'  '.$nom ?> 
+              </p>
+              </div>
+              
+              <div class="col-md-7">
+              <p  style="font-size: 17px;">
+                <?=$idservice?> 
+              </p>
+</div>
+</div>
+</div>
+   
     <div class="row">
   <div class="col-sm-6">
     <div class="card">
       <div class="card-body">
-      <div class="row">
-              <div class="col-md-5">  <h3 class="card-title">Prenom et Nom</h3></div>
-              <div class="col-md-6">
-               <p class="card-text" style="font-size: 17px;">
-                        <?= $prenom.'  '.$nom?> </p>
-              </div>
-          </div> <br>
           <div class="row">
               <div class="col-md-5">  <h3 class="card-title">fonctionActuelle</h3></div>
               <div class="col-md-6">
@@ -267,9 +288,17 @@ $langue = $bdd->query('SELECT * FROM langue ');
               <div class="col-md-6">
                <p class="card-text" style="font-size: 17px;">
                <?php
-                        while ($a = $idObjective->fetch()) {?>
+                $annee_selectionne = date('Y');
+                        while ($a = $idObjective->fetch()) {
+                            $annee = date('Y',strtotime($a['date']));  ?>
                          <div class="row">
-                           <div class="col-md-9"><?=$a['libelle']?></div>
+                                 <?php
+                                 if ($annee ==  $annee_selectionne ) {
+                               echo  $a['libelle']; 
+                                 }
+                                 ?>
+                           
+                          
                           
                         </div>
                           
@@ -281,18 +310,18 @@ $langue = $bdd->query('SELECT * FROM langue ');
           <hr>
            <div class="row">
               <div class="col-md-5">  <h3 class="card-title">Critere d'Evaluation</h3></div>
-              <div class="col-md-6">
+              <div class="col-md-7">
                <p class="card-text" style="font-size: 17px;">
                <?php
-                        while ($a = $idObjective->fetch()) {?>
+                        while ($a = $idcritere->fetch()) {?>
                          <div class="row">
-                           <div class="col-md-9"><?=$a['libelle']?></div>
-                          
+                           <div class="col-md-12"><?=$a['libelle'] ?></div>
                         </div>
                           
-                      <?php  }
+                      <?php }
                         
                         ?>
+              </div>
               </div>
           </div> 
           
@@ -303,6 +332,7 @@ $langue = $bdd->query('SELECT * FROM langue ');
   </div>
 </div>
 </div>
+<br><br><br><br>
 <div class="row-fluid">
     <div id="footer" class="span12"> 2019 &copy;  <a href="#">CCBM TECHNOLOGIES ET SOLUTIONS</a> </div>
 </div>

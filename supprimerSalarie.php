@@ -6,17 +6,7 @@ if (isset($_GET['idSalarie']))
     
     if (trim($_GET['action']) == 'suppr')
     {
-        $req = $bdd->prepare('SELECT * FROM salarie WHERE idSalarie = ?');
-        $req->execute(array($id));
-        $count = $req->fetchColumn();
-        
-        if ($count > 0)
-        {
-            header('location: salarie.php?message=Suppression impossible, des OR sont lies a cet utilisateur');
-            exit;
-        }
-        else
-        {
+      
             
             $req = $bdd->prepare('DELETE FROM salarie WHERE idSalarie = ?');
             $req->execute(array($id));
@@ -24,7 +14,7 @@ if (isset($_GET['idSalarie']))
             header('location: salarie.php?message=ok&message1=Suppression reussie');
             exit; 
         }
-    }
+
 
 }
 else

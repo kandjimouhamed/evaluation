@@ -744,7 +744,7 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
                                               <input type="hidden" name="id" value = "<?php echo $id; ?>">
                                         <br/><br/>
                                        
-                                            <input type="text" class="w3-input w3-border" name="date" id="date" value = "<?php echo $annee_selectionne = date('Y/m/d'); ?>" required>
+                                            <input type="hidden" class="w3-input w3-border" name="date" id="date" value = "<?php echo $annee_selectionne = date('Y/m/d'); ?>" required>
                                               <input type="hidden" name="id" value = "<?php echo $id; ?>">
                                         <br/><br/>
 										<a href="#" class="w3-bar-item w3-button w3-light-grey" style="width:49%;" onclick="location.href='filiale.php'" >Retour</a>
