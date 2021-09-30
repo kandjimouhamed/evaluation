@@ -113,10 +113,10 @@ legend {
                 <li><a href="recrutement.php">Recrutement</a></li>
                 <li><a href="intervenant.php">Compte</a></li>
                 <li><a href="salarie.php">Salarie</a></li>
-                <li><a href="edit_dossier.php">teste</a></li>
+               
                 <li><a href="coefs.php">Critére d'evaluation</a></li>
-                <li><a href="evaluer.php">entretient</a></li>
-                <li><a href="objectif.php">Objectif</a></li>
+              
+               
 
 
             </ul>

@@ -54,7 +54,7 @@ $reponse = $bdd->query('SELECT * FROM coefs ');
                  echo  '<td>';
                  //echo '<a href="#"><i class="icon icon-search"></i></a>';
                  echo '<a href="ajoutCoef.php?action=edit&id='.$donnees['id'].'"<i class="glyphicon glyphicon-edit"></i></a>';
-                 echo '<a href="suprLangue.php?action=suppr&id='.$donnees['id'].'" onclick="return(confirm(\'Etes-vous sur de vouloir supprimer cette entree?\'));"><i class="glyphicon glyphicon-trash"></i></a>';
+                 echo '<a href="suppCritere.php?action=suppr&id='.$donnees['id'].'" onclick="return(confirm(\'Etes-vous sur de vouloir supprimer cette entree?\'));"><i class="glyphicon glyphicon-trash"></i></a>';
                  echo '</td>';
                  echo '</tr>';
                 $i++;

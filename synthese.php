@@ -6,8 +6,8 @@ $reponse = $bdd->query('SELECT * FROM salarie ORDER BY idSalarie ASC');
 $coef = $bdd->query('SELECT * FROM coefs ORDER BY id ASC');
 
 	$req1 = $bdd->prepare('SELECT * FROM service ORDER BY ID ASC');
-   $reponse2 = $bdd->prepare('SELECT * FROM evaluer  INNER JOIN salarie ON evaluer.idSalarie = salarie.idSalarie 
-     INNER JOIN coefs ON evaluer.idCoef = coefs.id  GROUP BY evaluer.idSalarie');
+   $reponse2 = $bdd->prepare('SELECT * FROM evaluer  RIGHT JOIN salarie ON evaluer.idSalarie = salarie.idSalarie 
+     RIGHT JOIN coefs ON evaluer.idCoef = coefs.id  GROUP BY evaluer.idSalarie');
     $reponse2->execute();
     
 
@@ -25,7 +25,7 @@ $sql = 'SELECT * FROM salarie WHERE 1';
 if (($_SESSION['profil'] == 1) && (isset($_REQUEST['salarie'])))
 {
  $filtreSalarie = trim($_REQUEST['salarie']);	
- if ($idSalarie != -1)
+ if ($idSalarie != -1)  
  {
  if ((isset($_REQUEST['service'])) && (trim($_REQUEST['service'])!=-1))
  {
@@ -182,15 +182,13 @@ else
                                        
                                      // echo  '<td>'.$dd['nom'].' '.$dd['prenom'].'</td>';
                                       
-                                         if ($dd['id'] = $dd['idCoef'] ) {
-                                          echo  '<td>'.$dd['note'].' </td>';
-                                         }  if ($dd['id'] == $dd['idCoef'] ) {
-                                          echo  '<td></td>';
-                                         }
-                                        
-                                   
+                                      
+                                         // echo  '<td>note'.$dd['note'].' </td>';
+                                         echo  '<td>id  '.$dd['id'].' </td>';
+                                         echo  '<td>idc  '.$dd['idCoef'].' </td>';
                                       
                                        }
+                                       
                                    }
                                 
 

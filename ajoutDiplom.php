@@ -149,7 +149,7 @@ $reponse = $bdd->query('SELECT * FROM diplom ORDER BY libelle ASC');
 			<div class="w3-container w3-white">
               <div class="w3-row-padding">
 			  <form class="form-horizontal" method="post" action="actionAjoutDiplom.php" name="basic_validate" id="basic_validate">
-                                        <label>Lebelle</label>
+                                        <label>Libelle</label>
                                             <input type="text" class="w3-input w3-border" name="libelle" id="libelle" value = "<?php echo $libelle; ?>" required>
                                               <input type="hidden" name="idDiplom" value = "<?php echo $idDiplom; ?>">
                                         <br/><br/>
