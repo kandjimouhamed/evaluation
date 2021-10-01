@@ -7,6 +7,11 @@ $codeintervenant = $_SESSION['codeintervenant'];
 $req = $bdd->prepare('SELECT * FROM salarie WHERE   idSalarie = ?');
 $req->execute(array($codeintervenant));
 //$nomServices =  $req->fetchColumn();
+$reqs = $bdd->prepare('SELECT service.NOM_SERVICE FROM salarie INNER JOIN service  ON salarie.idservice = service.ID 
+WHERE idSalarie = ?');
+    $reqs->execute(array($codeintervenant));
+    $nomService =  $reqs->fetchColumn();
+
      
 ?>
 
@@ -50,21 +55,13 @@ $req->execute(array($codeintervenant));
               </thead>
               <tbody>
               <?php 
+               $rep = $bdd->prepare('SELECT * FROM salarie INNER JOIN service  ON salarie.idservice = service.ID 
+                WHERE NOM_SERVICE =?');
+               $rep->execute(array($nomService));
                $i = 1;
-                        while ($donnees = $req->fetch())
+                        while ($donnees = $rep->fetch())
                         {  
-                          $req = $bdd->prepare('SELECT NOM_SERVICE FROM service WHERE   ID = ?');
-                         $req->execute(array($donnees['idservice']));
-                         $nomService =  $req->fetchColumn();
-
-                         if ($nomService == 'Customer Service') {
-                            
-                            $req = $bdd->prepare('SELECT * FROM salarie INNER JOIN service  ON salarie.idservice = service.ID 
-                            WHERE   service.NOM_SERVICE = ?');
-                                 $req->execute(array($nomService));
                          
-                                while ($donnees = $req->fetch())
-                                {  
                                     echo '<tr class="gradeA">';
                                     echo  '<td>'.$i.'</td>'; 
                                     echo  '<td>'.$donnees['prenom'].'</td>'; 
@@ -80,77 +77,8 @@ $req->execute(array($codeintervenant));
                                     $i++;
                                 }
                                 $reponse->closeCursor();
-                                }  elseif ($nomService == 'Magasin') {
+                               
                             
-                                    $req = $bdd->prepare('SELECT * FROM salarie INNER JOIN service  ON salarie.idservice = service.ID 
-                                    WHERE   service.NOM_SERVICE = ?');
-                                         $req->execute(array($nomService));
-                                 
-                                        while ($donnees = $req->fetch())
-                                        {  
-                                            echo '<tr class="gradeA">';
-                                            echo  '<td>'.$i.'</td>'; 
-                                            echo  '<td>'.$donnees['prenom'].'</td>'; 
-                                            echo  '<td>'.$donnees['nom'].'</td>'; 
-                                            echo  '<td>'.$donnees['fonctionActuelle'].'</td>'; 
-                                            echo  '<td>'.$donnees['telephone'].'</td>'; 
-                                        
-                                            echo  '<td>';
-                                            //echo '<a href="#"><i class="icon icon-search"></i></a>';
-                                            echo '<a href="notes.php.php?idSalarie='.$donnees['idSalarie'].'"<i class="glyphicon glyphicon-edit"></i></a>';
-                                            echo '</td>'; 
-                                            echo '</tr>';
-                                            $i++;
-                                        }
-                                        $reponse->closeCursor();
-                                        }elseif ($nomService == 'Achat') {
-                            
-                                            $req = $bdd->prepare('SELECT * FROM salarie INNER JOIN service  ON salarie.idservice = service.ID 
-                                            WHERE   service.NOM_SERVICE = ?');
-                                                 $req->execute(array($nomService));
-                                         
-                                                while ($donnees = $req->fetch())
-                                                {  
-                                                    echo '<tr class="gradeA">';
-                                                    echo  '<td>'.$i.'</td>'; 
-                                                    echo  '<td>'.$donnees['prenom'].'</td>'; 
-                                                    echo  '<td>'.$donnees['nom'].'</td>'; 
-                                                    echo  '<td>'.$donnees['fonctionActuelle'].'</td>'; 
-                                                    echo  '<td>'.$donnees['telephone'].'</td>'; 
-                                                
-                                                    echo  '<td>';
-                                                    //echo '<a href="#"><i class="icon icon-search"></i></a>';
-                                                    echo '<a href="notes.php?idSalarie='.$donnees['idSalarie'].'"<i class="glyphicon glyphicon-edit"></i></a>';echo '</td>'; 
-                                                    echo '</tr>';
-                                                    $i++;
-                                                }
-                                                $reponse->closeCursor();
-                                                }elseif ($nomService == 'Service Qualite') {
-                            
-                                                    $req = $bdd->prepare('SELECT * FROM salarie INNER JOIN service  ON salarie.idservice = service.ID 
-                                                    WHERE   service.NOM_SERVICE = ?');
-                                                         $req->execute(array($nomService));
-                                                 
-                                                        while ($donnees = $req->fetch())
-                                                        {  
-                                                            echo '<tr class="gradeA">';
-                                                            echo  '<td>'.$i.'</td>'; 
-                                                            echo  '<td>'.$donnees['prenom'].'</td>'; 
-                                                            echo  '<td>'.$donnees['nom'].'</td>'; 
-                                                            echo  '<td>'.$donnees['fonctionActuelle'].'</td>'; 
-                                                            echo  '<td>'.$donnees['telephone'].'</td>'; 
-                                                        
-                                                            echo  '<td>';
-                                                            //echo '<a href="#"><i class="icon icon-search"></i></a>';
-                                                            echo '<a href="ajoutDiplom.php?action=edit&idSalarie='.$donnees['idSalarie'].'"<i class="glyphicon glyphicon-edit"></i></a>';
-                                                            echo '<a href="supprDiplom.php?action=suppr&idSalarie='.$donnees['idSalarie'].'" onclick="return(confirm(\'Etes-vous sur de vouloir supprimer cette entree?\'));"><i class="glyphicon glyphicon-trash"></i></a>';
-                                                            echo '</td>'; 
-                                                            echo '</tr>';
-                                                            $i++;
-                                                        }
-                                                        $reponse->closeCursor();
-                                                        }
-                            }
                                 ?>
                 
               </tbody>

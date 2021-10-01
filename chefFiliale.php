@@ -51,8 +51,9 @@ INNER JOIN filiale  ON service.idFiliale = filiale.filialecode  WHERE idSalarie 
                   <th>NOM</th>
                   <th>PRENOM</th>
                   <th>FONCTION</th>
+                  <th>PROFIL</th>
                   <th>SERVICE</th>
-                  <th>FILIALE</th>
+                  
             
                  
                   <th style="width:7%;">Actions</th>
@@ -60,7 +61,7 @@ INNER JOIN filiale  ON service.idFiliale = filiale.filialecode  WHERE idSalarie 
               </thead>
               <tbody>
               <?php 
-              echo $nomFiliale;
+             
               $rep = $bdd->prepare('SELECT * FROM salarie INNER JOIN service  ON salarie.idservice = service.ID 
               INNER JOIN filiale  ON service.idFiliale = filiale.filialecode WHERE filialenom =?');
               $rep->execute(array($nomFiliale));
@@ -73,9 +74,20 @@ INNER JOIN filiale  ON service.idFiliale = filiale.filialecode  WHERE idSalarie 
                                     echo  '<td>'.$reps['prenom'].'</td>'; 
                                     echo  '<td>'.$reps['nom'].'</td>'; 
                                     echo  '<td>'.$reps['fonctionActuelle'].'</td>'; 
+                                    if ( $reps['profil'] == 1 ) {
+                                       
+                                        echo  '<td> Administrateur </td>';
+                                     }else if ($reps['profil'] == 2 ) {
+                                     
+                                      echo  '<td>Chef de Service</td>';
+                                   }else if ($reps['profil'] == 3 ) {
+                                   
+                                      echo  '<td>Employe</td>';
+                                   }else{
+                            
+                                      echo  '<td> Chef de Filiale</td>';
+                                   }
                                     echo  '<td>'.$reps['NOM_SERVICE'].'</td>'; 
-                                    echo  '<td>'.$reps['filialenom'].'</td>'; 
-                                
                                     echo  '<td>';
                                     //echo '<a href="#"><i class="icon icon-search"></i></a>';
                                     echo '<a href="notes.php?idSalarie='.$reps['idSalarie'].'"<i class="glyphicon glyphicon-edit"></i></a>';
