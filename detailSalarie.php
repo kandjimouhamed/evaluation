@@ -29,9 +29,13 @@ if (isset($_GET['idSalarie']))
            INNER JOIN filiale ON service.idFiliale = filiale.filialecode 
            Where idSalarie = ?');
            $idser->execute(array($donnees['idSalarie']));
-        $idservice=$idser->fetchColumn();
-           
-          
+           $idservice=$idser->fetchColumn();
+
+           $idfiliale = $bdd->prepare('SELECT filiale.filialenom FROM filiale  
+           Where filialecode = ?');
+           $idfiliale->execute(array($donnees['idSalarie']));
+           $idfiliale=$idfiliale->fetchColumn();
+
            $idParentel = $donnees['idParentel'];
            $idPO = $donnees['idPO'];
            $idRecrutement = $donnees['idRecrutement'];

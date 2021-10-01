@@ -1,14 +1,31 @@
 <?php
 include('header.php');
 $reponse = $bdd->query('SELECT * FROM salarie ORDER BY idSalarie ASC');
+if (isset($_GET['inpute'])   AND !empty($_GET['inpute'])) {
+  $search= htmlspecialchars(($_GET['inpute']));
+  $searche = $bdd->query('SELECT * FROM salarie WHERE nom LIKE "%'.$search.'%" ');
+  $rowcount = $searche->rowCount();
+
+}
 ?>
 
 
 <div id="content">
+  
   <div id="content-header">
+    
     <div id="breadcrumb"> <a href="index.php" title="Retour" class="tip-bottom"><i class="icon-home"></i> Accueil</a> <a href="#" class="current">Salaries</a> <a href="ajoutSalarie.php"><i class="icon-edit"></i>Nouveau</a> </div>
     <!--h1>Gestion des filiales</h1-->
   </div>
+  <div>
+    
+        <form class="form-group" method="get">
+         <div class="row">
+         <div class="col-3 col-sm-3 col-md-2"></div>
+         <div class="col-6 col-sm-6 col-md-4"> <Input Class="form-control" name="inpute" id="search" Placeholder="Recherche"></div>
+         <div class="col-3 col-sm-3 col-md-2"> <button class="btn btn-primary form-control" type="submit" name="search" autocomplete="off">Search</button></div>
+         </div>
+        </form>
   <?php if ((isset($_GET['message'])) && (trim($_GET['message'])=='ok')){?>
 							<div class="alert alert-success alert-block"> <a class="close" data-dismiss="alert" href="#">X</a>
               <h4 class="alert-heading">Succes!</h4>
@@ -49,7 +66,9 @@ $reponse = $bdd->query('SELECT * FROM salarie ORDER BY idSalarie ASC');
                             <tbody>
                             <?php
                             $i = 1;
-                            while ($donnees = $reponse->fetch())
+                            if (isset($_GET['search']) AND !empty($_GET['inpute'])) {
+                              if($rowcount > 0){
+                            while ($donnees = $searche->fetch())
                             {
                                 echo '<tr class="gradeA">';
                                 echo  '<td>'.$i.'</td>';
@@ -68,9 +87,31 @@ $reponse = $bdd->query('SELECT * FROM salarie ORDER BY idSalarie ASC');
                                 echo '</tr>';
                                 $i++;
                             }
-                            $reponse->closeCursor();
-                            ?>
+                          }
+                            //$reponse->closeCursor();
+                        }else{
+                          while ($donnees = $reponse->fetch())
+                          {
+                              echo '<tr class="gradeA">';
+                              echo  '<td>'.$i.'</td>';
 
+                              echo  '<td>'.$donnees['nom'].'</td>';
+                              echo  '<td>'.$donnees['prenom'].'</td>';
+                              echo  '<td>'.$donnees['fonctionActuelle'].'</td>';
+                             // echo  '<td>'.$libelle.'</td>';
+                           
+                              echo  '<td>';
+                              //echo '<a href="#"><i class="icon icon-search"></i></a>';
+                              echo '<a href="ajoutSalarie.php?action=edit&idSalarie='.$donnees['idSalarie'].'"<i class="glyphicon glyphicon-edit"></i></a> &nbsp; '; 
+                              echo '<a href="supprimerSalarie.php?action=suppr&idSalarie='.$donnees['idSalarie'].'" onclick="return(confirm(\'Etes-vous sur de vouloir supprimer cette entree?\'));"><i class="glyphicon glyphicon-trash"></i></a> &nbsp;';
+                              echo '<a href="detailSalarie.php?action=detail&idSalarie='.$donnees['idSalarie'].'"<i class="glyphicon glyphicon-eye-open"></i></a>';
+                              echo '</td>';
+                              echo '</tr>';
+                              $i++;
+                          }
+                        }
+                            ?>
+                         
                             </tbody>
             </table>
           </div>
@@ -101,7 +142,15 @@ $reponse = $bdd->query('SELECT * FROM salarie ORDER BY idSalarie ASC');
 <script type="text/javascript" src="https://cdn.datatables.net/fixedcolumns/3.3.1/js/dataTables.fixedColumns.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/fixedheader/3.1.7/js/dataTables.fixedHeader.js"></script>
 <!--script type="text/javascript" src="jquery.dataTables.js"></script-->
+<script>
+  $(document).ready(function(){
+    $('#search').keyup(function(){
+      var salarie = $(this).val()
+    })
+  }
 
+  )
+</script>
 <script>
 
 $(document).ready(function() {
