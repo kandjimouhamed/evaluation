@@ -42,6 +42,10 @@ if ($count > 0)
     header('location: user.php');
     exit;
    }
+   if($_SESSION['profil'] == 4){
+    header('location: chefFiliale.php');
+    exit;
+   }
  
 }
 else

@@ -120,9 +120,7 @@ $req->execute(array($codeintervenant));
                                                 
                                                     echo  '<td>';
                                                     //echo '<a href="#"><i class="icon icon-search"></i></a>';
-                                                    echo '<a href="ajoutDiplom.php?action=edit&idSalarie='.$donnees['idSalarie'].'"<i class="glyphicon glyphicon-edit"></i></a>';
-                                                    echo '<a href="supprDiplom.php?action=suppr&idSalarie='.$donnees['idSalarie'].'" onclick="return(confirm(\'Etes-vous sur de vouloir supprimer cette entree?\'));"><i class="glyphicon glyphicon-trash"></i></a>';
-                                                    echo '</td>'; 
+                                                    echo '<a href="notes.php?idSalarie='.$donnees['idSalarie'].'"<i class="glyphicon glyphicon-edit"></i></a>';echo '</td>'; 
                                                     echo '</tr>';
                                                     $i++;
                                                 }
