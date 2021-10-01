@@ -53,9 +53,7 @@ INNER JOIN filiale  ON service.idFiliale = filiale.filialecode  WHERE idSalarie 
                   <th>FONCTION</th>
                   <th>PROFIL</th>
                   <th>SERVICE</th>
-                  
-            
-                 
+              
                   <th style="width:7%;">Actions</th>
                 </tr>
               </thead>

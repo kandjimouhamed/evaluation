@@ -5,7 +5,14 @@ ini_set('error_reporting', E_ALL);
 include('config/connexion.php');
 include('config/functions.php');
 
-
+$req = $bdd->prepare('SELECT filiale.filialenom FROM salarie INNER JOIN service  ON salarie.idservice = service.ID 
+INNER JOIN filiale  ON service.idFiliale = filiale.filialecode  WHERE idSalarie = ?');
+    $req->execute(array($_SESSION['codeintervenant']));
+    $nomFiliale =  $req->fetchColumn();
+    $reqs = $bdd->prepare('SELECT service.NOM_SERVICE FROM salarie INNER JOIN service  ON salarie.idservice = service.ID 
+WHERE idSalarie = ?');
+    $reqs->execute(array($_SESSION['codeintervenant']));
+    $nomService =  $reqs->fetchColumn();
 if(!isset($_SESSION['codeintervenant']))
 {
     header('location: login.php');
@@ -82,7 +89,7 @@ legend {
 <!--top-Header-menu-->
 <div id="user-nav" class="navbar navbar-inverse">
   <ul class="nav">
-    <li class="" ><a title="" href="#"><i class="glyphicon glyphicon-user"></i> <span class="text"><?php echo $_SESSION['prenom'].'  '.$_SESSION['nom'].'('.$_SESSION['filialenom'].')'; ?></span></a></li>
+    <li class="" ><a title="" href="#"><i class="glyphicon glyphicon-user"></i> <span class="text"><?php echo $_SESSION['prenom'].'  '.$_SESSION['nom']. ' ( '.$nomService .' / '.$nomFiliale.' )'; ?></span></a></li>
     
     <li class=""><a title="" href="logout.php"><i class=" glyphicon glyphicon-log-out "></i> <span class="text">Deconnexion</span></a></li>
   </ul>
