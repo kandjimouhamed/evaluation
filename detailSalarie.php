@@ -297,13 +297,10 @@ $langue = $bdd->query('SELECT * FROM langue ');
                             $annee = date('Y',strtotime($a['date']));  ?>
                          <div class="row">
                                  <?php
-                                 if ($annee ==  $annee_selectionne ) {
+                                 if ($annee == $annee_selectionne) {
                                echo  $a['libelle']; 
                                  }
-                                 ?>
-                           
-                          
-                          
+                                 ?> 
                         </div>
                           
                       <?php  }
@@ -311,29 +308,42 @@ $langue = $bdd->query('SELECT * FROM langue ');
                         ?>
               </div>
           </div> 
-          <hr>
-           <div class="row">
-              <div class="col-md-5">  <h3 class="card-title">Critere d'Evaluation</h3></div>
-              <div class="col-md-7">
-               <p class="card-text" style="font-size: 17px;">
-               <?php
-                        while ($a = $idcritere->fetch()) {?>
-                         <div class="row">
-                           <div class="col-md-12"><?=$a['libelle'] ?></div>
-                        </div>
-                          
-                      <?php }
-                        
-                        ?>
-              </div>
-              </div>
-          </div> 
-          
-         
+                
         
+          </div> 
       </div>
     </div>
   </div>
+  <hr>
+          <h3>Criteres d'evaluation</h3>
+           <div class="row table table-bordered">
+             
+               <p > 
+               <?php
+              $coefs=0;
+              $point =0;
+                      while ($a = $idcritere->fetch()) {
+                        $coefs += $a['coef'];
+                        $point += $a['note'];?>
+                      
+                      <div class="col-md-8 card-body"><?=$a['libelle'] ?></div>
+                         
+                         <div class="col-md-1"><?=$a['note'] ?></div>
+                         <div class="col-md-1"><?=$a['coef'] ?></div>
+                        
+                     <hr style="height: 10px;color: black; ">
+                      
+                    <?php }
+                   
+                      ?>   
+                       </div> 
+                       <br>
+                      <div class="row card-header">
+                        <div class="col-md-8">totals</div>
+                        <div class="col-md-1" style="font-size: 20px;"><?=$coefs ?></div>
+                        <div class="col-md-1" style="font-size: 20px;"><?=$point ?></div>
+                        <div class="col-md-2" style="font-size: 30px;"><?=$point * $coefs ?></div>
+                      </div> 
 </div>
 </div>
 <br><br><br><br>
