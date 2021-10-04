@@ -453,7 +453,7 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
         </form> 
                  <!-- fin div1 -->
                   <!-- div2 -->
-                <form method="post" id="repeater_form" action="actionLigneLangueSalarie.php" class="form-horizontal" name="basic_validate" id="basic_validate">
+                <form method="post" id="repeater_form" action="actionModifDipSalarie.php" class="form-horizontal" name="basic_validate" id="basic_validate">
                          <div id="mentions"  class="tab-containt"> 
                            <div class="item-content">
                                     <div class="form-group">
@@ -498,7 +498,7 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
                                     <tr>
                                     <td><?=$a['libelle']?></td>
                                     <td> <?=$a['description']?></td>
-                                    <td>  <a href="supprimer.php?action=suppridLS&idLS=<?=$a['idLS']?>" onclick="return(confirm('Etes-vous sur de vouloir supprimer cette entree?'));"><i class="glyphicon glyphicon-trash"></i></a>
+                                    <td>  <a href="suppInsertion.php?action=suppridLS&idLS=<?=$a['idLS']?>" onclick="return(confirm('Etes-vous sur de vouloir supprimer cette entree?'));"><i class="glyphicon glyphicon-trash"></i></a>
                                     </td>
                                    
                                     </tr>
@@ -552,7 +552,7 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
                        </div>
                        <div class="form-group" align="center">
                       <br /><br />
-                           <input type="submit" name="valider" class="btn btn-success" value="insert" />
+                           <input type="submit" name="validerLangue" class="btn btn-success" value="insert" />
                        </div>
                            <div class="clearfix"></div>          
                 </div>
@@ -664,7 +664,7 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
           
                 <!-- fin de corp -->
                 <div id="critere" class="tab-containt"> 
-                    <form action="actionAjoutCritere.php" method="post">
+                    <form action="actionModifDipSalarie.php" method="post">
                         
                                         <input type="hidden" name="idSalarie" value = "<?php echo $idSalarie; ?>">
                 
@@ -692,7 +692,7 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
                                 
                                   </div>
                                 </div>
-                                <input type="submit" name="valider" class="btn btn-success" value="insert" />
+                                <input type="submit" name="validerCritere" class="btn btn-success" value="insert" />
                               </div>
                               <div class="col-md-6"> 
                               <table class="table">
@@ -716,7 +716,7 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
                                     <tr>
                                     <td><?=$i?></td>
                                     <td><?=$a['libelle']?></td>
-                                    <td>  <a href="supprimer.php?action=supprC&idC=<?=$a['idEvaluer']?>" onclick="return(confirm('Etes-vous sur de vouloir supprimer cette entree?'));"><i class="glyphicon glyphicon-trash"></i></a>
+                                    <td>  <a href="suppInsertion.php?action=supprC&idC=<?=$a['idEvaluer']?>" onclick="return(confirm('Etes-vous sur de vouloir supprimer cette entree?'));"><i class="glyphicon glyphicon-trash"></i></a>
                                     </td>
                                     </tr>
                                     </tbody>
@@ -734,7 +734,7 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
                     
                 </div>
                 <div id="objective" class="tab-containt">
-                <form class="form-horizontal" method="post" action="actionAjoutObjectif.php" name="basic_validate" id="basic_validate">
+                <form class="form-horizontal" method="post" action="actionModifDipSalarie.php" name="basic_validate" id="basic_validate">
         <div class="row">
          
           <div class="col-md-6">
@@ -756,7 +756,7 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
                                         <br/><br/>
 										<a href="#" class="w3-bar-item w3-button w3-light-grey" style="width:49%;" onclick="location.href='filiale.php'" >Retour</a>
     <!--button name="" type="submit"  class="w3-bar-item w3-button w3-light-grey" style="width:49%;" name="retour" value="Retour" onclick="location.href='commandempr.php'" >Annuler</button-->
-                       <button name="valider" type="submit"  class="w3-bar-item w3-button w3-light-grey" style="width:50%;">Valider</button><br/><br/>
+                       <button name="validerObjective" type="submit"  class="w3-bar-item w3-button w3-light-grey" style="width:50%;">Valider</button><br/><br/>
           </div>
           <div class="col-md-6">
           <table class="table">
@@ -780,7 +780,7 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
                                     <tr>
                                     <td><?=$i?></td>
                                     <td><?=$a['libelle']?></td>
-                                    <td>  <a href="supprimer.php?action=supprO&idO=<?=$a['id']?>" onclick="return(confirm('Etes-vous sur de vouloir supprimer cette entree?'));"><i class="glyphicon glyphicon-trash"></i></a>
+                                    <td>  <a href="suppInsertion.php?action=supprOb&idOb=<?=$a['id']?>" onclick="return(confirm('Etes-vous sur de vouloir supprimer cette entree?'));"><i class="glyphicon glyphicon-trash"></i></a>
                                     </td>
                                     </tr>
                                     </tbody>

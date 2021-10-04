@@ -21,9 +21,7 @@ include('config/connexion.php');
 else if (isset($_GET['idLS']))
 {
     $idLS = trim($_GET['idLS']);
-    var_dump(  $idSalarie);
-    die;
-
+  
     if (trim($_GET['action']) == 'suppridLS')
     {
         
@@ -68,16 +66,16 @@ else if (isset($_GET['idLS']))
     }
 
 }
-else if (isset($_GET['idC']))
+else if (isset($_GET['idOb']))
 {
-    $idC = trim($_GET['idC']);
+    $idob = trim($_GET['idOb']);
 
-    if (trim($_GET['action']) == 'supprO')
+    if (trim($_GET['action']) == 'supprOb')
     {
         
 
             $req = $bdd->prepare('DELETE FROM objectifs WHERE id = ?');
-            $req->execute(array($idC));
+            $req->execute(array($idob));
             header('location:modiffierSalarie.php?action=edit&idSalarie='.$_SESSION['idSalarie'].'#objective');
             exit;
         
