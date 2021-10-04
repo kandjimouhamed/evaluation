@@ -1,214 +1,124 @@
-<?php 
+<?php
 include('header.php');
-$evaluer= $bdd->query('SELECT * FROM evaluer ORDER BY id ASC');
-
 $reponse = $bdd->query('SELECT * FROM salarie ORDER BY idSalarie ASC');
-$coef = $bdd->query('SELECT * FROM coefs ORDER BY id ASC');
+if (isset($_GET['inpute'])   AND !empty($_GET['inpute'])) {
+  $search= htmlspecialchars(($_GET['inpute']));
+  $searche = $bdd->query('SELECT * FROM salarie WHERE nom LIKE "%'.$search.'%" ');
+  $rowcount = $searche->rowCount();
 
-	$req1 = $bdd->prepare('SELECT * FROM service ORDER BY ID ASC');
-   $reponse2 = $bdd->prepare('SELECT * FROM evaluer  INNER JOIN salarie ON evaluer.idSalarie = salarie.idSalarie 
-     INNER JOIN coefs ON evaluer.idCoef = coefs.id  GROUP BY evaluer.idSalarie');
-    $reponse2->execute();
-    
-
-//$reponse3 = $bdd->query('SELECT * FROM clients ORDER BY nom ASC');
-
-$tabEtat= array();
-if ($_SESSION['profil'] == 1) {$initSalarie = -1;} 
-else {$initSalarie = trim($_SESSION['profil'] );}
-$idSalarie = -1;
-$id = -1;
-
-
-$sql = 'SELECT * FROM salarie WHERE 1';
-
-if (($_SESSION['profil'] == 1) && (isset($_REQUEST['salarie'])))
-{
- $filtreSalarie = trim($_REQUEST['salarie']);	
- if ($idSalarie != -1)  
- {
- if ((isset($_REQUEST['service'])) && (trim($_REQUEST['service'])!=-1))
- {
-  $idService = trim($_REQUEST['service']);	 
-  $sql .= ' AND idservice = '.$id;	 
-  $filtreService = $id;	 
- }
- else
- {
-  $sql .= ' AND idservice IN (SELECT idservice FROM salarie WHERE idservice = '.$filtreService.') ';	 
- }
 }
-else
-{$filtreSalarie = -1;}
- 
-}
-
-
-
-
-if((isset($_REQUEST['salarie'])) && (trim($_REQUEST['salarie'])!=-1))
-{
-	$filtresalarie = trim($_REQUEST['salarie']);
-	$sql .=' AND idSalarie = '.$filtresalarie;
-}
-else {$filtresalarie=-1;}
-
-
-if((isset($_REQUEST['service'])) && (trim($_REQUEST['service'])!=-1))
-{
-	$filtreservice = trim($_REQUEST['service']);
-	$sql .=' AND ID = '.$filtreservice;
-}
-else {$filtreservice=-1;}
-
-
-
-
-
-
-if(isset($_GET['filtre']))
-{
-$sql = 'SELECT * FROM salarie WHERE 1';	
-if (isset($_REQUEST['salarie1']))
-{
- $filtresaarie = trim($_REQUEST['salarie1']);	
- if ($filtresaarie != -1)
- {
- if ((isset($_REQUEST['service1'])) && (trim($_REQUEST['service1'])!=-1))
- {
-  $idservice = trim($_REQUEST['service1']);	 
-  $sql .= ' AND ID = '.$idservice;	 
-  $filtreservice = $idservice;	 
- }
- else
- {
-  $sql .= ' AND ID IN (SELECT idservice FROM salarie WHERE ID = '.$filtresaarie.') ';	 
- }
-}
-else
-{$filtresaarie = -1;}
-}}
-
-
 ?>
-	<div id="content">
-			<div id="content-header">
-			<div id="breadcrumb">
-				 <a href="index.php" title="Retour" class="tip-bottom"><i class="glyphicon glyphicon-home"></i> Accueil</a>
-				<a href="#" class="current"><i class="glyphicon glyphicon-dashboard"></i>Tableau de bord</a>
-			</div>
-             	
-			</div>
-		
-			<div class="container-fluid w3-white" style="font-size:12px;">
-		    
-		    
-<form action="tableaudebord.php" name="filtre" method="get">		    
-<fieldset style="font-size=10px;"><legend><button name="valider" type="submit" style="width:100%;" class="" style="color:white;">Filtrer</button>
 
-</legend>
-<?php //echo $req->debugDumpParams();?>
-<div class="w12-row" style="margin-top:-12px;font-size:10px;">
-  <div class="w3-col m2 w3-center">
-  <label>Filiale</label>
+
+<div id="content">
   
-  
-  </div>
-<div class="w3-col m2 w3-center">
-  <label>Direction</label>
-  
-<div id="blocDirections"> <select class="w3-select w3-border" name="direction" id="direction">
-      <option value="-1">Tous</option>
+  <div id="content-header">
     
-      <?php 
-                                     while ($donnees = $req1->fetch())
-                                     {
-                                         if ($donnees['ID'] == $filtreservice)
-                                         {echo '<option value="'.$donnees['ID'].'" selected>'.$donnees['[NOM_SERVICE'].'</option>'; }
-                                         else
-                                         {echo '<option value="'.$donnees['ID'].'">'.$donnees['[NOM_SERVICE'].'</option>'; }
-                                     }
-                                     ?>                     
-     </select></div>
+    <div id="breadcrumb"> <a href="index.php" title="Retour" class="tip-bottom"><i class="icon-home"></i> Accueil</a> <a href="#" class="current">Salaries</a> <a href="ajoutSalarie.php"><i class="icon-edit"></i>Nouveau</a> </div>
+    <!--h1>Gestion des filiales</h1-->
+  </div>
+  <div>
+    
+        <form class="form-group" method="get">
+         <div class="row">
+         <div class="col-3 col-sm-3 col-md-2"></div>
+         <div class="col-6 col-sm-6 col-md-4"> <Input Class="form-control" name="inpute" id="search" Placeholder="Recherche"></div>
+         <div class="col-3 col-sm-3 col-md-2"> <button class="btn btn-primary form-control" type="submit" name="search" autocomplete="off">Search</button></div>
+         </div>
+        </form>
+  <?php if ((isset($_GET['message'])) && (trim($_GET['message'])=='ok')){?>
+							<div class="alert alert-success alert-block"> <a class="close" data-dismiss="alert" href="#">X</a>
+              <h4 class="alert-heading">Succes!</h4>
+             <?php echo $_GET['message1']; ?> !</div>
+              <?php } ?>
+              <?php if ((isset($_GET['message'])) && (trim($_GET['message'])!='ok')){?>
+				 <div class="alert alert-error alert-block"> <a class="close" data-dismiss="alert" href="#">x</a>
+              <h4 class="alert-heading">Error!</h4>
+              <?php echo $_GET['message']; ?></div> <?php } ?>
+  <div class="container-fluid w3-white" style="font-size:12px;">
   
-</div> 
+  
 
-
-
-
-</fieldset>
- </form>		       
- <div class="w3-row w3-border">
-             <div class="w3-col s12" style='overflow-x:scroll;'>
-			
-			 <table id="" class="table table-bordered">
-			  <caption style="caption-side:top;text-align:center;">LOCALISATION DES VEHICULES</caption>
-    <tr>
-	    <th>Prenom et Nom</th>
-	    
-		<?php 
-		  while ($donnees = $coef->fetch())
-        { 
-	     echo '<th>'.$donnees['libelle'].'</th>';
-		// $tabEtat[] = $donnees['ID'];
-    $coefs[] = $donnees['id'];
-	    }
-		echo '<th>Total</th>';
-		$total2 = 0;
-    echo '</tr>';
-		while ($donnees = $reponse2->fetch())
-        {
-        
-        // echo($coefs);
-         echo '<tr>';
-         echo '<td>'.$donnees['prenom'].'</td>';
-		// $idParc = $donnees['IDPARCS'];
-    $salarie = $bdd->prepare('SELECT * FROM evaluer Where idSalarie = ?');
-    $salarie->execute(array($donnees['idSalarie']));
-   // $i = 1;
-    while ($donne = $salarie->fetch()){
-      for ($i=1; $i <9 ; $i++) { 
-        if ($i == $donne['idCoef'] ) {
-          echo '<td>'.$donne['idCoef'].'</td>';
-          exit;
-      }else{
-        echo '<td>0</td>';
-        exit;
-      }
-      }
-   // $i = 1;
+  
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="widget-box">
+          <div class="widget-title">
+             <span class="icon"><i class="icon-th"></i></span> 
+            <h5>Liste des Diploms</h5>  
+          </div>
+          <div class="widget-content nopadding"> 
+          </a>
+           
+            <table id="example" class="table display" style="width:100%;">
+             
+            <thead >
+                            <tr>
+                                <th style="width:10%;">#</th>
+                                <th>Nom</th>
+                                <th>prenom</th>
+                                <th>fonctionActuelle</th>
+                               
      
-    //$i ++;
-  }
-		 
-        }
-	//echo '<td colspan="'.$col.'" style="text-align:right;font-weight: bold;"><a href = "tableaudebord.php?filtre=ok&etat1=-1&localisation1=-1&filiale1='.$initfiliale.'&direction1='.$initdirection.'&client1='.$initclient.'&vehicule1='.$initvehicule.'">'.$total2.'</a></td></tr>';
-  echo '</tr>';      
-  ?>
-            
-    </table>
-	 
-			 </div>
-             </div> 
-			<div class="row-fluid">
-				<div class="widget-box">
-							<!--div class="widget-title">
-								<span class="icon">
-									<i class="icon-eye-open"></i>
-								</span>
-								<h5>Details</h5-->
-			
-							<!--/div-->
-							<!--div class="widget-content nopadding">
-						  <br/><br/><br/><br/-->
-						 
- <!--div style="color: white;padding: 15px;width: 100%;overflow: scroll;border: 1px solid #ccc;"-->						  
- 
-<!--/div-->			<!--/div--></div></div>
-            	</div></div>
+                                <th style="width:7%;">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                            $i = 1;
+                            if (isset($_GET['search']) AND !empty($_GET['inpute'])) {
+                              if($rowcount > 0){
+                            while ($donnees = $searche->fetch())
+                            {
+                                echo '<tr class="gradeA">';
+                                echo  '<td>'.$i.'</td>';
 
-               
-		<div class="row-fluid">
+                                echo  '<td>'.$donnees['nom'].'</td>';
+                                echo  '<td>'.$donnees['prenom'].'</td>';
+                                echo  '<td>'.$donnees['fonctionActuelle'].'</td>';
+                               // echo  '<td>'.$libelle.'</td>';
+                             
+                                echo  '<td>';
+                                //echo '<a href="#"><i class="icon icon-search"></i></a>';
+                                 echo '<a href="detailSynthese.php?action=detail&idSalarie='.$donnees['idSalarie'].'"<i class="glyphicon glyphicon-eye-open"></i></a>';
+                                echo '</td>';
+                                echo '</tr>';
+                                $i++;
+                            }
+                          }
+                            //$reponse->closeCursor();
+                        }else{
+                          while ($donnees = $reponse->fetch())
+                          {
+                              echo '<tr class="gradeA">';
+                              echo  '<td>'.$i.'</td>';
+
+                              echo  '<td>'.$donnees['nom'].'</td>';
+                              echo  '<td>'.$donnees['prenom'].'</td>';
+                              echo  '<td>'.$donnees['fonctionActuelle'].'</td>';
+                             // echo  '<td>'.$libelle.'</td>';
+                           
+                              echo  '<td>';
+                              //echo '<a href="#"><i class="icon icon-search"></i></a>';
+                           echo '<a href="detailSynthese.php?action=detail&idSalarie='.$donnees['idSalarie'].'"<i class="glyphicon glyphicon-eye-open"></i></a>';
+                              echo '</td>';
+                              echo '</tr>';
+                              $i++;
+                          }
+                        }
+                            ?>
+                         
+                            </tbody>
+            </table>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row-fluid">
   <div id="footer" class="span12"> 2019 &copy;  <a href="#">CCBM TECHNOLOGIES ET SOLUTIONS</a> </div>
 </div>
 	<script src="js/jquery.min.js"></script> 
@@ -228,7 +138,15 @@ else
 <script type="text/javascript" src="https://cdn.datatables.net/fixedcolumns/3.3.1/js/dataTables.fixedColumns.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/fixedheader/3.1.7/js/dataTables.fixedHeader.js"></script>
 <!--script type="text/javascript" src="jquery.dataTables.js"></script-->
+<script>
+  $(document).ready(function(){
+    $('#search').keyup(function(){
+      var salarie = $(this).val()
+    })
+  }
 
+  )
+</script>
 <script>
 
 $(document).ready(function() {
@@ -238,9 +156,7 @@ $(document).ready(function() {
         scrollCollapse: true,
         paging:         true,
 		"lengthChange": false,
-        fixedColumns:   {
-            leftColumns: 9
-        },
+
 	
 		
 		"oLanguage": {
@@ -268,5 +184,15 @@ $(document).ready(function() {
 } );
 </script>
 </body>
-
 </html>
+
+
+
+<div>
+                        </a>
+
+                      
+                   
+                        </table>
+                    </div>
+              
