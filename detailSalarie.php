@@ -314,36 +314,51 @@ $langue = $bdd->query('SELECT * FROM langue ');
       </div>
     </div>
   </div>
-  <hr>
-          <h3>Criteres d'evaluation</h3>
-           <div class="row table table-bordered">
-             
-               <p > 
+
+        
+           <table class="table">
+             <thead>
+             <th>Criteres d'evaluation</th>
+             <th>Notes</th>
+             <th>Coefs</th>
+             <th >Total Note</th>
+             </thead>
+             <tbody>
+              
                <?php
               $coefs=0;
               $point =0;
+              $total =0;
                       while ($a = $idcritere->fetch()) {
                         $coefs += $a['coef'];
-                        $point += $a['note'];?>
-                      
-                      <div class="col-md-8 card-body"><?=$a['libelle'] ?></div>
+                        $point += $a['note'];
+                        $total +=  ($a['coef'] * $a['note']);
+                        ?>
+                       <tr>
+                      <td ><?=$a['libelle'] ?></td>
                          
-                         <div class="col-md-1"><?=$a['note'] ?></div>
-                         <div class="col-md-1"><?=$a['coef'] ?></div>
-                        
-                     <hr style="height: 10px;color: black; ">
-                      
+                         <td><?=$a['note'] ?></td>
+                         <td><?=$a['coef'] ?></td>
+                         <td><?=$a['coef'] * $a['note']?></td>
+                         </tr>
                     <?php }
                    
-                      ?>   
-                       </div> 
-                       <br>
-                      <div class="row card-header">
-                        <div class="col-md-8">totals</div>
-                        <div class="col-md-1" style="font-size: 20px;"><?=$coefs ?></div>
-                        <div class="col-md-1" style="font-size: 20px;"><?=$point ?></div>
-                        <div class="col-md-2" style="font-size: 30px;"><?=$point * $coefs ?></div>
-                      </div> 
+                      ?>  
+              
+             </tbody>
+             <tfoot>
+              <tr>
+                <th>TOTAL</th>
+                <th><?=$point ?></th>
+                <th><?=$coefs ?></th>
+               
+                <th><?=$total ?></th>
+              </tr>
+             </tfoot>
+           </table>
+           
+        
+          
 </div>
 </div>
 <br><br><br><br>

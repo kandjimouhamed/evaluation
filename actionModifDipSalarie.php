@@ -2,12 +2,12 @@
 include('config/connexion.php');
 if (isset($_POST['valider']) )
 {
-  
+    $idSalarie = trim($_GET['idSalarie']);
     $idSalarie = $_POST['idSalarie'];
     $idDiplom = $_POST['idDiplom'];
     $libelle = $_POST['libelle'];
     $ecole = $_POST['ecole'];
-  
+   $_SESSION['idSalarie'] = $idSalarie;
         $req = $bdd->prepare('INSERT INTO diplomsalarie( idSalarie, idDiplom, libelleLigne, ecole) VALUES( :idSalarie, :idDiplom, :libelle, :ecole)');
         $req->execute(array(
             'idSalarie' => $idSalarie,
@@ -17,17 +17,8 @@ if (isset($_POST['valider']) )
         ));
 
         $message =  'ok';
-        header('location:ajoutSalarie.php?action=edit&idSalarie=$#about');   
+        header('location:modiffierSalarie.php?action=edit&idSalarie='.$_SESSION['idSalarie'].'#about');   
 
-}  
-if (trim($_GET['action']) == 'suppr')
-    {
-        
+}   
 
-            $req = $bdd->prepare('DELETE FROM diplomsalarie WHERE id = ?');
-            $req->execute(array($idDipSala));
-            header('location:ajoutSalarie.php#about');
-            exit;
-        
-    } 
 ?>
