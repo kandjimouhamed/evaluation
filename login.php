@@ -8,12 +8,16 @@ if (isset($_POST['connexion']))
 $prenom = trim($_POST['prenom']); 
 $password = trim($_POST['password']);
 
-$req = $bdd->prepare('SELECT nom, pwd FROM salarie WHERE nom = ? AND Pwd = ?');
-$req->execute(array($prenom, md5($password)));
+$req = $bdd->prepare('SELECT nom FROM salarie WHERE nom = ? ');
+$req->execute(array($prenom));
 $count = $req->fetchColumn();
+$req1 = $bdd->prepare('SELECT pwd FROM salarie WHERE Pwd = ?');
+$req1->execute(array(md5($password)));
+$count1 = $req1->fetchColumn();
 
-if ($count > 0)
+if ($count == true && $count1 == true) 
 {
+   
  session_start();
  $reqs = $bdd->prepare('SELECT *  FROM salarie WHERE nom = ? AND pwd = ?');
  $reqs->execute(array($prenom, md5($password)));

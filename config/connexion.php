@@ -1,7 +1,7 @@
 <?php
 $hote = 'localhost';
-$user_bd = 'root';
-$pwd_bd = '';
+$user_bd = 'diopkoki';
+$pwd_bd = 'diop';
 $bd = 'evaluation';
 try
 {
