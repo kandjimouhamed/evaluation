@@ -17,21 +17,21 @@ if (isset($_POST['valider']))
    
    elseif($item >=1  && $item <= 5  ){
 
-    $req = $bdd->prepare('SELECT id  FROM evaluer WHERE idSalarie = ?');
+    $req = $bdd->prepare('SELECT idEvaluer  FROM evaluer WHERE idSalarie = ?');
                 $req->execute(array($idSalarie));
                 $id =  $req->fetchColumn();
              
    
       foreach ( $note  as $ite ) {
           $item = $ite;
-          $req = $bdd->prepare('UPDATE evaluer SET  note = :note  where id ='.$id.' AND idSalarie ='.$idSalarie);
+          $req = $bdd->prepare('UPDATE evaluer SET  note = :note  where idEvaluer ='.$id.' AND idSalarie ='.$idSalarie);
           $req->execute(array(
           
            'note' => $item
            
           ));
           
-          header('location: index.php?succes=Mise a jour effectuee avec succes');
+          header('location:index.php?idSalarie='.$idSalarie);
         
         $id = $id +1; 
   }

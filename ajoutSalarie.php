@@ -154,8 +154,8 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
                 </div>
                 <div class="w3-container w3-white">
                     <div class="w3-row-padding">
-<br>
-          <div>
+                <br>
+               <div>
             
             <ul class="tabs">
                 <li class="active"><a href="#homme">Salarie</a></li>
@@ -508,7 +508,7 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
                                                 </div>
                                             </div> </div> </div>
 
-                                                <div id="repeater">
+                      <div id="repeater">
                            
                           
                            <div class="clearfix"></div>

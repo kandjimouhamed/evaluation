@@ -35,12 +35,57 @@ if (isset($_GET['inpute'])   AND !empty($_GET['inpute'])) {
 				 <div class="alert alert-error alert-block"> <a class="close" data-dismiss="alert" href="#">x</a>
               <h4 class="alert-heading">Error!</h4>
               <?php echo $_GET['message']; ?></div> <?php } ?>
+              <div class="w3-row w3-border">
+             <div class="w3-col s12" style='overflow-x:scroll;'>
+			
+			 <table id="" class="table table-bordered">
+			  <caption style="caption-side:top;text-align:center;">synthese</caption>
+    <tr>
+	    <th>Prenom et Nom</th>
+	    
+		<?php 
+		 
+          $req = $bdd->prepare('SELECT * FROM coefs');
+          $req->execute(array());
+          while ($reqs = $req->fetch())
+          {
+           echo  '<th>'.$reqs['libelle'].' </th>';
+         }
+		echo '<th>Total</th>';
+		
+		while ($donnees = $reponse->fetch())
+        {
+         echo '<tr>';
+       echo '<td>'.$donnees['nom'].'</td>';
+		 $req1 = $bdd->prepare('SELECT * FROM evaluer WHERE idSalarie =? ');
+          $req1->execute(array($donnees['idSalarie']));
+          while ($req1s = $req1->fetch())
+          {
+           echo  '<td>'.$req1s['note'].' </td>';        
+	    }
+		 //echo '<td style="text-align:right;font-weight: bold;">'.$total.'</td>';
+         echo '</tr>';
+         //$total2 = $total2 +$total;		 
+        }
+		?>              
+    </table>
+	 <?php
+   	while ($donnees = $reponse->fetch())
+     {
+    $req1 = $bdd->prepare('SELECT * FROM evaluer WHERE idSalarie =? ');
+    $req1->execute(array($donnees['idSalarie']));
+    while ($req1s = $req1->fetch())
+    {
+      
+ 
+     echo $req1s['note'];        
+}
+}
+   ?>
+			 </div>
+             </div> 
   <div class="container-fluid w3-white" style="font-size:12px;">
-  
-  
-
-  
-    <div class="row-fluid">
+ <div class="row-fluid">
       <div class="span12">
         <div class="widget-box">
           <div class="widget-title">
@@ -48,67 +93,33 @@ if (isset($_GET['inpute'])   AND !empty($_GET['inpute'])) {
             <h5>Liste des Diploms</h5>  
           </div>
           <div class="widget-content nopadding"> 
-          </a>
-           
+          </a> 
             <table id="example" class="table display" style="width:100%;">
-             
-            <thead >
-                            <tr>
-                                <th style="width:10%;">#</th>
-                                <th>Nom</th>
-                                <th>prenom</th>
-                                <th>fonctionActuelle</th>
+                         <?php
+                               while ($donnees = $reponse->fetch())
+                               {
                                
-     
-                                <th style="width:7%;">Actions</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php
-                            $i = 1;
-                            if (isset($_GET['search']) AND !empty($_GET['inpute'])) {
-                              if($rowcount > 0){
-                            while ($donnees = $searche->fetch())
-                            {
-                                echo '<tr class="gradeA">';
-                                echo  '<td>'.$i.'</td>';
-
-                                echo  '<td>'.$donnees['nom'].'</td>';
-                                echo  '<td>'.$donnees['prenom'].'</td>';
-                                echo  '<td>'.$donnees['fonctionActuelle'].'</td>';
-                               // echo  '<td>'.$libelle.'</td>';
-                             
-                                echo  '<td>';
-                                //echo '<a href="#"><i class="icon icon-search"></i></a>';
-                                 echo '<a href="detailSynthese.php?action=detail&idSalarie='.$donnees['idSalarie'].'"<i class="glyphicon glyphicon-eye-open"></i></a>';
-                                echo '</td>';
-                                echo '</tr>';
-                                $i++;
-                            }
-                          }
-                            //$reponse->closeCursor();
-                        }else{
-                          while ($donnees = $reponse->fetch())
-                          {
-                              echo '<tr class="gradeA">';
-                              echo  '<td>'.$i.'</td>';
-
-                              echo  '<td>'.$donnees['nom'].'</td>';
-                              echo  '<td>'.$donnees['prenom'].'</td>';
-                              echo  '<td>'.$donnees['fonctionActuelle'].'</td>';
-                             // echo  '<td>'.$libelle.'</td>';
+                                   
+                                echo '<tr>';
+                                         echo  '<th>'.$donnees['prenom'].' '.$donnees['nom'].'</th>';
+                                  
+                                  
+                                 
+                                   $req = $bdd->prepare('SELECT * FROM evaluer WHERE idSalarie = ?');
+                                     $req->execute(array($donnees['idSalarie']));
+                                     while ($reqs = $req->fetch())
+                                     {
+                                  
+                                      echo  '<td>'.$reqs['note'].' </td>';
+                                     
+                                      echo '</tr>';
+                                     
+                                     }
+                                    
+                               }
                            
-                              echo  '<td>';
-                              //echo '<a href="#"><i class="icon icon-search"></i></a>';
-                           echo '<a href="detailSynthese.php?action=detail&idSalarie='.$donnees['idSalarie'].'"<i class="glyphicon glyphicon-eye-open"></i></a>';
-                              echo '</td>';
-                              echo '</tr>';
-                              $i++;
-                          }
-                        }
-                            ?>
-                         
-                            </tbody>
+                               ?>
+                            
             </table>
           </div>
         </div>
