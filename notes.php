@@ -114,7 +114,7 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
 ?>
   
 <br>
-<div class="container ">
+<div class=" ">
         <br><br><br>
         <div id="content-header">
             <div id="breadcrumb"> <a href="admin.php" title="Retour" class="tip-bottom"><i class="icon-home"></i> Accueil</a> <a href="admin.php" class="current">Evaluer</a> <a href="#"><i class="icon-edit"></i>Saisie</a> </div>
@@ -152,9 +152,9 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
             <form action="action_AjoutSalarie.php"  method="post">
                 <!-- le corp -->
 
-             <div class="tabs-containt">
+             <div class="tabs-containt" style="font-size:18px;">
                     <!-- div1 -->
-                  <br>
+                  <br >
                 <div id="homme" class="tab-containt "> 
                   <!-- page 1 -->
                   <div class="page city" id="London">
@@ -471,7 +471,7 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
            </div>
            <div class="row">
   <div class="col-md-6">
-           <div class="card" style="width: 50rem;">
+           <div class="card">
            <div class="card-header">
           <h3>Les Objectives de l' année en cour</h3>
             </div>
@@ -487,9 +487,9 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
           
         </ul>
       </div>
-      </div>
+      </div> 
   <div class="col-md-6">
-  <div class="card" style="width: 50rem;">
+  <div class="card" style="">
            <div class="card-header">
           <h3>Les Objectives de l' année en cour</h3>
             </div>

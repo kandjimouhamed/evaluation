@@ -10,7 +10,7 @@ if (isset($_GET['inpute'])   AND !empty($_GET['inpute'])) {
 ?>
 
 
-<div id="content">
+<div id="content" >
   
   <div id="content-header">
     
@@ -45,12 +45,12 @@ if (isset($_GET['inpute'])   AND !empty($_GET['inpute'])) {
         <div class="widget-box">
           <div class="widget-title">
              <span class="icon"><i class="icon-th"></i></span> 
-            <h5>Liste des Diploms</h5>  
+            <h5>Liste des Employes</h5>  
           </div>
           <div class="widget-content nopadding"> 
           </a>
            
-            <table id="example" class="table display" style="width:100%;">
+            <table id="example" class="table display" style="width:100%;" style="">
              
             <thead >
                             <tr>
@@ -70,7 +70,7 @@ if (isset($_GET['inpute'])   AND !empty($_GET['inpute'])) {
                               if($rowcount > 0){
                             while ($donnees = $searche->fetch())
                             {
-                                echo '<tr class="gradeA">';
+                                echo '<tr class="gradeA" font-size:18px;>';
                                 echo  '<td>'.$i.'</td>';
 
                                 echo  '<td>'.$donnees['nom'].'</td>';
@@ -92,10 +92,10 @@ if (isset($_GET['inpute'])   AND !empty($_GET['inpute'])) {
                         }else{
                           while ($donnees = $reponse->fetch())
                           {
-                              echo '<tr class="gradeA">';
+                              echo '<tr class="gradeA" font-size:18px;>';
                               echo  '<td>'.$i.'</td>';
 
-                              echo  '<td>'.$donnees['nom'].'</td>';
+                              echo  '<td font-size:18px;>'.$donnees['nom'].'</td>';
                               echo  '<td>'.$donnees['prenom'].'</td>';
                               echo  '<td>'.$donnees['fonctionActuelle'].'</td>';
                              // echo  '<td>'.$libelle.'</td>';
