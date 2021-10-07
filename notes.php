@@ -621,7 +621,7 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
           
                 <!-- fin de corp -->
                 <div id="critere" class="tab-containt"> 
-                    <form action="actionModifDipSalarie.php" method="post">
+                    <form action="actionNotes.php" method="post">
                         
                                         <input type="hidden" name="idSalarie" value = "<?php echo $idSalarie; ?>">
                 
@@ -691,7 +691,7 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
                     
                 </div>
                 <div id="objective" class="tab-containt">
-                <form class="form-horizontal" method="post" action="actionModifDipSalarie.php" name="basic_validate" id="basic_validate">
+                <form class="form-horizontal" method="post" action="actionNote.php" name="basic_validate" id="basic_validate">
         <div class="row">
          
           <div class="col-md-6">
