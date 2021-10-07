@@ -6,9 +6,7 @@ if (isset($_GET['idSalarie']))
     $idSalarie = trim($_GET['idSalarie']);
   $_SESSION['idSalarie'] = $idSalarie;
 
-    if (trim($_GET['action']) == 'edit')
-    {
-
+   
         $req = $bdd->prepare('SELECT *  FROM salarie WHERE idSalarie = ?');
         $req->execute(array($idSalarie));
 
@@ -51,34 +49,8 @@ if (isset($_GET['idSalarie']))
            
 
         }
-    }
-    else
-    {
-        $idSalarie = -1;
-        $idservice = -1;
-        $idParentel = -1;
-        $idPO = -1;
-        $idRecrutement = -1;
-        $idLangue = -1;
-        $prenom = "";
-        $nom = "";
-        $fonctionActuelle = "";
-        $ancieneteFonc = "";
-        $situationFam = "";
-        $dateNaiss = "";
-        $telephone = "";
-        $carburant  = "";
-        $commussion  = "";
-        $vehicule  = "";
-        $autres = "";
-        $contrat = "";
-        $password = "";
-        $profil = "";
-        $idCoef = -1;
-       // $note = "";
-        $montant = "";
-        
-    }
+    
+    
 }
 else
 {
@@ -117,6 +89,16 @@ $salarie = $bdd->query('SELECT * FROM salarie ');
 $critere = $bdd->query('SELECT * FROM coefs ');
 $description = $bdd->query('SELECT * FROM descriptionlangue ORDER BY libelle ASC');
 
+$idSalarie = trim($_GET['idSalarie']);  
+   
+$req1= $bdd->prepare('SELECT * FROM evaluer INNER JOIN coefs ON evaluer.idCoef = coefs.id WHERE   idSalarie = ?');
+  $req1->execute(array($idSalarie));
+  $salarie = $bdd->prepare('SELECT * FROM salarie WHERE idSalarie = ?');
+  $salarie->execute(array($idSalarie));
+  $anneEnCours = $bdd->prepare('SELECT * FROM objectifs WHERE idSalarie = ? ');
+  $anneEnCours->execute(array($idSalarie));
+  $anneSuivant = $bdd->prepare('SELECT * FROM objectifs WHERE idSalarie = ? ');
+  $anneSuivant->execute(array($idSalarie));
 $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LIMIT 1');
             
         $donnees = $reponse->fetch();
@@ -135,7 +117,7 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
 <div class="container ">
         <br><br><br>
         <div id="content-header">
-            <div id="breadcrumb"> <a href="index.php" title="Retour" class="tip-bottom"><i class="icon-home"></i> Accueil</a> <a href="salarie.php" class="current">Salaries</a> <a href="#"><i class="icon-edit"></i>Saisie Salarie</a> </div>
+            <div id="breadcrumb"> <a href="admin.php" title="Retour" class="tip-bottom"><i class="icon-home"></i> Accueil</a> <a href="admin.php" class="current">Evaluer</a> <a href="#"><i class="icon-edit"></i>Saisie</a> </div>
             <!--h1>Gestion des services</h1-->
         </div>
     <?php if ((isset($_GET['message'])) && (trim($_GET['message'])=='ok')){?>
@@ -161,9 +143,9 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
           <div>
             
             <ul class="tabs">
-                <li class="active"><a href="#homme">Salarie</a></li>
-                <li><a href="#mentions">Langues</a></li>
-                <li><a href="#about">Diploms</a></li>
+                
+                <li><a class="active"href="#mentions">Langues</a></li>
+                
                 <li><a href="#objective">Objectif</a></li>
                 <li><a href="#critere">Critere d'evaluation</a></li>
             </ul>
@@ -173,7 +155,7 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
              <div class="tabs-containt">
                     <!-- div1 -->
                   <br>
-                <div id="homme" class="tab-containt active"> 
+                <div id="homme" class="tab-containt "> 
                   <!-- page 1 -->
                   <div class="page city" id="London">
                             <div class="row">
@@ -453,110 +435,85 @@ $reponse = $bdd->query('SELECT idSalarie FROM salarie ORDER BY idSalarie DESC LI
         </form> 
                  <!-- fin div1 -->
                   <!-- div2 -->
-                <form method="post" id="repeater_form" action="actionModifDipSalarie.php" class="form-horizontal" name="basic_validate" id="basic_validate">
-                         <div id="mentions"  class="tab-containt"> 
-                           <div class="item-content">
-                                    <div class="form-group">
-                                        <div class="row">
-                                        <div class="col-md-6">
-                                           <label>Select un langage</label>
-                                           <select class="form-control"  name="idLangue"style="width:100%; font-size: 13px; " id="idLangue" size="1" class="w3-select w3-border" value = "<?php echo $idLangue; ?>" size="1" required>
-                                            <option>  </option>
-                                            <?php
-                                            while ($donnees = $langue->fetch()) {
-                                              if($donnees ['idLangue'] == $idLangue) 
-                                               {
-                                                    echo '<option value="' . $donnees['idLangue'] . '" selected>' . $donnees['libelle'] . '</option>';
-                                                }else{
-                                                    echo '<option value="' . $donnees['idLangue'] . '">' . $donnees['libelle'] . '</option>';
-                                                }
-                                            }
-                                            ?>
-                            
-                                           </select>
-                                               
-                                                </div> 
-                                                <div class="col-md-6">
-                             <table class="table">
-                                            <thead>
-                                                <tr>
-                                                <th scope="col">LANGUE</th>
-                                                <th scope="col">DESCRIPTIONS</th>
-                                                <th scope="col">ACTION</th>
-                                                
-                                                </tr>
-                                            </thead>
-                              <?php
+         <div id="mentions"  class="tab-containt active"> 
+    <form action="noteE.php" method="post">           
+      <?php
+      while ($donnees = $req1->fetch())
+      {  
+           ?>
+           <div class="row">
             
-                                    $reqs = $bdd->prepare('SELECT * FROM languesalarie 
-                                     INNER JOIN langue ON languesalarie.idLangue = langue.idLangue WHERE idSalarie =?');
-                                    $reqs->execute(array($idSalarie));
-                                  
-                                    while ($a = $reqs->fetch()) {
-                                    ?>
-                                    <tbody>
-                                    <tr>
-                                    <td><?=$a['libelle']?></td>
-                                    <td> <?=$a['description']?></td>
-                                    <td>  <a href="suppInsertion.php?action=suppridLS&idLS=<?=$a['idLS']?>" onclick="return(confirm('Etes-vous sur de vouloir supprimer cette entree?'));"><i class="glyphicon glyphicon-trash"></i></a>
-                                    </td>
-                                   
-                                    </tr>
-                                    </tbody>
-                                  
-                             <?php   }
-                                                      
-                                                ?>
-                         </table>
-                                                </div>
-                                            </div> </div> </div>
-
-                                                <div id="repeater">
-                           
-                          
-                           <div class="clearfix"></div>
-                           <div class="items" data-group="programming_languages">
-                               <div class="item-content">
-                                   <div class="form-group">
-                                       <div class="row">
-                                       <div class="col-md-9 form-check" >
-                                       <input type="hidden" name="idSalarie" value = "<?php echo $idSalarie; ?>">
-
-                                          <label>Selectionner la description</label>
-                                        
-                                          <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" name="description[]" value="lire" id="flexCheckDefault">
-                                                    <label class="form-check-label" for="flexCheckDefault">
-                                                       LIRE
-                                                    </label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" name="description[]" value="parler" id="flexCheckChecked" checked>
-                                                    <label class="form-check-label" for="flexCheckChecked">
-                                                      PARLER
-                                                    </label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" name="description[]" value="ecrire" id="flexCheckChecked" checked>
-                                                    <label class="form-check-label" for="flexCheckChecked">
-                                                       ECRIRE
-                                                    </label>
-                                                    </div>
-                                                                                                    
-                                        </div>
-                                          
-                                         </div>
-                                   </div>
-                               </div>
-                           </div>
-                       </div>
-                       <div class="form-group" align="center">
-                      <br /><br />
-                           <input type="submit" name="validerLangue" class="btn btn-success" value="insert" />
-                       </div>
-                           <div class="clearfix"></div>          
+             <div class="col-md-11">
+                <div class="row">
+                  <div class="col-md-5"> <?=$donnees['libelle']?> <br><br></div>
+                  <div class="col-md-1"> <?=$donnees['coef']?> <br><br></div>
+                  
+                  <div class="col-md-5">
+                    <div class="row">
+                      
+                       Note d'Evalué&nbsp;&nbsp; <input type="number" disabled name="note[]" maxlength="5" style="width: 15%;"  value = "<?php echo $donnees['note']; ?>"   class="w1-input w3-border">
+                       &nbsp;&nbsp; &nbsp;  Note Evaluateur&nbsp;&nbsp; <input type="number" name="noteE[]" maxlength="5" style="width: 15%;"  value = "<?php echo $donnees['noteE']; ?>"   class="w1-input w3-border">
+                  </div>
                 </div>
-                </form> 
+                  </div>
+                </div>
+             </div>
+         
+       <?php }
+     ?>
+      <input type="hidden" name="idSalarie" value = "<?php echo $idSalarie; ?>">
+
+      <div class="row">
+           <div class="col-md-3"></div>
+           <div class="col-md-6">
+           <button name="valider" type="submit"  id="submit" value="submit " class="btn btn-success" style="width:100%;">Valider</button><br/><br/>
+</div>
+           </div>
+           <div class="row">
+  <div class="col-md-6">
+           <div class="card" style="width: 50rem;">
+           <div class="card-header">
+          <h3>Les Objectives de l' année en cour</h3>
+            </div>
+            <ul class="list-group list-group-flush">
+              <?php while ($a = $anneEnCours->fetch()) {
+             $annee_selectionne =  date("Y");
+             $annee = date('Y',strtotime($a['date'])); 
+             if ($annee == $annee_selectionne) {?>
+              <li class="list-group-item"><?=$a['libelle']?></li>
+                   <?php }
+                     }
+          ?>
+          
+        </ul>
+      </div>
+      </div>
+  <div class="col-md-6">
+  <div class="card" style="width: 50rem;">
+           <div class="card-header">
+          <h3>Les Objectives de l' année en cour</h3>
+            </div>
+            <ul class="list-group list-group-flush">
+              <?php while ($a = $anneSuivant->fetch()) {
+             $annee_selectionne =  date("Y");
+             $annee = date('Y',strtotime($a['date'])); 
+             $annee_selectionne +=1;
+             if ($annee == $annee_selectionne) {?>
+              <li class="list-group-item"><?=$a['libelle']?></li>
+                   <?php }
+                     }
+          ?>
+          
+        </ul>
+      </div>
+  </div>
+</div>
+           </div>
+        
+           </form>   
+               
+                </div>
+              
                
                    <!-- fin div2 -->
                   <!-- div3 -->
